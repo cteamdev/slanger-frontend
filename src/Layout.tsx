@@ -7,7 +7,7 @@ import {
 } from '@vkontakte/icons';
 import { useAtomValue } from '@mntm/precoil';
 
-import { Explore, Loading } from './panels';
+import { Explore, Loading, Slang } from './panels';
 import { Modals } from './modals';
 import { NavigationLayout } from './components';
 import { menuVisibilityAtom } from './store';
@@ -42,6 +42,7 @@ export const Layout: FC = () => {
 
       <View nav="/explore" modal={<Modals />}>
         <Explore nav="/" />
+        <Slang nav="/slang" />
       </View>
 
       {/* TODO: Убрать, это для теста навигации */}

@@ -60,13 +60,13 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
             rating={1231}
             creator="От Гоши Панина"
             description="Это когда тебе стыдно за Гошин дизайн"
-            onClick={() => transition('/explore/project', { id: 1 })}
+            onClick={() => transition('/explore/slang', { id: 1 })}
           />
           <SlangCard
             word="Нюхать бебру"
             rating={-94}
             creator="От редакции"
-            description="Член на украинском"
+            description="Что-то на украинском"
           />
           <SlangCard
             word="Чилл"
