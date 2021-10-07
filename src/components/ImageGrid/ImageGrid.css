@@ -1,0 +1,27 @@
+.Grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.ImageGridItem {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+.ImageGridItem img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.ImageGridItem div {
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 58px;
+}

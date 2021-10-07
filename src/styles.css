@@ -1,0 +1,35 @@
+*:not(input):not(textarea),
+::after,
+::before {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+input[type="number"]:hover,
+input[type="number"]:focus {
+    -moz-appearance: number-input;
+}
+
+.SplitLayout__inner {
+    margin-top: 16px;
+}
+
+.vkui {
+    height: calc(100% - 16px);
+}
+
+.Spinner__loader {
+    position: absolute;
+    top: calc(50% - 15px);
+    transform: translateY(-50%);
+}

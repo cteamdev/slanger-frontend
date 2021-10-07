@@ -1,0 +1,45 @@
+.ProjectCard__body {
+    padding: 12px 16px;
+}
+
+.ProjectCard__body--skeleton {
+    padding: 12px 6px;
+}
+
+.ProjectCard__tappable {
+    border-radius: 8px;
+}
+
+.ProjectCard__img {
+    object-fit: cover;
+    display: block;
+    border-radius: 8px 8px 0 0;
+}
+
+.ProjectCard__text:not(:last-child) {
+    margin-bottom: 4px;
+}
+
+.ProjectCard__description {
+    margin-bottom: 6px;
+}
+
+
+.ProjectCard__text--secondary {
+    color: #AAAEB2;
+}
+
+.ProjectCard__caption {
+    color: var(--text_secondary);
+}
+
+/*
+ * iOS
+ */
+.ProjectCard--ios .ProjectCard__tappable {
+    border-radius: 10px;
+}
+
+.ProjectCard--ios .ProjectCard__img {
+    border-radius: 10px 10px 0 0;
+}

@@ -1,0 +1,50 @@
+{
+  "name": "slanger-frontend",
+  "version": "2.0.0",
+  "description": "Фронтенд для мини-приложения «Slanger»",
+  "author": "NovaStream2030 and ItzNevikat_",
+  "scripts": {
+    "fmt": "eslint --fix ./src/",
+    "typegen": "openapi-typescript api.json --output src/types/api.ts && eslint --fix ./src/types/api.ts",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "@types/node": "^16.7.6",
+    "@types/react": "^17.0.21",
+    "@types/react-dom": "^17.0.9",
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/parser": "^4.31.1",
+    "@vitejs/plugin-legacy": "^1.5.1",
+    "@vitejs/plugin-react": "^1.0.1",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.24.0",
+    "openapi-typescript": "^4.0.2",
+    "prettier": "^2.3.2",
+    "typescript": "^4.4.2",
+    "vite": "2.6.3"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.15.4",
+    "@mntm/precoil": "^4.0.4",
+    "@sentry/react": "^6.12.0",
+    "@sentry/tracing": "^6.12.0",
+    "@unexp/router": "1.0.0-beta8",
+    "@vkontakte/icons": "^1.128.1",
+    "@vkontakte/vk-bridge": "npm:@mntm/painless-bridge@1.0.2",
+    "@vkontakte/vkjs": "^0.22.1",
+    "@vkontakte/vkui": "^4.15.0",
+    "eruda": "^2.4.1",
+    "eruda-code": "^2.0.0",
+    "eruda-dom": "^2.0.0",
+    "formik": "^2.2.9",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "swr": "^1.0.1",
+    "yup": "^0.32.9"
+  }
+}
