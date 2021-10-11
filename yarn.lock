@@ -378,6 +378,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@giphy/js-fetch-api@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "@giphy/js-fetch-api@npm:4.1.2"
+  dependencies:
+    "@giphy/js-types": ^4.1.0
+    "@giphy/js-util": ^4.0.1
+    qs: ^6.9.4
+  checksum: 54ab211ce05853bf6868dd53754bcedfae2911c1f4d4a5d1b0dcd7fb5929297fb315e553e33d2d710e0da11c3b3bb78865f61f3429aac0db977911689f8b31c3
+  languageName: node
+  linkType: hard
+
+"@giphy/js-types@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "@giphy/js-types@npm:4.1.0"
+  checksum: a1610d69abf9ec2b031beb3c373feb576c2f229b00a153bdba26f55c832fa81b28a40ae1f2888f699af27142ebdda1b05f5fb63ecd7428bf865d03d89783a18a
+  languageName: node
+  linkType: hard
+
+"@giphy/js-util@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@giphy/js-util@npm:4.0.1"
+  dependencies:
+    "@giphy/js-types": ^4.1.0
+    dompurify: ^2.2.2
+    uuid: ^8.3.0
+  checksum: ca0106ca3ed51d2047be6be58d584d6ce688e4d75e00fef2192ef6906a350976f5900dd10bc1b6c33af6c4c2685768f87ad61d6939c193c4a5d2bd482b01b532
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.5.0":
   version: 0.5.0
   resolution: "@humanwhocodes/config-array@npm:0.5.0"
@@ -1661,6 +1690,13 @@ __metadata:
   dependencies:
     domelementtype: 1
   checksum: 49bd70c9c784f845cd047e1dfb3611bd10891c05719acfc93f01fc726a419ed09fbe0b69f9064392d556a63fffc5a02010856cedae9368f4817146d95a97011f
+  languageName: node
+  linkType: hard
+
+"dompurify@npm:^2.2.2":
+  version: 2.3.3
+  resolution: "dompurify@npm:2.3.3"
+  checksum: 947e3661681bd183aae1cd08f991b14c6aa41fd188f6c801c5e916c2dc4575bbefbaa121ed06dbe0cb0f595545527d588a44b53bfc35d1cbb898c214dc0d7930
   languageName: node
   linkType: hard
 
@@ -4288,6 +4324,15 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"qs@npm:^6.9.4":
+  version: 6.10.1
+  resolution: "qs@npm:6.10.1"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: 00e390dbf98eff4d8ff121b61ab2fe32106852290de99ecd0e40fc76651c4101f43fc6cc8313cb69423563876fc532951b11dda55d2917def05f292258263480
+  languageName: node
+  linkType: hard
+
 "query-string@npm:^4.3.2":
   version: 4.3.4
   resolution: "query-string@npm:4.3.4"
@@ -4735,6 +4780,7 @@ resolve@^2.0.0-next.3:
   resolution: "slanger-frontend@workspace:."
   dependencies:
     "@babel/runtime": ^7.15.4
+    "@giphy/js-fetch-api": ^4.1.2
     "@mntm/precoil": ^4.0.4
     "@sentry/react": ^6.12.0
     "@sentry/tracing": ^6.12.0
@@ -5463,6 +5509,15 @@ typescript@^4.4.2:
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
   checksum: 474acf1146cb2701fe3b074892217553dfcf9a031280919ba1b8d651a068c9b15d863b7303cb15bd00a862b498e6cf4ad7b4a08fb134edd5a6f7641681cb54a2
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^8.3.0":
+  version: 8.3.2
+  resolution: "uuid@npm:8.3.2"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
   languageName: node
   linkType: hard
 

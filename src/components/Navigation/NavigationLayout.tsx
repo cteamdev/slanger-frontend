@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from 'react';
-import { Match, Root, Epic } from '@unexp/router';
+import { Match, Root, Epic, EXPERIENCE_DRIVEN_STYLE } from '@unexp/router';
 import {
   PanelHeader,
   SplitCol,
@@ -42,7 +42,8 @@ export const NavigationLayout: FC<Props> = ({
         width={desktop ? '650px' : '100%'}
         maxWidth={desktop ? '650px' : '100%'}
       >
-        <Match>
+        {/* TODO: удалить этот костыль */}
+        <Match style={EXPERIENCE_DRIVEN_STYLE}>
           {desktop ? (
             <Root nav="/">{children}</Root>
           ) : (

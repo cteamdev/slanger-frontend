@@ -9,19 +9,26 @@ import {
   Spacing,
   PanelHeaderBack,
   MiniInfoCell,
-  Button
+  Button,
+  Gradient,
+  useAdaptivity,
+  SizeType,
+  Spinner
 } from '@vkontakte/vkui';
 import {
   Icon20ArticleOutline,
   Icon24FavoriteOutline,
   Icon28ShareOutline
 } from '@vkontakte/icons';
+import { useState } from 'react';
 
 type Props = {
   nav: string;
 };
 
 export const Slang: FC<Props> = ({ nav }: Props) => {
+  const { sizeX } = useAdaptivity();
+  const [showSpinner, setShowSpinner] = useState(true);
   const { id } = useHistoryState<{ id: number }>();
   console.log(id);
 
@@ -33,16 +40,31 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
       />
 
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <img
-          src="https://media0.giphy.com/media/RJAjTowsU0K1a/giphy.gif?cid=ecf05e47fc0wneedoxr34b7jky0b14ihnycg5ggnjfefwdn0&rid=giphy.gif&ct=g"
-          alt="кринж" // TODO: заменить
-          loading="lazy"
-          crossOrigin="anonymous"
+        <Gradient
           style={{
-            width: '65%',
-            borderRadius: 4
+            margin: sizeX === SizeType.REGULAR ? '-7px -7px 0 -7px' : 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            padding: 32,
+            width: '100%'
           }}
-        />
+        >
+          <img
+            src="https://media0.giphy.com/media/RJAjTowsU0K1a/giphy.gif?cid=ecf05e47fc0wneedoxr34b7jky0b14ihnycg5ggnjfefwdn0&rid=giphy.gif&ct=g"
+            alt="кринж" // TODO: заменить
+            loading="lazy"
+            crossOrigin="anonymous"
+            onLoad={() => setShowSpinner(false)}
+            style={{
+              width: '65%',
+              borderRadius: 4
+            }}
+          />
+          {showSpinner && <Spinner size="large" />}
+        </Gradient>
       </div>
 
       <Group separator="hide">

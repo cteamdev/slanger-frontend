@@ -1,0 +1,20 @@
+.OurCaption {
+    text-align: center;
+    color: #909499;
+}
+
+.OurCaption a {
+    text-decoration: underline;
+}
+
+.OurCaption a:link {
+    color: #909499;
+}
+
+.OurCaption a:visited {
+    color: #909499;
+}
+
+.OurCaption a:active {
+    color: #909499;
+}

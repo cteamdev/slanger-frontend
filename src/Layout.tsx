@@ -7,46 +7,47 @@ import {
 } from '@vkontakte/icons';
 import { useAtomValue } from '@mntm/precoil';
 
-import { Explore, Loading, Slang } from './panels';
-import { Modals } from './modals';
+import { CreateSlang, Explore, Loading, Slang } from './panels';
+import { ExploreModals } from './modals';
 import { NavigationLayout } from './components';
 import { menuVisibilityAtom } from './store';
+import { NavigationButton } from './types';
 
 export const Layout: FC = () => {
   const menuVisibility: boolean = useAtomValue(menuVisibilityAtom);
 
+  const buttons: NavigationButton[] = [
+    {
+      icon: <Icon28BookmarkOutline />,
+      story: 'favorites',
+      text: 'Закладки'
+    },
+    {
+      icon: <Icon28SearchOutline />,
+      story: 'explore',
+      text: 'Словарь'
+    },
+    {
+      icon: <Icon28UserCircleOutline />,
+      story: 'profile',
+      text: 'Профиль'
+    }
+  ];
+
   return (
-    <NavigationLayout
-      buttons={[
-        {
-          icon: <Icon28BookmarkOutline />,
-          story: 'notifications',
-          text: 'Закладки'
-        },
-        {
-          icon: <Icon28SearchOutline />,
-          story: 'explore',
-          text: 'Словарь'
-        },
-        {
-          icon: <Icon28UserCircleOutline />,
-          story: 'profile',
-          text: 'Профиль'
-        }
-      ]}
-      menuVisibility={menuVisibility}
-    >
+    <NavigationLayout buttons={buttons} menuVisibility={menuVisibility}>
       <View nav="/">
         <Loading nav="/" />
       </View>
 
-      <View nav="/explore" modal={<Modals />}>
+      <View nav="/explore" modal={<ExploreModals />}>
         <Explore nav="/" />
         <Slang nav="/slang" />
+        <CreateSlang nav="/create" />
       </View>
 
       {/* TODO: Убрать, это для теста навигации */}
-      <View nav="/profile" modal={<Modals />}>
+      <View nav="/profile">
         <Explore nav="/" />
       </View>
     </NavigationLayout>

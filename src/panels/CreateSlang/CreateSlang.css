@@ -1,6 +1,7 @@
 .Caption--container {
     text-align: center;
     color: #909499;
+    padding: 12px;
 }
 
 .Caption--container a {

@@ -7,15 +7,11 @@ import {
   PanelHeader,
   PanelHeaderButton,
   Search as VKUISearch,
-  CardGrid,
-  Banner,
-  Button
+  CardGrid
 } from '@vkontakte/vkui';
 import { Icon28AddOutline } from '@vkontakte/icons';
 
-import { CustomSnackbar, SlangCard } from '../components';
-
-import duck from '../assets/duck.svg';
+import { CustomSnackbar, SlangCard, Banner } from '../components';
 
 type Props = {
   nav: string;
@@ -42,17 +38,10 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
       <Group>
         <VKUISearch value={searchValue} onChange={onSearchChange} />
         <Banner
-          mode="image"
+          style="duck"
           header="Симпл-димпл"
-          subheader="Словосочитание дня"
-          background={
-            <div
-              style={{
-                background: `url(${duck}) no-repeat right bottom, linear-gradient(90deg, rgba(255,68,170,1) 0%, rgba(243,63,224,1) 50%, rgba(244,88,249,1) 100%) no-repeat`
-              }}
-            />
-          }
-          actions={<Button mode="overlay_primary">Открыть</Button>}
+          subheader="Словосочетание дня"
+          buttonText="Открыть"
         />
         <CardGrid size="l">
           <SlangCard
