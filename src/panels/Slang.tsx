@@ -30,8 +30,8 @@ import {
   Icon28UserCircleOutline
 } from '@vkontakte/icons';
 
-import { components } from '../types';
 import { capitalize } from '../utils/capitalize';
+import { Slang as TSlang } from '../types';
 
 type Props = {
   nav: string;
@@ -40,15 +40,8 @@ type Props = {
 export const Slang: FC<Props> = ({ nav }: Props) => {
   const { sizeX } = useAdaptivity();
 
-  const {
-    cover,
-    word,
-    type,
-    status,
-    user,
-    description,
-    date
-  }: components['schemas']['Slang'] = useHistoryState();
+  const { cover, word, type, status, user, description, date }: TSlang =
+    useHistoryState();
 
   const [showSpinner, setShowSpinner] = useState(true);
 

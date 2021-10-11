@@ -12,7 +12,7 @@ import {
 import { Icon28AddOutline } from '@vkontakte/icons';
 
 import { CustomSnackbar, SlangCard, Banner } from '../components';
-import { components } from '../types';
+import { Slang } from '../types';
 
 type Props = {
   nav: string;
@@ -23,7 +23,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
 
   const onSearchChange = (e: any) => setSearchValue(e.target.value);
 
-  const slangs: components['schemas']['Slang'][] = [
+  const slangs: Slang[] = [
     {
       status: 'moderating',
       date: '2021-10-11T14:31:05.197Z',

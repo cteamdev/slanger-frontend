@@ -22,7 +22,7 @@ import { Icon24Add } from '@vkontakte/icons';
 
 import { createSlangFormSchema } from '../../utils';
 import { CustomSnackbar } from '../../components';
-import { components } from '../../types';
+import { CreateSlangDto } from '../../types';
 
 type Props = {
   nav: string;
@@ -34,7 +34,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
     'Словосочетание',
     'Пословица',
     'Фразеологизм'
-  ] as components['schemas']['CreateSlangDto']['type'][];
+  ] as CreateSlangDto['type'][];
 
   return (
     <Panel nav={nav}>
@@ -50,7 +50,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
               word: '',
               description: '',
               cover: ''
-            } as Omit<components['schemas']['CreateSlangDto'], 'type'>
+            } as Omit<CreateSlangDto, 'type'>
           }
           onSubmit={(values) => {
             console.log(values);
