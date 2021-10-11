@@ -35,7 +35,7 @@ export const fetcher = async (
       throw body;
     }
 
-    if (Date.now() - startTime < 200) await delay(400);
+    if (Date.now() - startTime < 250) await delay(250);
 
     return body;
   } catch (e: unknown) {
