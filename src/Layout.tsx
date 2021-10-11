@@ -7,7 +7,7 @@ import {
 } from '@vkontakte/icons';
 import { useAtomValue } from '@mntm/precoil';
 
-import { CreateSlang, Explore, Loading, Slang } from './panels';
+import { ChooseGif, CreateSlang, Explore, Loading, Slang } from './panels';
 import { ExploreModals } from './modals';
 import { NavigationLayout } from './components';
 import { menuVisibilityAtom } from './store';
@@ -44,6 +44,7 @@ export const Layout: FC = () => {
         <Explore nav="/" />
         <Slang nav="/slang" />
         <CreateSlang nav="/create" />
+        <ChooseGif nav="/choose-gif" />
       </View>
 
       {/* TODO: Убрать, это для теста навигации */}

@@ -8,3 +8,5 @@ export const snackbarAtom = atom<Snackbar | undefined>(undefined, 'snackbar');
 export const menuVisibilityAtom = atom<boolean>(false, 'menuVisibility');
 
 export const vkUserAtom = atom<UserInfo>({} as UserInfo, 'vkUser');
+
+export const gifAtom = atom<string>('', 'gif');
