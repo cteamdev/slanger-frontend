@@ -10,8 +10,14 @@ export interface paths {
   "/users/setSettings": {
     post: operations["UsersController_setSettings"];
   };
-  "/slangs/myVote": {
-    get: operations["SlangsController_myVote"];
+  "/slangs/search": {
+    get: operations["SlangsController_search"];
+  };
+  "/slangs/getDaySlang": {
+    get: operations["SlangsController_getDaySlang"];
+  };
+  "/slangs/getVote": {
+    get: operations["SlangsController_getVote"];
   };
   "/slangs/create": {
     post: operations["SlangsController_create"];
@@ -30,6 +36,15 @@ export interface paths {
   };
   "/bookmarks/remove": {
     post: operations["BookmarksController_remove"];
+  };
+  "/admin/search": {
+    get: operations["AdminController_search"];
+  };
+  "/admin/setSlangStatus": {
+    post: operations["AdminController_setSlangStatus"];
+  };
+  "/admin/setUserRights": {
+    post: operations["AdminController_setUserRights"];
   };
 }
 
@@ -52,13 +67,14 @@ export interface components {
     };
     User: {
       id: number;
+      points: number;
       rights: string;
       ref: string;
       registration: string;
       dayLimitDate?: string;
       dayLimitCount?: number;
-      slangs: components["schemas"]["Slang"][];
-      bookmarks: components["schemas"]["Bookmark"][];
+      slangs?: components["schemas"]["Slang"][];
+      bookmarks?: components["schemas"]["Bookmark"][];
       settings?: components["schemas"]["Settings"];
       vk: components["schemas"]["VKInfoDto"];
     };
@@ -66,10 +82,10 @@ export interface components {
       id: number;
       user?: components["schemas"]["User"];
       type: string;
-      cover: string;
+      cover?: string;
       word: string;
       description: string;
-      votes: number;
+      votes?: number;
       status: string;
       date: string;
     };
@@ -85,7 +101,7 @@ export interface components {
     };
     CreateSlangDto: {
       type: "Слово" | "Словосочетание" | "Пословица" | "Фразеологизм";
-      cover: string;
+      cover?: string;
       word: string;
       description: string;
     };
@@ -108,6 +124,14 @@ export interface components {
     };
     RemoveBookmarkDto: {
       id: number;
+    };
+    SetSlangStatusDto: {
+      id: number;
+      status: "moderating" | "declined" | "public";
+    };
+    SetUserRightsDto: {
+      id: number;
+      rights: "user" | "banned" | "moderator" | "admin";
     };
   };
 }
@@ -143,7 +167,30 @@ export interface operations {
       };
     };
   };
-  SlangsController_myVote: {
+  SlangsController_search: {
+    parameters: {
+      query: {
+        q?: string;
+        offset: number;
+        limit: number;
+      };
+    };
+    responses: {
+      200: unknown;
+    };
+  };
+  SlangsController_getDaySlang: {
+    parameters: {};
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["Slang"];
+        };
+      };
+      404: unknown;
+    };
+  };
+  SlangsController_getVote: {
     parameters: {
       query: {
         id: number;
@@ -257,6 +304,50 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["RemoveBookmarkDto"];
+      };
+    };
+  };
+  AdminController_search: {
+    parameters: {
+      query: {
+        q?: string;
+        offset: number;
+        limit: number;
+      };
+    };
+    responses: {
+      200: unknown;
+    };
+  };
+  AdminController_setSlangStatus: {
+    parameters: {};
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["Slang"];
+        };
+      };
+      404: unknown;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["SetSlangStatusDto"];
+      };
+    };
+  };
+  AdminController_setUserRights: {
+    parameters: {};
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["User"];
+        };
+      };
+      404: unknown;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["SetUserRightsDto"];
       };
     };
   };

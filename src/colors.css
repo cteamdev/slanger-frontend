@@ -4,4 +4,6 @@
     --tabbar_active_icon: #B336FF !important;
     --button_secondary_foreground: #B336FF !important;
     --button_primary_background: #B336FF !important;
+    --button_outline_border: #B336FF !important;
+    --button_outline_foreground: #B336FF !important;
 }

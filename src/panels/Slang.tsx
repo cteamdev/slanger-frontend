@@ -1,4 +1,7 @@
 import type { FC } from 'react';
+import { useState } from 'react';
+import { formatRelative } from 'date-fns';
+import { ru } from 'date-fns/locale';
 import { transition, useHistoryState } from '@unexp/router';
 import {
   Div,
@@ -13,14 +16,22 @@ import {
   Gradient,
   useAdaptivity,
   SizeType,
-  Spinner
+  Spinner,
+  SimpleCell,
+  Avatar,
+  IconButton
 } from '@vkontakte/vkui';
 import {
+  Icon12Verified,
   Icon20ArticleOutline,
+  Icon20CalendarOutline,
   Icon24FavoriteOutline,
-  Icon28ShareOutline
+  Icon28ShareOutline,
+  Icon28UserCircleOutline
 } from '@vkontakte/icons';
-import { useState } from 'react';
+
+import { components } from '../types';
+import { capitalize } from '../utils/capitalize';
 
 type Props = {
   nav: string;
@@ -28,10 +39,18 @@ type Props = {
 
 export const Slang: FC<Props> = ({ nav }: Props) => {
   const { sizeX } = useAdaptivity();
-  const { id } = useHistoryState();
+
+  const {
+    cover,
+    word,
+    type,
+    status,
+    user,
+    description,
+    date
+  }: components['schemas']['Slang'] = useHistoryState();
 
   const [showSpinner, setShowSpinner] = useState(true);
-  console.log(id);
 
   return (
     <Panel nav={nav}>
@@ -55,12 +74,13 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
             }}
           >
             <img
-              src="https://media0.giphy.com/media/RJAjTowsU0K1a/giphy.gif?cid=ecf05e47fc0wneedoxr34b7jky0b14ihnycg5ggnjfefwdn0&rid=giphy.gif&ct=g"
-              alt="кринж" // TODO: заменить
+              src={cover}
+              alt={word}
               crossOrigin="anonymous"
               onLoad={() => setShowSpinner(false)}
               style={{
                 width: '65%',
+                height: 'auto',
                 borderRadius: 4
               }}
             />
@@ -70,7 +90,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
         <Spacing />
         <Title level="1" weight="bold" style={{ textAlign: 'center' }}>
-          Кринж
+          {word}
         </Title>
         <Spacing size={8} />
         <Title
@@ -78,24 +98,66 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           weight="regular"
           style={{ textAlign: 'center', color: '#6D7885' }}
         >
-          Слово
+          {type}
+          {status !== 'public' && ' | ' + status}
         </Title>
+
         <Spacing size={16} />
+
+        {user ? (
+          <SimpleCell
+            before={<Avatar size={48} src={user.vk.avatarUrl} />}
+            after={
+              <IconButton>
+                <Icon28UserCircleOutline />
+              </IconButton>
+            }
+            badge={user.vk.verified && <Icon12Verified />}
+            description={user.vk.verified ? 'Подтверждённый автор' : 'Автор'}
+            disabled
+          >
+            {user.vk.fullName}
+          </SimpleCell>
+        ) : (
+          <SimpleCell
+            before={
+              <Avatar
+                size={48}
+                src="https://sun9-11.userapi.com/impg/dycJqEhDYp71OBMwhT0ZChzYP1QD7erQ0XxtCA/3quT2uJB01I.jpg?size=1024x1024&quality=95&sign=f31ccc0d85a2d1b64ff095957b0fc369&type=album"
+              />
+            }
+            badge={<Icon12Verified />}
+            description="Подтверждённый автор"
+            disabled
+          >
+            Редакция
+          </SimpleCell>
+        )}
+
+        <Spacing size={16} />
+
         <MiniInfoCell
           before={<Icon20ArticleOutline />}
           textWrap="full"
           textLevel="primary"
         >
-          По смыслу слово «кринж» близко к выражению «испанский стыд».
-          Соответственно, это чувство стыда за действие другого человека,
-          которое преувеличено в несколько раз. Появилось даже производное
-          прилагательное, образованное от слова «кринж», — кринжовый.
+          {description}
         </MiniInfoCell>
+        <MiniInfoCell
+          before={<Icon20CalendarOutline />}
+          textWrap="full"
+          textLevel="primary"
+        >
+          {capitalize(
+            formatRelative(new Date(), new Date(date), { locale: ru })
+          )}
+        </MiniInfoCell>
+
         <Div style={{ display: 'flex' }}>
           <Button
             size="l"
             stretched
-            mode="secondary"
+            mode="outline"
             before={<Icon24FavoriteOutline />}
             style={{ marginRight: 8 }}
           >
