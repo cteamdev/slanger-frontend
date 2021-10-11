@@ -2,16 +2,18 @@ import { useSetAtomState } from '@mntm/precoil';
 
 import { snackbarAtom } from '../store';
 import { SnackbarIconType } from '../types';
+import { delay } from './delay';
 
 export const fetcher = async (
   resource: RequestInfo,
-  init: RequestInit
+  init: RequestInit = {}
 ): Promise<any> => {
   const setSnackbar = useSetAtomState(snackbarAtom);
+  const startTime: number = Date.now();
 
   try {
     const res: Response = await fetch('http://localhost:3000' + resource, {
-      method: 'post',
+      method: 'get',
       headers: {
         'x-vk': window.location.search.replace('?', ''),
         ...(init.headers ?? {})
@@ -20,8 +22,8 @@ export const fetcher = async (
     });
     const body: Record<string, unknown> = await res.json();
 
-    if (!res.ok)
-      return void setTimeout(
+    if (!res.ok) {
+      setTimeout(
         () =>
           setSnackbar({
             icon: SnackbarIconType.ERROR,
@@ -29,6 +31,11 @@ export const fetcher = async (
           }),
         400
       );
+
+      throw body;
+    }
+
+    if (Date.now() - startTime < 200) await delay(400);
 
     return body;
   } catch (e: unknown) {
@@ -40,10 +47,7 @@ export const fetcher = async (
         }),
       400
     );
+
+    throw e;
   }
 };
-
-export const getFetcher =
-  (requestInit: RequestInit): typeof fetcher =>
-  (resource: RequestInfo, init: RequestInit) =>
-    fetcher(resource, { ...requestInit, ...init });

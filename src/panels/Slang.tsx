@@ -30,7 +30,7 @@ import {
   Icon28UserCircleOutline
 } from '@vkontakte/icons';
 
-import { capitalize } from '../utils/capitalize';
+import { capitalize } from '../utils';
 import { Slang as TSlang } from '../types';
 
 type Props = {

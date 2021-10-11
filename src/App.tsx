@@ -19,7 +19,7 @@ import {
 } from '@vkontakte/vkui';
 import { transition, useLocation } from '@unexp/router';
 
-import { menuVisibilityAtom, snackbarAtom, vkUserAtom } from './store';
+import { snackbarAtom, vkUserAtom } from './store';
 import { fetcher, useUpdateEffect } from './utils';
 
 import { Layout } from './Layout';
@@ -38,17 +38,15 @@ export const App: FC = () => {
       ? ANDROID
       : VKCOM;
 
-  const setMenuVisibility = useSetAtomState(menuVisibilityAtom);
   const setSnackbar = useSetAtomState(snackbarAtom);
   const setVkUser = useSetAtomState(vkUserAtom);
 
   useEffect(() => {
     const load = async (): Promise<void> => {
+      transition('/explore', { replace: true });
+
       const vkUser: UserInfo = await send('VKWebAppGetUserInfo');
       setVkUser(vkUser);
-
-      setMenuVisibility(true);
-      transition('/explore', { replace: true });
     };
 
     load();

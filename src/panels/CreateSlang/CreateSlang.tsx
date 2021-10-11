@@ -74,7 +74,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
                     <Icon24Add />
                   </Avatar>
                 }
-                onClick={() => transition('/explore/create?modal=choose-gif')}
+                onClick={() => transition('/create?modal=choose-gif')}
               >
                 Добавить обложку <br />
                 <Caption
