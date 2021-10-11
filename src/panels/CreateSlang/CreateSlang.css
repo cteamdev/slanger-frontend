@@ -4,6 +4,10 @@
     padding: 12px;
 }
 
+.Caption--container * {
+    box-shadow: none !important;
+}
+
 .Caption--container a {
     text-decoration: underline;
 }

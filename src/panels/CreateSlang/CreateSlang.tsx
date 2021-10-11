@@ -16,7 +16,9 @@ import {
   FormItem,
   Select,
   Button,
-  PanelHeaderBack
+  PanelHeaderBack,
+  useAdaptivity,
+  ViewWidth
 } from '@vkontakte/vkui';
 import { Icon24Add } from '@vkontakte/icons';
 
@@ -34,7 +36,16 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
     'Словосочетание',
     'Пословица',
     'Фразеологизм'
-  ] as CreateSlangDto['type'][];
+  ] as CreateSlangDto['type'][]
+  const { viewWidth } = useAdaptivity();
+
+  const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
+
+  const onSubmit = (
+    values: Omit<components['schemas']['CreateSlangDto'], 'type'>
+  ) => {
+    transition(-1);
+  };
 
   return (
     <Panel nav={nav}>
@@ -63,9 +74,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
             handleBlur,
             handleChange,
             errors,
-            touched,
-            getFieldMeta,
-            setFieldError
+            touched
           }) => (
             <form onSubmit={handleSubmit}>
               <CellButton
@@ -74,7 +83,11 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
                     <Icon24Add />
                   </Avatar>
                 }
-                onClick={() => transition('/create?modal=choose-gif')}
+                onClick={() =>
+                  desktop
+                    ? transition('/explore/create?modal=choose-gif')
+                    : transition('/explore/choose-gif')
+                }
               >
                 Добавить обложку <br />
                 <Caption
@@ -104,6 +117,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
                 <Select
                   placeholder="Выберите тип выражения"
                   id="type"
+                  name="type"
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-ignore
                   value={values.type}
