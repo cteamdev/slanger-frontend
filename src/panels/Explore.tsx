@@ -37,12 +37,16 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
 
       <Group>
         <VKUISearch value={searchValue} onChange={onSearchChange} />
+
         <Banner
           style="duck"
           header="Симпл-димпл"
           subheader="Словосочетание дня"
           buttonText="Открыть"
         />
+
+        <div style={{ height: 12 }} />
+
         <CardGrid size="l">
           <SlangCard
             word="Кринж"
