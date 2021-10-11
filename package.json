@@ -5,7 +5,7 @@
   "author": "NovaStream2030 and ItzNevikat_",
   "scripts": {
     "fmt": "eslint --fix ./src/",
-    "typegen": "openapi-typescript http://localhost:3000/api/json --output src/types/api.ts",
+    "typegen": "openapi --input http://localhost:3000/api/json --output src/types/api --useUnionTypes --exportCore false --exportServices false",
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview"
@@ -23,9 +23,9 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.24.0",
-    "openapi-typescript": "^4.0.2",
+    "openapi-typescript-codegen": "^0.9.3",
     "prettier": "^2.3.2",
-    "typescript": "^4.4.2",
+    "typescript": "4.4.2",
     "vite": "2.6.3"
   },
   "dependencies": {
@@ -39,10 +39,12 @@
     "@vkontakte/vk-bridge": "npm:@mntm/painless-bridge@1.0.2",
     "@vkontakte/vkjs": "^0.22.1",
     "@vkontakte/vkui": "^4.15.0",
+    "date-fns": "^2.25.0",
     "eruda": "^2.4.1",
     "eruda-code": "^2.0.0",
     "eruda-dom": "^2.0.0",
     "formik": "^2.2.9",
+    "meilisearch": "^0.22.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "swr": "^1.0.1",

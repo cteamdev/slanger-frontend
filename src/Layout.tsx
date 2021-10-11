@@ -36,12 +36,8 @@ export const Layout: FC = () => {
 
   return (
     <NavigationLayout buttons={buttons} menuVisibility={menuVisibility}>
-      <View nav="/">
-        <Loading nav="/" />
-      </View>
-
-      <View nav="/explore" modal={<ExploreModals />}>
-        <Explore nav="/" />
+      <View nav="/" modal={<ExploreModals />}>
+        <Explore nav="/explore" />
         <Slang nav="/slang" />
         <CreateSlang nav="/create" />
         <ChooseGif nav="/choose-gif" />

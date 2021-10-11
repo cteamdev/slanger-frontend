@@ -1,1 +1,2 @@
-export * from './use-categories';
+export * from './use-slangs';
+export * from './use-day-slang';

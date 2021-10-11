@@ -7,11 +7,14 @@ import {
   PanelHeader,
   PanelHeaderButton,
   Search as VKUISearch,
-  CardGrid
+  CardGrid,
+  Placeholder
 } from '@vkontakte/vkui';
-import { Icon28AddOutline } from '@vkontakte/icons';
+import { Icon28AddOutline, Icon56ErrorTriangleOutline } from '@vkontakte/icons';
 
-import { CustomSnackbar, SlangCard, Banner } from '../components';
+import { CustomSnackbar, SlangCard, Banner, Skeleton } from '../components';
+import { useDaySlang, useSlangs } from '../hooks';
+import { capitalize } from '../utils';
 
 type Props = {
   nav: string;
@@ -20,6 +23,9 @@ type Props = {
 export const Explore: FC<Props> = ({ nav }: Props) => {
   const [searchValue, setSearchValue] = useState<string>('');
 
+  const { data: slangs, error: slangsError } = useSlangs(searchValue, 0, 10);
+  const { data: daySlang, error: daySlangError } = useDaySlang();
+
   const onSearchChange = (e: any) => setSearchValue(e.target.value);
 
   return (
@@ -27,7 +33,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
       <PanelHeader
         separator={false}
         left={
-          <PanelHeaderButton onClick={() => transition('/explore/create')}>
+          <PanelHeaderButton onClick={() => transition('/create')}>
             <Icon28AddOutline />
           </PanelHeaderButton>
         }
@@ -37,32 +43,67 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
 
       <Group>
         <VKUISearch value={searchValue} onChange={onSearchChange} />
-        <Banner
-          style="duck"
-          header="Симпл-димпл"
-          subheader="Словосочетание дня"
-          buttonText="Открыть"
-        />
+
+        {daySlang ? (
+          <Banner
+            style="duck"
+            header={capitalize(daySlang.word)}
+            subheader={daySlang.type + ' дня'}
+            buttonText="Открыть"
+          />
+        ) : (
+          !daySlangError && (
+            <Skeleton
+              style={{
+                marginTop: 12,
+                marginBottom: 12,
+                marginLeft: 16,
+                width: 'calc(100% - 32px)',
+                height: 102
+              }}
+            />
+          )
+        )}
+
+        <div style={{ height: 12 }} />
+
         <CardGrid size="l">
-          <SlangCard
-            word="Кринж"
-            rating={1231}
-            creator="От Гоши Панина"
-            description="Это когда тебе стыдно за Гошин дизайн"
-            onClick={() => transition('/explore/slang', { id: 1 })}
-          />
-          <SlangCard
-            word="Нюхать бебру"
-            rating={-94}
-            creator="От редакции"
-            description="Что-то на украинском"
-          />
-          <SlangCard
-            word="Чилл"
-            rating={0}
-            creator="От редакции"
-            description="Отдыхать на английском"
-          />
+          {slangsError && (
+            <Placeholder icon={<Icon56ErrorTriangleOutline />} header="Ошибка">
+              К сожалению, у нас не вышло получить данные. Попробуйте позже.
+            </Placeholder>
+          )}
+          {slangs
+            ? slangs.hits.map((slang) => (
+                <SlangCard
+                  {...slang}
+                  key={slang.id}
+                  id={'slang-card-' + slang.id}
+                  onClick={() => transition('/slang', slang)}
+                />
+              ))
+            : !slangsError && (
+                <>
+                  <Skeleton
+                    style={{
+                      height: 104,
+                      marginBottom: 8
+                    }}
+                  />
+                  <Skeleton
+                    style={{
+                      height: 104,
+                      marginBottom: 8
+                    }}
+                  />
+                  <Skeleton
+                    style={{
+                      height: 104,
+                      marginBottom: 8
+                    }}
+                  />
+                </>
+              )}
         </CardGrid>
       </Group>
 

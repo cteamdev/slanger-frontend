@@ -1,7 +1,6 @@
 import './SlangCard.css';
 
-import { FC, ImgHTMLAttributes, ReactNode } from 'react';
-
+import type { FC, ImgHTMLAttributes } from 'react';
 import {
   Card,
   Caption,
@@ -11,54 +10,34 @@ import {
   usePlatform,
   Platform
 } from '@vkontakte/vkui';
-import { hasReactNode } from '@vkontakte/vkui/src/lib/utils';
 import { HasRef, HasRootRef } from '@vkontakte/vkui/src/types';
 
-export interface SlangCardProps
-  extends HasRootRef<HTMLDivElement>,
-    ImgHTMLAttributes<HTMLImageElement>,
-    HasRef<HTMLImageElement> {
-  /**
-   Текст над заголовком
-   */
-  subtitle?: ReactNode;
-  /**
-   Слово
-   */
-  word?: ReactNode;
-  /**
-   Описание
-   */
-  description?: ReactNode;
-  /*
-   Кто сделал проект
-   */
-  creator?: string;
-  /*
-   Рейтинг
-   */
-  rating?: number;
-  /**
+import { components } from '../../types';
+
+export type Props = HasRootRef<HTMLDivElement> &
+  ImgHTMLAttributes<HTMLImageElement> &
+  HasRef<HTMLImageElement> &
+  Omit<components['schemas']['Slang'], 'id'> & {
+    /**
    Максимальная высота изображения
    */
-  maxHeight?: number;
-  /**
+    maxHeight?: number;
+    /**
    Аналогично alt для img
    */
-  alt?: string;
-  /**
+    alt?: string;
+    /**
    Отключает Tappable у карточки
    */
-  disabled?: boolean;
-}
+    disabled?: boolean;
+  };
 
-export const SlangCard: FC<SlangCardProps> = (props: SlangCardProps) => {
+export const SlangCard: FC<Props> = (props: Props) => {
   const {
-    // project props
-    subtitle,
+    // slang props
     word,
-    rating,
-    creator,
+    votes,
+    user,
     description,
     // card props
     className,
@@ -82,47 +61,44 @@ export const SlangCard: FC<SlangCardProps> = (props: SlangCardProps) => {
       <Tappable
         {...restProps}
         disabled={disabled}
-        className="ProjectCard__tappable"
+        className="SlangCard__tappable"
       >
-        <div className="ProjectCard__body">
-          {hasReactNode(subtitle) && (
-            <Caption
-              caps
-              className="ProjectCard__text"
-              weight="semibold"
-              level="3"
-            >
-              {subtitle}
-            </Caption>
-          )}
-          {hasReactNode(word) && hasReactNode(rating) && (
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Title weight="semibold" level="3">
-                {word}
+        <div className="SlangCard__body">
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Title weight="semibold" level="3">
+              {word}
+            </Title>
+
+            {votes !== undefined && (
+              <Title
+                className="SlangCard__text--secondary"
+                weight="regular"
+                level="3"
+                style={{ fontSize: '0.9rem' }}
+              >
+                {votes > 0 ? '+' : ''}
+                {votes}
               </Title>
-              <Title weight="semibold" level="3" style={{ color: '#B336FF' }}>
-                {rating! > 0 ? `+${rating}` : rating}
-              </Title>
-            </div>
-          )}
-          {creator && (
+            )}
+          </div>
+
+          {user && (
             <Caption
-              className="ProjectCard__text ProjectCard__text--secondary"
+              className="SlangCard__text SlangCard__text--secondary"
               weight="regular"
               level="1"
             >
-              {creator}
+              {user.vk.fullName}
             </Caption>
           )}
-          {hasReactNode(description) && (
-            <Caption
-              className="ProjectCard__description"
-              weight="regular"
-              level="1"
-            >
-              {description}
-            </Caption>
-          )}
+
+          <Caption
+            className="SlangCard__description"
+            weight="regular"
+            level="1"
+          >
+            {description.slice(0, 120)}...
+          </Caption>
         </div>
       </Tappable>
     </Card>
