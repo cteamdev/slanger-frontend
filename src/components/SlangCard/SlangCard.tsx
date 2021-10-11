@@ -12,12 +12,12 @@ import {
 } from '@vkontakte/vkui';
 import { HasRef, HasRootRef } from '@vkontakte/vkui/src/types';
 
-import { components } from '../../types';
+import { Slang } from '../../types';
 
 export type Props = HasRootRef<HTMLDivElement> &
   ImgHTMLAttributes<HTMLImageElement> &
   HasRef<HTMLImageElement> &
-  Omit<components['schemas']['Slang'], 'id'> & {
+  Omit<Slang, 'id'> & {
     /**
    Максимальная высота изображения
    */

@@ -74,7 +74,9 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
             </Placeholder>
           )}
           {slangs
-            ? slangs.hits.map((slang) => (
+            ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              slangs.hits.map((slang) => (
                 <SlangCard
                   {...slang}
                   key={slang.id}

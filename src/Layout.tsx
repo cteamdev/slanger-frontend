@@ -7,7 +7,7 @@ import {
 } from '@vkontakte/icons';
 import { useAtomValue } from '@mntm/precoil';
 
-import { ChooseGif, CreateSlang, Explore, Loading, Slang } from './panels';
+import { ChooseGif, CreateSlang, Explore, Slang } from './panels';
 import { ExploreModals } from './modals';
 import { NavigationLayout } from './components';
 import { menuVisibilityAtom } from './store';

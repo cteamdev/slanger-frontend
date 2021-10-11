@@ -36,14 +36,12 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
     'Словосочетание',
     'Пословица',
     'Фразеологизм'
-  ] as CreateSlangDto['type'][]
+  ] as CreateSlangDto['type'][];
   const { viewWidth } = useAdaptivity();
 
   const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
 
-  const onSubmit = (
-    values: Omit<components['schemas']['CreateSlangDto'], 'type'>
-  ) => {
+  const onSubmit = (values: Omit<CreateSlangDto, 'type'>) => {
     transition(-1);
   };
 
