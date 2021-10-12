@@ -78,9 +78,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
 
         <CardGrid size="l">
           {slangs
-            ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              slangs.hits.map((slang) => (
+            ? slangs.hits.map((slang) => (
                 <SlangCard
                   {...slang}
                   key={slang.id}
