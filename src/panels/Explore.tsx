@@ -58,7 +58,10 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
             buttonText="Открыть"
           />
         ) : (
-          !daySlangError && (
+          /* Если уж ошибка, то не будем показывать баннер */
+          /* Это позволяет избавиться от мелькания при ошибке загрузки */
+          !daySlangError &&
+          !slangsError && (
             <Skeleton
               style={{
                 marginTop: 12,
