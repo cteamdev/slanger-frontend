@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import { formatRelative } from 'date-fns';
+import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { transition, useHistoryState } from '@unexp/router';
 import {
@@ -105,7 +105,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                 <Icon28UserCircleOutline />
               </IconButton>
             }
-            badge={user.vk.verified && <Icon12Verified />}
+            badge={user.vk.verified ? <Icon12Verified /> : undefined}
             description={user.vk.verified ? 'Подтверждённый автор' : 'Автор'}
             disabled
           >
@@ -141,9 +141,12 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           textWrap="full"
           textLevel="primary"
         >
-          {capitalize(
-            formatRelative(new Date(), new Date(date), { locale: ru })
-          )}
+          {date &&
+            capitalize(
+              formatRelative(parseISO(date), new Date(), {
+                locale: ru
+              })
+            )}
         </MiniInfoCell>
 
         <Div style={{ display: 'flex' }}>
