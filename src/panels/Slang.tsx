@@ -39,11 +39,10 @@ type Props = {
 
 export const Slang: FC<Props> = ({ nav }: Props) => {
   const { sizeX } = useAdaptivity();
-
   const { cover, word, type, status, user, description, date }: TSlang =
     useHistoryState();
 
-  const [showSpinner, setShowSpinner] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   return (
     <Panel nav={nav}>
@@ -53,33 +52,36 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
       />
 
       <Group separator="hide">
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Gradient
-            style={{
-              margin: sizeX === SizeType.REGULAR ? '-7px -7px 0 -7px' : 0,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              textAlign: 'center',
-              padding: 32,
-              width: '100%'
-            }}
-          >
-            <img
-              src={cover}
-              alt={word}
-              crossOrigin="anonymous"
-              onLoad={() => setShowSpinner(false)}
+        {cover && (
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Gradient
               style={{
-                width: '65%',
-                height: 'auto',
-                borderRadius: 4
+                margin: sizeX === SizeType.REGULAR ? '-7px -7px 0 -7px' : 0,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                padding: 32,
+                width: '100%'
               }}
-            />
-            {showSpinner && <Spinner size="large" />}
-          </Gradient>
-        </div>
+            >
+              <img
+                src={cover}
+                alt={word}
+                crossOrigin="anonymous"
+                onLoad={() => setLoading(false)}
+                style={{
+                  visibility: loading ? 'hidden' : 'visible',
+                  width: '65%',
+                  height: 'auto',
+                  borderRadius: 4
+                }}
+              />
+              {loading && <Spinner size="large" />}
+            </Gradient>
+          </div>
+        )}
 
         <Spacing />
         <Title level="1" weight="bold" style={{ textAlign: 'center' }}>

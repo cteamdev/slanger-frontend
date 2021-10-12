@@ -91,7 +91,10 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
                   {...slang}
                   key={slang.id}
                   id={'slang-card-' + slang.id}
-                  onClick={() => transition('/slang', slang)}
+                  onClick={() =>
+                    // TODO: Убрать Object.assign, когда это будет исправлено в роутере
+                    transition('/slang', Object.assign({}, slang))
+                  }
                 />
               ))}
             </CardGrid>
