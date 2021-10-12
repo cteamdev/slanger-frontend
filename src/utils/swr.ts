@@ -23,15 +23,12 @@ export const fetcher = async (
     const body: Record<string, unknown> = await res.json();
 
     if (!res.ok) {
-      setTimeout(
-        () =>
-          setSnackbar({
-            icon: SnackbarIconType.ERROR,
-            text: body.message as string
-          }),
-        400
-      );
+      await delay(400);
 
+      setSnackbar({
+        icon: SnackbarIconType.ERROR,
+        text: body.message as string
+      });
       throw body;
     }
 
@@ -39,15 +36,12 @@ export const fetcher = async (
 
     return body;
   } catch (e: unknown) {
-    setTimeout(
-      () =>
-        setSnackbar({
-          icon: SnackbarIconType.ERROR,
-          text: 'Не удалось загрузить данные'
-        }),
-      400
-    );
+    await delay(400);
 
+    setSnackbar({
+      icon: SnackbarIconType.ERROR,
+      text: 'Не удалось загрузить данные'
+    });
     throw e;
   }
 };

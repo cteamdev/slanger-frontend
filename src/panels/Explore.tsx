@@ -44,6 +44,12 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
       <Group>
         <VKUISearch value={searchValue} onChange={onSearchChange} />
 
+        {(slangsError || daySlangError) && (
+          <Placeholder icon={<Icon56ErrorTriangleOutline />} header="Ошибка">
+            К сожалению, у нас не вышло получить данные. Попробуйте позже.
+          </Placeholder>
+        )}
+
         {daySlang ? (
           <Banner
             style="duck"
@@ -68,11 +74,6 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
         <div style={{ height: 12 }} />
 
         <CardGrid size="l">
-          {slangsError && (
-            <Placeholder icon={<Icon56ErrorTriangleOutline />} header="Ошибка">
-              К сожалению, у нас не вышло получить данные. Попробуйте позже.
-            </Placeholder>
-          )}
           {slangs
             ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
