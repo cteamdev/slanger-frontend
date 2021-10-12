@@ -30,8 +30,6 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
   const { data: slangs, error: slangsError } = useSlangs(searchValue, 0, 10);
   const { data: daySlang, error: daySlangError } = useDaySlang();
 
-  console.log(slangsError, daySlangError);
-
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) =>
     setSearchValue(e.target.value);
 
@@ -87,16 +85,16 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
         /* Это позволяет избавиться от мелькания */}
         {slangs && (daySlang || daySlangError) ? (
           slangs.hits.length > 0 ? (
-            slangs.hits.map((slang) => (
-              <CardGrid size="l">
+            <CardGrid size="l">
+              {slangs.hits.map((slang) => (
                 <SlangCard
                   {...slang}
                   key={slang.id}
                   id={'slang-card-' + slang.id}
                   onClick={() => transition('/slang', slang)}
                 />
-              </CardGrid>
-            ))
+              ))}
+            </CardGrid>
           ) : (
             <Placeholder icon={<Icon56CompassOutline />} header="Пустота">
               Здесь ничего нет...

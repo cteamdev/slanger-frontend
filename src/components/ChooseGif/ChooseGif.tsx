@@ -59,6 +59,7 @@ export const ChooseGif: FC = () => {
             gifs.map((gif) => (
               <ImageGridItem
                 src={`https://media1.giphy.com/media/${gif.id}/giphy.gif`}
+                key={gif.id}
                 onClick={() => pickGif(gif.id)}
               />
             ))
