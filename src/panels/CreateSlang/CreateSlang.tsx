@@ -164,7 +164,8 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
                   <a href="https://vk.com/@slangerpub-rules">
                     Правилами сервиса
                   </a>
-                  . Лимит: 10 выражений в сутки.
+                  . <br />
+                  Лимит: 10 выражений в сутки.
                 </Caption>
               </Group>
               <Div>
