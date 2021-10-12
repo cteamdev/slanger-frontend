@@ -24,7 +24,7 @@ export const Layout: FC = () => {
     },
     {
       icon: <Icon28SearchOutline />,
-      story: 'explore',
+      story: 'dictionary',
       text: 'Словарь'
     },
     {
@@ -36,8 +36,8 @@ export const Layout: FC = () => {
 
   return (
     <NavigationLayout buttons={buttons} menuVisibility={menuVisibility}>
-      <View nav="/" modal={<ExploreModals />}>
-        <Explore nav="/explore" />
+      <View nav="/dictionary" modal={<ExploreModals />}>
+        <Explore nav="/" />
         <Slang nav="/slang" />
         <CreateSlang nav="/create" />
         <ChooseGif nav="/choose-gif" />

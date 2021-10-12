@@ -38,7 +38,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
       <PanelHeader
         separator={false}
         left={
-          <PanelHeaderButton onClick={() => transition('/create')}>
+          <PanelHeaderButton onClick={() => transition('/dictionary/create')}>
             <Icon28AddOutline />
           </PanelHeaderButton>
         }
@@ -93,7 +93,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
                   id={'slang-card-' + slang.id}
                   onClick={() =>
                     // TODO: Убрать Object.assign, когда это будет исправлено в роутере
-                    transition('/slang', Object.assign({}, slang))
+                    transition('/dictionary/slang', Object.assign({}, slang))
                   }
                 />
               ))}

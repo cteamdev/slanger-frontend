@@ -43,7 +43,7 @@ export const App: FC = () => {
 
   useEffect(() => {
     const load = async (): Promise<void> => {
-      transition('/explore', { replace: true });
+      transition('/dictionary', { replace: true });
 
       const vkUser: UserInfo = await send('VKWebAppGetUserInfo');
       setVkUser(vkUser);
