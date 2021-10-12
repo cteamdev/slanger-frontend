@@ -794,9 +794,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unexp/router@npm:1.0.0-beta8":
-  version: 1.0.0-beta8
-  resolution: "@unexp/router@npm:1.0.0-beta8"
+"@unexp/router@npm:1.0.0-beta9":
+  version: 1.0.0-beta9
+  resolution: "@unexp/router@npm:1.0.0-beta9"
   dependencies:
     react-children-utilities: ^2.6.0
   peerDependencies:
@@ -804,7 +804,7 @@ __metadata:
     "@vkontakte/vkui": ">=4.0.0"
     react: ">=17.0.0"
     react-dom: ">=17.0.0"
-  checksum: bf319cb7dac3ada3109994c06e84ffcc7d6d16bc9730636cf8426b683679a95065a3db4a378b1c9c0932f5e0ac1c6c419e7b48a2ce57f10713832c54f027a58b
+  checksum: 46fdeea172081931ee5fba73e6e6dec0169c78d5b1f92cd7a1d70864f2a6717282721154be82df35afe10e5df2f6f49c50d111a052f19ce511728c22052ff031
   languageName: node
   linkType: hard
 
@@ -4548,7 +4548,7 @@ resolve@^2.0.0-next.3:
     "@types/react-dom": ^17.0.9
     "@typescript-eslint/eslint-plugin": ^4.31.1
     "@typescript-eslint/parser": ^4.31.1
-    "@unexp/router": 1.0.0-beta8
+    "@unexp/router": 1.0.0-beta9
     "@vitejs/plugin-legacy": ^1.5.1
     "@vitejs/plugin-react": ^1.0.1
     "@vkontakte/icons": ^1.128.1
