@@ -83,8 +83,8 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
                 }
                 onClick={() =>
                   desktop
-                    ? transition('/explore/create?modal=choose-gif')
-                    : transition('/explore/choose-gif')
+                    ? transition('/create?modal=choose-gif')
+                    : transition('/choose-gif')
                 }
               >
                 Добавить обложку <br />
