@@ -4,9 +4,13 @@ import { snackbarAtom } from '../store';
 import { SnackbarIconType } from '../types';
 import { delay } from './delay';
 
+export type FetcherOptions = RequestInit & {
+  throw?: boolean;
+};
+
 export const fetcher = async (
   resource: RequestInfo,
-  init: RequestInit = {}
+  init: FetcherOptions = { throw: true }
 ): Promise<any> => {
   const setSnackbar = useSetAtomState(snackbarAtom);
   const startTime: number = Date.now();
@@ -25,10 +29,11 @@ export const fetcher = async (
     if (!res.ok) {
       await delay(400);
 
-      setSnackbar({
-        icon: SnackbarIconType.ERROR,
-        text: body.message as string
-      });
+      if (init.throw)
+        setSnackbar({
+          icon: SnackbarIconType.ERROR,
+          text: body.message as string
+        });
       throw body;
     }
 
@@ -38,10 +43,11 @@ export const fetcher = async (
   } catch (e: unknown) {
     await delay(400);
 
-    setSnackbar({
-      icon: SnackbarIconType.ERROR,
-      text: 'Не удалось загрузить данные'
-    });
+    if (init.throw)
+      setSnackbar({
+        icon: SnackbarIconType.ERROR,
+        text: 'Не удалось загрузить данные'
+      });
     throw e;
   }
 };

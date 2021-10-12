@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import type { FC } from 'react';
 import { transition } from '@unexp/router';
 import {
@@ -10,7 +10,11 @@ import {
   CardGrid,
   Placeholder
 } from '@vkontakte/vkui';
-import { Icon28AddOutline, Icon56ErrorTriangleOutline } from '@vkontakte/icons';
+import {
+  Icon28AddOutline,
+  Icon56CompassOutline,
+  Icon56ErrorTriangleOutline
+} from '@vkontakte/icons';
 
 import { CustomSnackbar, SlangCard, Banner, Skeleton } from '../components';
 import { useDaySlang, useSlangs } from '../hooks';
@@ -26,7 +30,10 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
   const { data: slangs, error: slangsError } = useSlangs(searchValue, 0, 10);
   const { data: daySlang, error: daySlangError } = useDaySlang();
 
-  const onSearchChange = (e: any) => setSearchValue(e.target.value);
+  console.log(slangsError, daySlangError);
+
+  const onSearchChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setSearchValue(e.target.value);
 
   return (
     <Panel nav={nav}>
@@ -44,7 +51,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
       <Group>
         <VKUISearch value={searchValue} onChange={onSearchChange} />
 
-        {(slangsError || daySlangError) && (
+        {slangsError && (
           <Placeholder icon={<Icon56ErrorTriangleOutline />} header="Ошибка">
             К сожалению, у нас не вышло получить данные. Попробуйте позже.
           </Placeholder>
@@ -76,39 +83,49 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
 
         <div style={{ height: 12 }} />
 
-        <CardGrid size="l">
-          {slangs
-            ? slangs.hits.map((slang) => (
+        {/* Будем показывать этот блок тогда, когда загрузим или получим ошибку от запроса слэнга дня */
+        /* Это позволяет избавиться от мелькания */}
+        {slangs && (daySlang || daySlangError) ? (
+          slangs.hits.length > 0 ? (
+            slangs.hits.map((slang) => (
+              <CardGrid size="l">
                 <SlangCard
                   {...slang}
                   key={slang.id}
                   id={'slang-card-' + slang.id}
                   onClick={() => transition('/slang', slang)}
                 />
-              ))
-            : !slangsError && (
-                <>
-                  <Skeleton
-                    style={{
-                      height: 104,
-                      marginBottom: 8
-                    }}
-                  />
-                  <Skeleton
-                    style={{
-                      height: 104,
-                      marginBottom: 8
-                    }}
-                  />
-                  <Skeleton
-                    style={{
-                      height: 104,
-                      marginBottom: 8
-                    }}
-                  />
-                </>
-              )}
-        </CardGrid>
+              </CardGrid>
+            ))
+          ) : (
+            <Placeholder icon={<Icon56CompassOutline />} header="Пустота">
+              Здесь ничего нет...
+            </Placeholder>
+          )
+        ) : (
+          !slangsError && (
+            <>
+              <Skeleton
+                style={{
+                  height: 104,
+                  marginBottom: 8
+                }}
+              />
+              <Skeleton
+                style={{
+                  height: 104,
+                  marginBottom: 8
+                }}
+              />
+              <Skeleton
+                style={{
+                  height: 104,
+                  marginBottom: 8
+                }}
+              />
+            </>
+          )
+        )}
       </Group>
 
       <CustomSnackbar />
