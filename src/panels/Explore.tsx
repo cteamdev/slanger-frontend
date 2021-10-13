@@ -12,10 +12,13 @@ import {
   CardGrid,
   Placeholder,
   Spinner,
-  PullToRefresh
+  PullToRefresh,
+  useAdaptivity,
+  ViewWidth
 } from '@vkontakte/vkui';
 import {
   Icon28AddOutline,
+  Icon28RefreshOutline,
   Icon56CompassOutline,
   Icon56ErrorTriangleOutline
 } from '@vkontakte/icons';
@@ -29,6 +32,7 @@ type Props = {
 };
 
 export const Explore: FC<Props> = ({ nav }: Props) => {
+  const { viewWidth } = useAdaptivity();
   const [query, setQuery] = useState<string>('');
 
   const { hits, error, isValidating, refresh, ...other } = useMeilisearch(
@@ -38,6 +42,8 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
   );
   const { data: daySlang, error: daySlangError } = useDaySlang();
 
+  const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
+
   return (
     <Panel nav={nav}>
       <PanelHeader
@@ -46,6 +52,17 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
           <PanelHeaderButton onClick={() => transition('/dictionary/create')}>
             <Icon28AddOutline />
           </PanelHeaderButton>
+        }
+        right={
+          desktop && (
+            <PanelHeaderButton onClick={refresh}>
+              {isValidating ? (
+                <Spinner style={{ marginRight: 2 }} />
+              ) : (
+                <Icon28RefreshOutline />
+              )}
+            </PanelHeaderButton>
+          )
         }
       >
         Словарь
