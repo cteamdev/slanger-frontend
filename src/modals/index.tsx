@@ -1,1 +1,2 @@
-export * from './ExploreModals';
+export * from './ChooseGifModal';
+export * from './ShareSlangModal';

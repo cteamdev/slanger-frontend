@@ -8,7 +8,7 @@ import {
   ViewWidth
 } from '@vkontakte/vkui';
 
-import { ChooseGif } from '../../components';
+import { ChooseGif } from '../components';
 
 type Props = {
   nav: string;

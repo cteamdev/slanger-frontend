@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { View } from '@unexp/router';
+import { transition, useParams, View } from '@unexp/router';
 import {
   Icon28BookmarkOutline,
   Icon28SearchOutline,
@@ -8,35 +8,46 @@ import {
 import { useAtomValue } from '@mntm/precoil';
 
 import { ChooseGif, CreateSlang, Explore, Slang } from './panels';
-import { ExploreModals } from './modals';
+import { ChooseGifModal, ShareSlangModal } from './modals';
 import { NavigationLayout } from './components';
 import { menuVisibilityAtom } from './store';
-import { NavigationButton } from './types';
+import { ModalRoot } from '@vkontakte/vkui';
 
 export const Layout: FC = () => {
+  const { modal = null } = useParams();
+
   const menuVisibility: boolean = useAtomValue(menuVisibilityAtom);
 
-  const buttons: NavigationButton[] = [
-    {
-      icon: <Icon28BookmarkOutline />,
-      story: 'favorites',
-      text: 'Закладки'
-    },
-    {
-      icon: <Icon28SearchOutline />,
-      story: 'dictionary',
-      text: 'Словарь'
-    },
-    {
-      icon: <Icon28UserCircleOutline />,
-      story: 'profile',
-      text: 'Профиль'
-    }
-  ];
-
   return (
-    <NavigationLayout buttons={buttons} menuVisibility={menuVisibility}>
-      <View nav="/dictionary" modal={<ExploreModals />}>
+    <NavigationLayout
+      buttons={[
+        {
+          icon: <Icon28BookmarkOutline />,
+          story: 'favorites',
+          text: 'Закладки'
+        },
+        {
+          icon: <Icon28SearchOutline />,
+          story: 'dictionary',
+          text: 'Словарь'
+        },
+        {
+          icon: <Icon28UserCircleOutline />,
+          story: 'profile',
+          text: 'Профиль'
+        }
+      ]}
+      menuVisibility={menuVisibility}
+    >
+      <View
+        nav="/dictionary"
+        modal={
+          <ModalRoot activeModal={modal} onClose={() => transition(-1)}>
+            <ChooseGifModal nav="choose-gif" />
+            <ShareSlangModal nav="share-slang" />
+          </ModalRoot>
+        }
+      >
         <Explore nav="/" />
         <Slang nav="/slang" />
         <CreateSlang nav="/create" />

@@ -1,15 +1,16 @@
 import './Skeleton.css';
 
-import type { CSSProperties, FC } from 'react';
+import type { DetailedHTMLProps, FC, ImgHTMLAttributes } from 'react';
 
-export type SkeletonProps = {
-  height?: number;
-  style?: CSSProperties;
-};
+type Props = DetailedHTMLProps<
+  ImgHTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+>;
 
-export const Skeleton: FC<SkeletonProps> = ({
-  height,
-  style
-}: SkeletonProps) => (
-  <div className="Skeleton" style={{ height: height ?? 44, ...style }} />
+export const Skeleton: FC<Props> = (props: Props) => (
+  <div
+    className="Skeleton"
+    {...props}
+    style={{ height: props.style?.height ?? 44, ...props.style }}
+  />
 );

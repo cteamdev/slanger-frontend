@@ -24,7 +24,7 @@ import {
   Icon20ArticleOutline,
   Icon20CalendarOutline,
   Icon24FavoriteOutline,
-  Icon28ShareOutline,
+  Icon24ShareOutline,
   Icon28UserCircleOutline
 } from '@vkontakte/icons';
 
@@ -36,9 +36,10 @@ type Props = {
 };
 
 export const Slang: FC<Props> = ({ nav }: Props) => {
+  const slang: TSlang = useHistoryState();
   const { sizeX } = useAdaptivity();
-  const { cover, word, type, status, user, description, date }: TSlang =
-    useHistoryState();
+
+  const { cover, word, type, status, user, description, date } = slang;
 
   useEffect(() => window.scroll({ left: 0, top: 0 }), []);
 
@@ -151,13 +152,20 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           <Button
             size="l"
             stretched
-            mode="outline"
+            mode="secondary"
             before={<Icon24FavoriteOutline />}
             style={{ marginRight: 8 }}
           >
             Добавить в избранное
           </Button>
-          <Button size="l" before={<Icon28ShareOutline />} />
+          <Button
+            size="l"
+            mode="primary"
+            before={<Icon24ShareOutline />}
+            onClick={() =>
+              transition('/dictionary/slang?modal=share-slang', slang)
+            }
+          />
         </Div>
       </Group>
     </Panel>
