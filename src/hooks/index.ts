@@ -1,2 +1,2 @@
-export * from './use-slangs';
+export * from './use-meilisearch';
 export * from './use-day-slang';
