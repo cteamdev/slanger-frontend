@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useState } from 'react';
 import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -16,7 +16,6 @@ import {
   Gradient,
   useAdaptivity,
   SizeType,
-  Spinner,
   SimpleCell,
   Avatar,
   IconButton
@@ -32,6 +31,7 @@ import {
 
 import { capitalize } from '../utils';
 import { Slang as TSlang } from '../types';
+import { Skeleton } from '../components';
 
 type Props = {
   nav: string;
@@ -43,6 +43,8 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
     useHistoryState();
 
   const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => window.scroll({ left: 0, top: 0 }), []);
 
   return (
     <Panel nav={nav}>
@@ -78,7 +80,15 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                   borderRadius: 4
                 }}
               />
-              {loading && <Spinner size="large" />}
+              {loading && (
+                <Skeleton
+                  style={{
+                    width: 380,
+                    height: 384,
+                    boxShadow: '0 0 20px 10px #fff'
+                  }}
+                />
+              )}
             </Gradient>
           </div>
         )}
