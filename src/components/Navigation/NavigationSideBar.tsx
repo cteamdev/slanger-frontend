@@ -11,6 +11,7 @@ import {
 import { transition, useLocation } from '@unexp/router';
 
 import { NavigationButton } from '../../types';
+import { smoothScroll } from '../../utils';
 
 type Props = {
   buttons: NavigationButton[];
@@ -31,7 +32,6 @@ export const NavigationSideBar: FC<Props> = ({ buttons }: Props) => {
           {buttons.map(({ icon, story, text }: NavigationButton) => (
             <Cell
               key={story}
-              disabled={item === story}
               before={icon}
               style={
                 item === story
@@ -42,9 +42,7 @@ export const NavigationSideBar: FC<Props> = ({ buttons }: Props) => {
                   : {}
               }
               onClick={() =>
-                item !== story
-                  ? transition('/' + story)
-                  : window.scroll({ left: 0, top: 0, behavior: 'smooth' })
+                item !== story ? transition('/' + story) : smoothScroll()
               }
             >
               {text}
