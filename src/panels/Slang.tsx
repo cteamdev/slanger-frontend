@@ -1,5 +1,4 @@
 import { FC, useEffect } from 'react';
-import { useState } from 'react';
 import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { transition, useHistoryState } from '@unexp/router';
@@ -31,7 +30,6 @@ import {
 
 import { capitalize } from '../utils';
 import { Slang as TSlang } from '../types';
-import { Skeleton } from '../components';
 
 type Props = {
   nav: string;
@@ -41,8 +39,6 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   const { sizeX } = useAdaptivity();
   const { cover, word, type, status, user, description, date }: TSlang =
     useHistoryState();
-
-  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => window.scroll({ left: 0, top: 0 }), []);
 
@@ -71,24 +67,14 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
               <img
                 src={cover}
                 alt={word}
+                loading="lazy"
                 crossOrigin="anonymous"
-                onLoad={() => setLoading(false)}
                 style={{
-                  visibility: loading ? 'hidden' : 'visible',
                   width: '65%',
                   height: 'auto',
                   borderRadius: 4
                 }}
               />
-              {loading && (
-                <Skeleton
-                  style={{
-                    width: 380,
-                    height: 384,
-                    boxShadow: '0 0 20px 10px #fff'
-                  }}
-                />
-              )}
             </Gradient>
           </div>
         )}
