@@ -78,8 +78,11 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
           />
 
           {hits.length === 0 && error && (
-            <Placeholder icon={<Icon56ErrorTriangleOutline />} header="Ошибка">
-              К сожалению, у нас не вышло получить данные. Попробуйте позже.
+            <Placeholder
+              icon={<Icon56ErrorTriangleOutline />}
+              header="Хьюстон, у нас проблема"
+            >
+              Не удалось получить данные. Попробуйте позже.
             </Placeholder>
           )}
 

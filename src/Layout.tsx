@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { transition, useParams, View } from '@unexp/router';
+import { ModalRoot } from '@vkontakte/vkui';
 import {
   Icon28BookmarkOutline,
   Icon28SearchOutline,
@@ -11,7 +12,6 @@ import { ChooseGif, CreateSlang, Explore, Slang } from './panels';
 import { ChooseGifModal, ShareSlangModal } from './modals';
 import { NavigationLayout } from './components';
 import { menuVisibilityAtom } from './store';
-import { ModalRoot } from '@vkontakte/vkui';
 
 export const Layout: FC = () => {
   const { modal = null } = useParams();
@@ -23,17 +23,17 @@ export const Layout: FC = () => {
       buttons={[
         {
           icon: <Icon28BookmarkOutline />,
-          story: 'favorites',
+          story: '/favorites',
           text: 'Закладки'
         },
         {
           icon: <Icon28SearchOutline />,
-          story: 'dictionary',
+          story: '/dictionary',
           text: 'Словарь'
         },
         {
           icon: <Icon28UserCircleOutline />,
-          story: 'profile',
+          story: '/profile',
           text: 'Профиль'
         }
       ]}

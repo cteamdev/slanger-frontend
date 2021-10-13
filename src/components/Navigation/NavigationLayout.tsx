@@ -32,17 +32,17 @@ export const NavigationLayout: FC<Props> = ({
   const animate: boolean = (viewWidth ?? 0) <= ViewWidth.MOBILE;
 
   return (
-    <SplitLayout
-      header={!desktop && <PanelHeader separator={false} />}
-      style={{ justifyContent: 'center' }}
-    >
-      <SplitCol
-        spaced={spaced}
-        animate={animate}
-        width={desktop ? '650px' : '100%'}
-        maxWidth={desktop ? '650px' : '100%'}
+    <Match>
+      <SplitLayout
+        header={!desktop && <PanelHeader separator={false} />}
+        style={{ justifyContent: 'center' }}
       >
-        <Match>
+        <SplitCol
+          spaced={spaced}
+          animate={animate}
+          width={desktop ? '650px' : '100%'}
+          maxWidth={desktop ? '650px' : '100%'}
+        >
           {desktop ? (
             <Root nav="/">{children}</Root>
           ) : (
@@ -55,10 +55,10 @@ export const NavigationLayout: FC<Props> = ({
               <Root nav="/">{children}</Root>
             </Epic>
           )}
-        </Match>
-      </SplitCol>
+        </SplitCol>
 
-      {desktop && menuVisibility && <NavigationSideBar buttons={buttons} />}
-    </SplitLayout>
+        {desktop && menuVisibility && <NavigationSideBar buttons={buttons} />}
+      </SplitLayout>
+    </Match>
   );
 };
