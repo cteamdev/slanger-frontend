@@ -12,6 +12,7 @@ import { NavigationButton } from '../../types';
 
 import { NavigationSideBar } from './NavigationSideBar';
 import { NavigationTabbar } from './NavigationTabbar';
+import { CustomSnackbar } from '../CustomSnackbar';
 
 type Props = {
   children: ReactNode;
@@ -55,6 +56,8 @@ export const NavigationLayout: FC<Props> = ({
               <Root nav="/">{children}</Root>
             </Epic>
           )}
+
+          <CustomSnackbar />
         </SplitCol>
 
         {desktop && menuVisibility && <NavigationSideBar buttons={buttons} />}

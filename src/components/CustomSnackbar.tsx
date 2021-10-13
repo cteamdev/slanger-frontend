@@ -1,4 +1,4 @@
-import { Avatar, Snackbar } from '@vkontakte/vkui';
+import { Avatar, Snackbar, useAdaptivity, ViewWidth } from '@vkontakte/vkui';
 import { Icon16Cancel, Icon16Done } from '@vkontakte/icons';
 import { useAtomState } from '@mntm/precoil';
 
@@ -6,7 +6,10 @@ import { snackbarAtom } from '../store';
 import { SnackbarIconType } from '../types';
 
 export const CustomSnackbar: React.FC = () => {
+  const { viewWidth } = useAdaptivity();
   const [snackbar, setSnackbar] = useAtomState(snackbarAtom);
+
+  const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
 
   return snackbar ? (
     <Snackbar
@@ -21,6 +24,14 @@ export const CustomSnackbar: React.FC = () => {
             </Avatar>
           )}
         </Avatar>
+      }
+      style={
+        !desktop
+          ? {
+              marginBottom:
+                'calc(var(--tabbar_height) + var(--safe-area-inset-bottom))'
+            }
+          : {}
       }
     >
       {snackbar.text}

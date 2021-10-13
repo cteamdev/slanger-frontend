@@ -23,7 +23,7 @@ import {
   Icon56ErrorTriangleOutline
 } from '@vkontakte/icons';
 
-import { CustomSnackbar, SlangCard, Banner, Skeleton } from '../components';
+import { SlangCard, Banner, Skeleton } from '../components';
 import { useDaySlang, useMeilisearch } from '../hooks';
 import { capitalize } from '../utils';
 
@@ -180,8 +180,6 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
           )}
         </Group>
       </PullToRefresh>
-
-      <CustomSnackbar />
     </Panel>
   );
 };

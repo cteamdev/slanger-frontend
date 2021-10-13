@@ -23,7 +23,6 @@ import {
 import { Icon24Add } from '@vkontakte/icons';
 
 import { createSlangFormSchema } from '../../utils';
-import { CustomSnackbar } from '../../components';
 import { CreateSlangDto } from '../../types';
 
 type Props = {
@@ -179,8 +178,6 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
           )}
         </Formik>
       </Group>
-
-      <CustomSnackbar />
     </Panel>
   );
 };
