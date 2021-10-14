@@ -24,10 +24,6 @@ input[type="number"]:focus {
     margin-top: 16px;
 }
 
-.Panel--ios .Panel__in {
-    position: fixed;
-}
-
 .vkui {
     height: calc(100% - 16px);
 }
