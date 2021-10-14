@@ -18,11 +18,11 @@ export const fetcher = async (
   try {
     const res: Response = await fetch('http://localhost:3000' + resource, {
       method: 'get',
+      ...init,
       headers: {
         'x-vk': window.location.search.replace('?', ''),
         ...(init.headers ?? {})
-      },
-      ...init
+      }
     });
     const body: Record<string, unknown> = await res.json();
 
@@ -43,7 +43,7 @@ export const fetcher = async (
   } catch (e: unknown) {
     await delay(400);
 
-    if (init.throw)
+    if (init.throw && typeof e === 'string')
       setSnackbar({
         icon: SnackbarIconType.ERROR,
         text: 'Не удалось загрузить данные'

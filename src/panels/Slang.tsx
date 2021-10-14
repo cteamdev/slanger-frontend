@@ -1,4 +1,7 @@
-import { FC, useEffect } from 'react';
+import type { FC } from 'react';
+
+import useSWRImmutable from 'swr/immutable';
+import { useEffect } from 'react';
 import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { transition, useHistoryState } from '@unexp/router';
@@ -25,11 +28,21 @@ import {
   Icon20CalendarOutline,
   Icon24FavoriteOutline,
   Icon24ShareOutline,
+  Icon24UnfavoriteOutline,
   Icon28UserCircleOutline
 } from '@vkontakte/icons';
 
-import { capitalize } from '../utils';
-import { Slang as TSlang } from '../types';
+import { capitalize, fetcher, FetcherOptions } from '../utils';
+import {
+  Bookmark,
+  CreateBookmarkDto,
+  RemoveBookmarkDto,
+  ResponseError,
+  Slang as TSlang
+} from '../types';
+import { Skeleton } from '../components';
+
+const FETCHER_OPTIONS: FetcherOptions = { throw: false };
 
 type Props = {
   nav: string;
@@ -39,7 +52,32 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   const slang: TSlang = useHistoryState();
   const { sizeX } = useAdaptivity();
 
-  const { cover, word, type, status, user, description, date } = slang;
+  const { id, cover, word, type, status, user, description, date } = slang;
+
+  const { data, isValidating, mutate } = useSWRImmutable<
+    Bookmark | null,
+    ResponseError
+  >([`/bookmarks/has?slangId=${id}`, FETCHER_OPTIONS], fetcher, {
+    shouldRetryOnError: false
+  });
+
+  const updateBookmark = async (): Promise<void> => {
+    const bookmark: Bookmark = await fetcher(
+      data ? '/bookmarks/remove' : '/bookmarks/create',
+      {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          data
+            ? ({ id: data.id } as RemoveBookmarkDto)
+            : ({ slangId: id } as CreateBookmarkDto)
+        ),
+        throw: true
+      }
+    );
+
+    await mutate(data ? null : bookmark, false);
+  };
 
   useEffect(() => window.scroll({ left: 0, top: 0 }), []);
 
@@ -90,7 +128,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           weight="regular"
           style={{ textAlign: 'center', color: '#6D7885' }}
         >
-          {type}
+          {type} | №{id}
           {status !== 'public' && ' | ' + status}
         </Title>
 
@@ -149,15 +187,22 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
         </MiniInfoCell>
 
         <Div style={{ display: 'flex' }}>
-          <Button
-            size="l"
-            stretched
-            mode="secondary"
-            before={<Icon24FavoriteOutline />}
-            style={{ marginRight: 8 }}
-          >
-            Добавить в избранное
-          </Button>
+          {isValidating ? (
+            <Skeleton style={{ height: 36, marginRight: 8 }} />
+          ) : (
+            <Button
+              size="l"
+              stretched
+              mode="secondary"
+              before={
+                data ? <Icon24UnfavoriteOutline /> : <Icon24FavoriteOutline />
+              }
+              style={{ marginRight: 8 }}
+              onClick={updateBookmark}
+            >
+              {data ? 'Удалить из избранного' : 'Добавить в избранное'}
+            </Button>
+          )}
           <Button
             size="l"
             mode="primary"

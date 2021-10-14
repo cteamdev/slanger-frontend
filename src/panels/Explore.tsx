@@ -1,6 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
+import useSWRImmutable from 'swr/immutable';
 import { ChangeEvent, useState } from 'react';
 import { transition } from '@unexp/router';
 import {
@@ -24,8 +25,11 @@ import {
 } from '@vkontakte/icons';
 
 import { SlangCard, Banner, Skeleton } from '../components';
-import { useDaySlang, useMeilisearch } from '../hooks';
-import { capitalize } from '../utils';
+import { useMeilisearch } from '../hooks';
+import { capitalize, fetcher, FetcherOptions } from '../utils';
+import { ResponseError, Slang } from '../types';
+
+const FETCHER_OPTIONS: FetcherOptions = { throw: false };
 
 type Props = {
   nav: string;
@@ -40,9 +44,22 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
     query,
     10
   );
-  const { data: daySlang, error: daySlangError } = useDaySlang();
+  const {
+    data: daySlang,
+    error: daySlangError,
+    isValidating: daySlangValidating,
+    mutate: daySlangMutate
+  } = useSWRImmutable<Slang, ResponseError>(
+    ['/slangs/getDaySlang', FETCHER_OPTIONS],
+    fetcher,
+    { shouldRetryOnError: false }
+  );
 
   const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
+  const reload = (): void => {
+    daySlangMutate();
+    refresh();
+  };
 
   return (
     <Panel nav={nav}>
@@ -55,8 +72,8 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
         }
         right={
           desktop && (
-            <PanelHeaderButton onClick={refresh}>
-              {isValidating ? (
+            <PanelHeaderButton onClick={reload}>
+              {isValidating || daySlangValidating ? (
                 <Spinner style={{ marginRight: 2 }} />
               ) : (
                 <Icon28RefreshOutline />
@@ -68,7 +85,10 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
         Словарь
       </PanelHeader>
 
-      <PullToRefresh onRefresh={refresh} isFetching={isValidating}>
+      <PullToRefresh
+        onRefresh={reload}
+        isFetching={isValidating || daySlangValidating}
+      >
         <Group>
           <VKUISearch
             value={query}
