@@ -1,15 +1,24 @@
-import { CSSProperties, FC, useRef, useState } from 'react';
+import './ShareSlangModal.css';
+
+import type { CSSProperties, FC } from 'react';
+import { useRef, useState } from 'react';
+import { stripIndents } from 'common-tags';
 import { send } from '@vkontakte/vk-bridge';
 import { transition, useHistoryState } from '@unexp/router';
 import {
+  CellButton,
+  Header,
   ModalPage,
   ModalPageHeader,
   PanelHeaderClose,
   useAdaptivity,
   ViewWidth
 } from '@vkontakte/vkui';
-import { ImageGrid, ImageGridItem, Skeleton } from '../components';
-import { Slang } from '../types';
+import { Icon28WriteOutline } from '@vkontakte/icons';
+
+import { ImageGrid, ImageGridItem, Skeleton } from '../../components';
+import { Slang } from '../../types';
+import { uncapitalize } from '../../utils';
 
 const waitLoading = (image: HTMLImageElement): Promise<void> =>
   new Promise((resolve) => (image.onload = () => resolve()));
@@ -27,16 +36,30 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
 
   const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
   const style: CSSProperties = {
-    display: loading ? 'none' : 'block',
-    cursor: 'pointer'
+    display: loading ? 'none' : 'block'
   };
-  const onLoad = () =>
+  const onLoad = (): void =>
     Date.now() - startTime.current > 20
-      ? setTimeout(() => setLoading(false), 250)
+      ? void setTimeout(() => setLoading(false), 250)
       : setLoading(false);
 
-  const close = () => transition(-1);
-  const choose = async (path: string) => {
+  const close = (): void => transition(-1);
+
+  const wallShare = async (): Promise<void> => {
+    transition(-1);
+    await send('VKWebAppShowWallPostBox', {
+      message: stripIndents`
+        [https://vk.com/app7969491#slang?id=${id}|${word}] — ${uncapitalize(
+        description
+      )}
+        
+        Хочешь знать больше современных слов? Переходи в [https://vk.com/app7969491|Slanger]!
+      `,
+      attachments: 'photo-207745347_457239020'
+    });
+  };
+
+  const chooseStory = async (path: string): Promise<void> => {
     const canvas: HTMLCanvasElement = document.createElement('canvas');
     canvas.width = 1080;
     canvas.height = 1920;
@@ -93,11 +116,18 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
         <ModalPageHeader
           left={!desktop && <PanelHeaderClose onClick={close} />}
         >
-          Тип истории
+          Поделиться
         </ModalPageHeader>
       }
     >
-      <ImageGrid>
+      <CellButton before={<Icon28WriteOutline />} onClick={wallShare}>
+        Поделиться на стене
+      </CellButton>
+
+      <Header mode="primary" subtitle="Выберите тип истории">
+        Поделиться в истории
+      </Header>
+      <ImageGrid className="ShareSlangModal__StoryGrid">
         {loading && (
           <>
             <Skeleton style={{ width: 'auto', height: 362.66 }} />
@@ -106,15 +136,17 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
         )}
         <ImageGridItem
           src="/src/assets/story-light.png"
+          className="ShareSlangModal__StoryItem"
           style={style}
           onLoad={onLoad}
-          onClick={() => choose('story-light')}
+          onClick={() => chooseStory('story-light')}
         />
         <ImageGridItem
           src="/src/assets/story-dark.png"
+          className="ShareSlangModal__StoryItem"
           style={style}
           onLoad={onLoad}
-          onClick={() => choose('story-dark')}
+          onClick={() => chooseStory('story-dark')}
         />
       </ImageGrid>
     </ModalPage>

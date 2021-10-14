@@ -1,8 +1,15 @@
 import './ImageGrid.css';
 
-import type { FC } from 'react';
+import type { DetailedHTMLProps, FC, ImgHTMLAttributes } from 'react';
 import { Div } from '@vkontakte/vkui';
 
-export const ImageGrid: FC = ({ children }) => (
-  <Div className="Grid">{children}</Div>
+type Props = DetailedHTMLProps<
+  ImgHTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+>;
+
+export const ImageGrid: FC<Props> = ({ children, ...other }: Props) => (
+  <Div {...other} className={'Grid ' + other.className}>
+    {children}
+  </Div>
 );
