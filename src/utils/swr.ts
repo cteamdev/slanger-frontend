@@ -26,8 +26,6 @@ export const fetcher = async (
     });
     const body: Record<string, unknown> = await res.json();
 
-    console.log('fetching', body);
-
     if (!res.ok) {
       await delay(400);
 

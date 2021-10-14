@@ -56,6 +56,7 @@ export const Layout: FC = () => {
 
       <View nav="/bookmarks">
         <Bookmarks nav="/" />
+        <Slang nav="/slang" />
       </View>
 
       {/* TODO: Убрать, это для теста навигации */}

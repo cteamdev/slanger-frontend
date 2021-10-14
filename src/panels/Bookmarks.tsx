@@ -96,7 +96,7 @@ export const Bookmarks: FC<Props> = ({ nav }: Props) => {
                     </IconButton>
                   }
                   description={slang.description}
-                  onClick={() => transition('/dictionary/slang', slang)}
+                  onClick={() => transition('/bookmarks/slang', slang)}
                 >
                   {slang.word}
                 </SimpleCell>
