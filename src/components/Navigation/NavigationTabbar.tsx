@@ -3,6 +3,7 @@ import { Tabbar, TabbarItem } from '@vkontakte/vkui';
 import { transition, useDeserializedLocation } from '@unexp/router';
 
 import { NavigationButton } from '../../types';
+import { smoothScroll } from '../../utils';
 
 type Props = {
   buttons: NavigationButton[];
@@ -18,11 +19,7 @@ export const NavigationTabbar: FC<Props> = ({ buttons }: Props) => {
           key={story}
           selected={view === story}
           text={text}
-          onClick={() =>
-            view !== story
-              ? (console.log(story), transition(story))
-              : window.scroll({ left: 0, top: 0, behavior: 'smooth' })
-          }
+          onClick={() => (view !== story ? transition(story) : smoothScroll())}
         >
           {icon}
         </TabbarItem>
