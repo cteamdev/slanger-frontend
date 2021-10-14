@@ -8,7 +8,7 @@ import {
 } from '@vkontakte/icons';
 import { useAtomValue } from '@mntm/precoil';
 
-import { ChooseGif, CreateSlang, Explore, Slang } from './panels';
+import { Bookmarks, ChooseGif, CreateSlang, Explore, Slang } from './panels';
 import { ChooseGifModal, ShareSlangModal } from './modals';
 import { NavigationLayout } from './components';
 import { menuVisibilityAtom } from './store';
@@ -23,7 +23,7 @@ export const Layout: FC = () => {
       buttons={[
         {
           icon: <Icon28BookmarkOutline />,
-          story: '/favorites',
+          story: '/bookmarks',
           text: 'Закладки'
         },
         {
@@ -52,6 +52,10 @@ export const Layout: FC = () => {
         <Slang nav="/slang" />
         <CreateSlang nav="/create" />
         <ChooseGif nav="/choose-gif" />
+      </View>
+
+      <View nav="/bookmarks">
+        <Bookmarks nav="/" />
       </View>
 
       {/* TODO: Убрать, это для теста навигации */}

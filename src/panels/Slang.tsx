@@ -32,7 +32,7 @@ import {
   Icon28UserCircleOutline
 } from '@vkontakte/icons';
 
-import { capitalize, fetcher, FetcherOptions } from '../utils';
+import { capitalize, fetcher } from '../utils';
 import {
   Bookmark,
   CreateBookmarkDto,
@@ -41,8 +41,6 @@ import {
   Slang as TSlang
 } from '../types';
 import { Skeleton } from '../components';
-
-const FETCHER_OPTIONS: FetcherOptions = { throw: false };
 
 type Props = {
   nav: string;
@@ -57,8 +55,8 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   const { data, isValidating, mutate } = useSWRImmutable<
     Bookmark | null,
     ResponseError
-  >([`/bookmarks/has?slangId=${id}`, FETCHER_OPTIONS], fetcher, {
-    shouldRetryOnError: false
+  >(id ? `/bookmarks/has?slangId=${id}` : null, fetcher, {
+    revalidateIfStale: true
   });
 
   const updateBookmark = async (): Promise<void> => {
@@ -79,7 +77,10 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
     await mutate(data ? null : bookmark, false);
   };
 
-  useEffect(() => window.scroll({ left: 0, top: 0 }), []);
+  useEffect(() => {
+    window.scroll({ left: 0, top: 0 });
+    mutate(null, true);
+  }, []);
 
   return (
     <Panel nav={nav}>

@@ -5,3 +5,5 @@ export * from './Skeleton';
 export * from './Navigation';
 export * from './Banner';
 export * from './ChooseGif';
+export * from './VoidPlaceholder';
+export * from './ErrorPlaceholder';

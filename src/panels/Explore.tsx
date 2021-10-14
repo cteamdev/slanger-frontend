@@ -11,20 +11,20 @@ import {
   PanelHeaderButton,
   Search as VKUISearch,
   CardGrid,
-  Placeholder,
   Spinner,
   PullToRefresh,
   useAdaptivity,
   ViewWidth
 } from '@vkontakte/vkui';
-import {
-  Icon28AddOutline,
-  Icon28RefreshOutline,
-  Icon56CompassOutline,
-  Icon56ErrorTriangleOutline
-} from '@vkontakte/icons';
+import { Icon28AddOutline, Icon28RefreshOutline } from '@vkontakte/icons';
 
-import { SlangCard, Banner, Skeleton } from '../components';
+import {
+  SlangCard,
+  Banner,
+  Skeleton,
+  VoidPlaceholder,
+  ErrorPlaceholder
+} from '../components';
 import { useMeilisearch } from '../hooks';
 import { capitalize, fetcher, FetcherOptions } from '../utils';
 import { ResponseError, Slang } from '../types';
@@ -97,14 +97,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
             }
           />
 
-          {hits.length === 0 && error && (
-            <Placeholder
-              icon={<Icon56ErrorTriangleOutline />}
-              header="Хьюстон, у нас проблема"
-            >
-              Не удалось получить данные. Попробуйте позже.
-            </Placeholder>
-          )}
+          {hits.length === 0 && error && <ErrorPlaceholder />}
 
           {daySlang ? (
             <Banner
@@ -168,11 +161,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
                 </InfiniteScroll>
               </CardGrid>
             ) : (
-              !error && (
-                <Placeholder icon={<Icon56CompassOutline />} header="Пустота">
-                  Здесь ничего нет...
-                </Placeholder>
-              )
+              !error && <VoidPlaceholder />
             )
           ) : (
             !error && (
