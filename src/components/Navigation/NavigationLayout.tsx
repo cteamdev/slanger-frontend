@@ -48,12 +48,9 @@ export const NavigationLayout: FC<Props> = ({
             <Root nav="/">{children}</Root>
           ) : (
             <Epic
-              tabbar={
-                !desktop &&
-                menuVisibility && <NavigationTabbar buttons={buttons} />
-              }
+              tabbar={menuVisibility && <NavigationTabbar buttons={buttons} />}
             >
-              <Root nav="/">{children}</Root>
+              {children}
             </Epic>
           )}
 
