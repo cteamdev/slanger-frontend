@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { CSSProperties, FC } from 'react';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import useSWRImmutable from 'swr/immutable';
@@ -14,7 +14,8 @@ import {
   Spinner,
   PullToRefresh,
   useAdaptivity,
-  ViewWidth
+  ViewWidth,
+  Div
 } from '@vkontakte/vkui';
 import { Icon28AddOutline, Icon28RefreshOutline } from '@vkontakte/icons';
 
@@ -56,6 +57,11 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
   );
 
   const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
+  const style: CSSProperties = {
+    height: 104,
+    marginBottom: 8
+  };
+
   const reload = (): void => {
     daySlangMutate();
     refresh();
@@ -164,28 +170,20 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
               !error && <VoidPlaceholder />
             )
           ) : (
-            !error && (
-              <>
-                <Skeleton
-                  style={{
-                    height: 104,
-                    marginBottom: 8
-                  }}
-                />
-                <Skeleton
-                  style={{
-                    height: 104,
-                    marginBottom: 8
-                  }}
-                />
-                <Skeleton
-                  style={{
-                    height: 104,
-                    marginBottom: 8
-                  }}
-                />
-              </>
-            )
+            !error &&
+            (desktop ? (
+              <div style={{ marginLeft: 8, width: 'calc(100% - 16px)' }}>
+                <Skeleton style={style} />
+                <Skeleton style={style} />
+                <Skeleton style={style} />
+              </div>
+            ) : (
+              <Div>
+                <Skeleton style={style} />
+                <Skeleton style={style} />
+                <Skeleton style={style} />
+              </Div>
+            ))
           )}
         </Group>
       </PullToRefresh>

@@ -13,7 +13,8 @@ import {
   ViewWidth,
   SimpleCell,
   IconButton,
-  Avatar
+  Avatar,
+  Div
 } from '@vkontakte/vkui';
 import { Icon24DeleteOutline, Icon28RefreshOutline } from '@vkontakte/icons';
 
@@ -105,13 +106,20 @@ export const Bookmarks: FC<Props> = ({ nav }: Props) => {
               <VoidPlaceholder />
             )
           ) : (
-            !error && (
+            !error &&
+            (desktop ? (
               <>
                 <Skeleton style={style} />
                 <Skeleton style={style} />
                 <Skeleton style={style} />
               </>
-            )
+            ) : (
+              <Div>
+                <Skeleton style={style} />
+                <Skeleton style={style} />
+                <Skeleton style={style} />
+              </Div>
+            ))
           )}
         </Group>
       </PullToRefresh>
