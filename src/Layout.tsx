@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { transition, useParams, View } from '@unexp/router';
-import { ModalRoot } from '@vkontakte/vkui';
+import { ModalRoot, Panel } from '@vkontakte/vkui';
 import {
   Icon28BookmarkOutline,
   Icon28SearchOutline,
@@ -48,6 +48,9 @@ export const Layout: FC = () => {
     >
       {/* Здесь все панели, которые не должны быть во вкладках Epic'а */}
       <View nav="/">
+        {/* Пустая панель, отображается, пока сервис думает, куда сделать переход */}
+        <Panel nav="/" />
+
         <Profile nav="/otherProfile" />
       </View>
 

@@ -43,9 +43,22 @@ export const App: FC = () => {
 
   useEffect(() => {
     const load = async (): Promise<void> => {
-      transition('/dictionary', { replace: true });
-      // transition('/otherProfile?id=435214391', { replace: true });
-      //transition('/dictionary/slang?id=43', { replace: true });
+      const hash: string = window.location.hash.slice(1);
+      const [page, paramsString]: string[] = hash.split('?');
+
+      const params: URLSearchParams | null = paramsString
+        ? new URLSearchParams(paramsString)
+        : null;
+
+      if (page === 'slang' && params?.has('id'))
+        transition(`/dictionary/slang?slangId=${params.get('id')}`, {
+          replace: true
+        });
+      else if (page === 'profile' && params?.has('id'))
+        transition(`/otherProfile?userId=${params.get('id')}`, {
+          replace: true
+        });
+      else transition('/dictionary', { replace: true });
 
       const vkUser: UserInfo = await send('VKWebAppGetUserInfo');
       setVkUser(vkUser);

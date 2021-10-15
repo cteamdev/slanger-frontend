@@ -1,4 +1,4 @@
-import type { CSSProperties, FC } from 'react';
+import type { CSSProperties, FC, MouseEvent } from 'react';
 
 import useSWR from 'swr';
 import { useAtomValue } from '@mntm/precoil';
@@ -45,7 +45,12 @@ export const Bookmarks: FC<Props> = ({ nav }: Props) => {
     marginBottom: 2
   };
 
-  const removeBookmark = async (id: number): Promise<void> => {
+  const removeBookmark = async (
+    e: MouseEvent<HTMLElement>,
+    id: number
+  ): Promise<void> => {
+    e.stopPropagation();
+
     await fetcher('/bookmarks/remove', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -92,7 +97,11 @@ export const Bookmarks: FC<Props> = ({ nav }: Props) => {
                   key={id}
                   before={<Avatar size={48} src={slang.cover} />}
                   after={
-                    <IconButton onClick={() => removeBookmark(id)}>
+                    <IconButton
+                      onClick={(e: MouseEvent<HTMLElement>) =>
+                        removeBookmark(e, id)
+                      }
+                    >
                       <Icon24DeleteOutline />
                     </IconButton>
                   }

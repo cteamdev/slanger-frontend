@@ -43,14 +43,16 @@ type Props = {
 
 export const Profile: FC<Props> = ({ nav }: Props) => {
   const { viewWidth, sizeX } = useAdaptivity();
-  const { id: paramsId } = useParams();
+  const { userId: paramsId } = useParams();
   const { id: currentId } = useAtomValue(vkUserAtom);
 
   const id: number = nav === '/' ? currentId : paramsId ?? currentId;
   const { data, error, isValidating, mutate } = useSWR<User, ResponseError>(
     id ? `/users/getById?id=${id}` : null,
-    fetcher
+    fetcher,
+    { shouldRetryOnError: false }
   );
+
   const {
     vk: { fullName, avatarUrl, verified },
     rights,
@@ -99,7 +101,7 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
           )
         }
       >
-        Профиль
+        {nav === '/' ? 'Мой профиль' : 'Профиль'}
       </PanelHeader>
 
       <PullToRefresh onRefresh={() => mutate()} isFetching={isValidating}>
@@ -180,37 +182,37 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
           </Group>
         </Group>
 
-        <Group>
-          {rights || registration ? (
-            <>
-              {rights && (
-                <SimpleCell before={<Icon28ChecksOutline />} disabled>
-                  <InfoRow header="Права">
-                    {rightsRu[rights] ?? 'Пользователь'}
-                  </InfoRow>
-                </SimpleCell>
-              )}
-              {registration && (
-                <SimpleCell before={<Icon28CalendarOutline />} disabled>
-                  <InfoRow header="Дата регистрации">
-                    {capitalize(
-                      formatRelative(new Date(), parseISO(registration), {
-                        locale: ru
-                      })
-                    )}
-                  </InfoRow>
-                </SimpleCell>
-              )}
-            </>
-          ) : (
-            !error && (
+        {rights || registration ? (
+          <Group>
+            {rights && (
+              <SimpleCell before={<Icon28ChecksOutline />} disabled>
+                <InfoRow header="Права">
+                  {rightsRu[rights] ?? 'Пользователь'}
+                </InfoRow>
+              </SimpleCell>
+            )}
+            {registration && (
+              <SimpleCell before={<Icon28CalendarOutline />} disabled>
+                <InfoRow header="Дата регистрации">
+                  {capitalize(
+                    formatRelative(new Date(), parseISO(registration), {
+                      locale: ru
+                    })
+                  )}
+                </InfoRow>
+              </SimpleCell>
+            )}
+          </Group>
+        ) : (
+          !error && (
+            <Group>
               <Div>
                 <Skeleton />
                 <Skeleton />
               </Div>
-            )
-          )}
-        </Group>
+            </Group>
+          )
+        )}
       </PullToRefresh>
     </Panel>
   );

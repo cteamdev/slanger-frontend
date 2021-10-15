@@ -41,7 +41,7 @@ import {
   ResponseError,
   Slang as TSlang
 } from '../types';
-import { Skeleton, UserBadge } from '../components';
+import { ErrorPlaceholder, Skeleton, UserBadge } from '../components';
 
 type Props = {
   nav: string;
@@ -49,10 +49,10 @@ type Props = {
 
 export const Slang: FC<Props> = ({ nav }: Props) => {
   const { sizeX } = useAdaptivity();
-  const { id: paramsId } = useParams();
+  const { slangId: paramsId } = useParams();
 
   const slang: TSlang | undefined = useHistoryState();
-  const id: number = +paramsId ?? slang.id;
+  const id: number = paramsId ? +paramsId : slang.id;
 
   const { data, error } = useSWR<TSlang, ResponseError>(
     paramsId ? `/slangs/getById?id=${id}` : null,
@@ -138,21 +138,27 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           </div>
         )}
 
-        <Spacing />
-        <Title level="1" weight="bold" style={{ textAlign: 'center' }}>
-          {word ?? 'Загрузка...'}
-        </Title>
-        <Spacing size={8} />
-        <Title
-          level="3"
-          weight="regular"
-          style={{ textAlign: 'center', color: '#6D7885' }}
-        >
-          {type ?? 'Загрузка...'} | №{id}
-          {status && status !== 'public' && ' | ' + status}
-        </Title>
+        {error && <ErrorPlaceholder />}
 
-        <Spacing size={16} />
+        <Spacing />
+        {!error && (
+          <>
+            <Title level="1" weight="bold" style={{ textAlign: 'center' }}>
+              {word ?? 'Загрузка...'}
+            </Title>
+            <Spacing size={8} />
+            <Title
+              level="3"
+              weight="regular"
+              style={{ textAlign: 'center', color: '#6D7885' }}
+            >
+              {type ?? 'Загрузка...'} | №{id}
+              {status && status !== 'public' && ' | ' + status}
+            </Title>
+          </>
+        )}
+
+        {!error && <Spacing size={16} />}
 
         {user ? (
           <SimpleCell
@@ -192,7 +198,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           )
         )}
 
-        <Spacing size={16} />
+        {!error && <Spacing size={16} />}
 
         {description ? (
           <MiniInfoCell
@@ -230,40 +236,42 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           )
         )}
 
-        <Div style={{ display: 'flex' }}>
-          {isBookmarkValidating || (!data && !error) ? (
-            <Skeleton style={{ height: 36, marginRight: 8 }} />
-          ) : (
-            <Button
-              size="l"
-              stretched
-              mode="secondary"
-              before={
-                bookmark ? (
-                  <Icon24UnfavoriteOutline />
-                ) : (
-                  <Icon24FavoriteOutline />
-                )
-              }
-              style={{ marginRight: 8 }}
-              onClick={updateBookmark}
-            >
-              {bookmark ? 'Удалить из избранного' : 'Добавить в избранное'}
-            </Button>
-          )}
-          {word ? (
-            <Button
-              size="l"
-              mode="primary"
-              before={<Icon24ShareOutline />}
-              onClick={() =>
-                transition('/dictionary/slang?modal=share-slang', slang)
-              }
-            />
-          ) : (
-            <Skeleton style={{ width: 64, height: 36 }} />
-          )}
-        </Div>
+        {!error && (
+          <Div style={{ display: 'flex' }}>
+            {!isBookmarkValidating ? (
+              <Button
+                size="l"
+                stretched
+                mode="secondary"
+                before={
+                  bookmark ? (
+                    <Icon24UnfavoriteOutline />
+                  ) : (
+                    <Icon24FavoriteOutline />
+                  )
+                }
+                style={{ marginRight: 8 }}
+                onClick={updateBookmark}
+              >
+                {bookmark ? 'Удалить из избранного' : 'Добавить в избранное'}
+              </Button>
+            ) : (
+              <Skeleton style={{ height: 36, marginRight: 8 }} />
+            )}
+            {word ? (
+              <Button
+                size="l"
+                mode="primary"
+                before={<Icon24ShareOutline />}
+                onClick={() =>
+                  transition('/dictionary/slang?modal=share-slang', slang)
+                }
+              />
+            ) : (
+              <Skeleton style={{ width: 64, height: 36 }} />
+            )}
+          </Div>
+        )}
       </Group>
     </Panel>
   );
