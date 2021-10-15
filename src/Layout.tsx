@@ -8,8 +8,15 @@ import {
 } from '@vkontakte/icons';
 import { useAtomValue } from '@mntm/precoil';
 
-import { Bookmarks, ChooseGif, CreateSlang, Explore, Slang } from './panels';
-import { ChooseGifModal, ShareSlangModal } from './modals';
+import {
+  Bookmarks,
+  ChooseGif,
+  CreateSlang,
+  Explore,
+  Profile,
+  Slang
+} from './panels';
+import { ChooseGifModal, SettingsModal, ShareSlangModal } from './modals';
 import { NavigationLayout } from './components';
 import { menuVisibilityAtom } from './store';
 
@@ -39,6 +46,11 @@ export const Layout: FC = () => {
       ]}
       menuVisibility={menuVisibility}
     >
+      {/* Здесь все панели, которые не должны быть во вкладках Epic'а */}
+      <View nav="/">
+        <Profile nav="/otherProfile" />
+      </View>
+
       <View
         nav="/dictionary"
         modal={
@@ -59,9 +71,15 @@ export const Layout: FC = () => {
         <Slang nav="/slang" />
       </View>
 
-      {/* TODO: Убрать, это для теста навигации */}
-      <View nav="/profile">
-        <Explore nav="/" />
+      <View
+        nav="/profile"
+        modal={
+          <ModalRoot activeModal={modal} onClose={() => transition(-1)}>
+            <SettingsModal nav="settings" />
+          </ModalRoot>
+        }
+      >
+        <Profile nav="/" />
       </View>
     </NavigationLayout>
   );

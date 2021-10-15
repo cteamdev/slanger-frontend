@@ -40,7 +40,7 @@ import {
   ResponseError,
   Slang as TSlang
 } from '../types';
-import { Skeleton } from '../components';
+import { Skeleton, UserBadge } from '../components';
 
 type Props = {
   nav: string;
@@ -143,7 +143,9 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                 <Icon28UserCircleOutline />
               </IconButton>
             }
-            badge={user.vk.verified ? <Icon12Verified /> : undefined}
+            badge={
+              <UserBadge verified={user.vk.verified} rights={user.rights} />
+            }
             description={user.vk.verified ? 'Подтверждённый автор' : 'Автор'}
             disabled
           >

@@ -7,3 +7,4 @@ export * from './Banner';
 export * from './ChooseGif';
 export * from './VoidPlaceholder';
 export * from './ErrorPlaceholder';
+export * from './UserBadge';

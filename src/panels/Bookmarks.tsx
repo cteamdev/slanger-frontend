@@ -2,6 +2,7 @@ import type { CSSProperties, FC } from 'react';
 
 import useSWR from 'swr';
 import { useAtomValue } from '@mntm/precoil';
+import { transition } from '@unexp/router';
 import {
   Group,
   Panel,
@@ -22,7 +23,6 @@ import { fetcher } from '../utils';
 import { Bookmark, RemoveBookmarkDto, ResponseError, User } from '../types';
 import { vkUserAtom } from '../store';
 import { ErrorPlaceholder, Skeleton, VoidPlaceholder } from '../components';
-import { transition } from '@unexp/router';
 
 type Props = {
   nav: string;
