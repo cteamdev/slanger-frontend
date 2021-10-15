@@ -14,5 +14,3 @@ export type { SetUserRightsDto } from './models/SetUserRightsDto';
 export type { Slang } from './models/Slang';
 export type { User } from './models/User';
 export type { VKInfoDto } from './models/VKInfoDto';
-export type { Vote } from './models/Vote';
-export type { VoteSlangDto } from './models/VoteSlangDto';

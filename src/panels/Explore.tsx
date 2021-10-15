@@ -27,10 +27,8 @@ import {
   ErrorPlaceholder
 } from '../components';
 import { useMeilisearch } from '../hooks';
-import { capitalize, fetcher, FetcherOptions } from '../utils';
+import { capitalize, fetcher, uncapitalize } from '../utils';
 import { ResponseError, Slang } from '../types';
-
-const FETCHER_OPTIONS: FetcherOptions = { throw: false };
 
 type Props = {
   nav: string;
@@ -46,15 +44,11 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
     10
   );
   const {
-    data: daySlang,
-    error: daySlangError,
-    isValidating: daySlangValidating,
-    mutate: daySlangMutate
-  } = useSWRImmutable<Slang, ResponseError>(
-    ['/slangs/getDaySlang', FETCHER_OPTIONS],
-    fetcher,
-    { shouldRetryOnError: false }
-  );
+    data: random,
+    error: randomError,
+    isValidating: isRandomValidating,
+    mutate: randomMutate
+  } = useSWRImmutable<Slang, ResponseError>('/slangs/getRandom', fetcher);
 
   const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
   const style: CSSProperties = {
@@ -63,7 +57,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
   };
 
   const reload = (): void => {
-    daySlangMutate();
+    randomMutate();
     refresh();
   };
 
@@ -79,7 +73,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
         right={
           desktop && (
             <PanelHeaderButton onClick={reload}>
-              {isValidating || daySlangValidating ? (
+              {isValidating || isRandomValidating ? (
                 <Spinner style={{ marginRight: 2 }} />
               ) : (
                 <Icon28RefreshOutline />
@@ -93,7 +87,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
 
       <PullToRefresh
         onRefresh={reload}
-        isFetching={isValidating || daySlangValidating}
+        isFetching={isValidating || isRandomValidating}
       >
         <Group>
           <VKUISearch
@@ -105,19 +99,31 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
 
           {hits.length === 0 && error && <ErrorPlaceholder />}
 
-          {daySlang ? (
+          {random ? (
             <Banner
               style="duck"
-              header={capitalize(daySlang.word)}
-              subheader={daySlang.type + ' дня'}
+              header={capitalize(random.word)}
+              subheader={
+                (random.type === 'Пословица'
+                  ? 'Случайная'
+                  : random.type === 'Фразеологизм'
+                  ? 'Случайный'
+                  : 'Случайное') +
+                ' ' +
+                uncapitalize(random.type)
+              }
               buttonText="Открыть"
+              // TODO: Убрать Object.assign, когда это будет исправлено в роутере
+              onButtonClick={() =>
+                transition('/dictionary/slang', Object.assign({}, random))
+              }
             />
           ) : (
             /**
              * Если уж ошибка, то не будем показывать баннер
              * Это позволяет избавиться от мелькания при ошибке загрузки
              */
-            !daySlangError &&
+            !randomError &&
             !error && (
               <Skeleton
                 style={{
@@ -134,10 +140,10 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
           <div style={{ height: 12 }} />
 
           {/**
-           * Будем показывать этот блок тогда, когда загрузим или получим ошибку от запроса слэнга дня
+           * Будем показывать этот блок тогда, когда загрузим или получим ошибку от запроса рандом слэнга
            * Это позволяет избавиться от мелькания
            */}
-          {hits && (daySlang || daySlangError) ? (
+          {hits && (random || randomError) ? (
             hits.length > 0 ? (
               <CardGrid size="l">
                 <InfiniteScroll

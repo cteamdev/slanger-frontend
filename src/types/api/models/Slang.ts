@@ -11,7 +11,6 @@ export type Slang = {
     cover?: string;
     word: string;
     description: string;
-    votes: number;
     status: 'moderating' | 'declined' | 'public';
     date: string;
 }

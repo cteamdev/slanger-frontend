@@ -36,7 +36,6 @@ export const SlangCard: FC<Props> = (props: Props) => {
   const {
     // slang props
     word,
-    votes,
     user,
     description,
     // card props
@@ -68,18 +67,6 @@ export const SlangCard: FC<Props> = (props: Props) => {
             <Title weight="semibold" level="3">
               {word}
             </Title>
-
-            {votes !== undefined && (
-              <Title
-                className="SlangCard__text--secondary"
-                weight="regular"
-                level="3"
-                style={{ fontSize: '0.9rem' }}
-              >
-                {votes > 0 ? '+' : ''}
-                {votes}
-              </Title>
-            )}
           </div>
 
           {user && (
