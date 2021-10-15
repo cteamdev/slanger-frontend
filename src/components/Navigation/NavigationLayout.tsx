@@ -17,13 +17,13 @@ import { CustomSnackbar } from '../CustomSnackbar';
 type Props = {
   children: ReactNode;
 
-  buttons: NavigationButton[];
+  buttons: (NavigationButton | null | false)[];
   menuVisibility: boolean;
 };
 
 export const NavigationLayout: FC<Props> = ({
   children,
-  buttons,
+  buttons: rawButtons,
   menuVisibility
 }: Props) => {
   const { viewWidth } = useAdaptivity();
@@ -31,6 +31,10 @@ export const NavigationLayout: FC<Props> = ({
   const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
   const spaced: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
   const animate: boolean = (viewWidth ?? 0) <= ViewWidth.MOBILE;
+
+  const buttons: NavigationButton[] = rawButtons.filter(
+    (button) => !!button
+  ) as NavigationButton[];
 
   return (
     <Match>

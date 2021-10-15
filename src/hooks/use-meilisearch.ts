@@ -5,28 +5,31 @@ import useSWRInfinite from 'swr/infinite';
 import { ResponseError, Slang } from '../types';
 import { fetcher } from '../utils';
 
-export const useMeilisearch = (path: string, q: string, pageSize: number) => {
+export const useMeilisearch = (
+  path: string,
+  pageSize: number,
+  otherOptions: Record<string, any> = {}
+) => {
   const { data, size, setSize, ...other } = useSWRInfinite<
     SearchResponse<Slang>,
     ResponseError
   >(
     (pageIndex: number, previousData: SearchResponse<Slang> | null) =>
-      `${path}?q=${q}&offset=${
+      `${path}?offset=${
         previousData ? previousData.offset + pageSize : 0
-      }&limit=${pageSize}`,
-    fetcher
+      }&limit=${pageSize}&` + new URLSearchParams(otherOptions).toString(),
+    fetcher,
+    { revalidateAll: true }
   );
 
-  const hits: Hits<Slang> = data
+  const hits: Hits<Slang> | null = data
     ? ([] as Hits<Slang>).concat(...data.map((response) => response.hits))
-    : [];
+    : null;
   const nbHits: number = data ? data[0].nbHits : 0;
 
-  const hasMore: boolean = hits.length < nbHits;
-  const dataLength: number = hits.length;
+  const hasMore: boolean = hits ? hits.length < nbHits : false;
+  const dataLength: number = hits ? hits.length : 0;
 
-  const refresh = (): Promise<SearchResponse<Slang>[] | undefined> =>
-    setSize(1);
   const next = (): Promise<SearchResponse<Slang>[] | undefined> =>
     setSize(size + 1);
 
@@ -37,7 +40,6 @@ export const useMeilisearch = (path: string, q: string, pageSize: number) => {
     hits,
     hasMore,
     dataLength,
-    refresh,
     next,
     ...other
   };

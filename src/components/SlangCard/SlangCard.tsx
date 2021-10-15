@@ -19,6 +19,11 @@ export type Props = HasRootRef<HTMLDivElement> &
   HasRef<HTMLImageElement> &
   Omit<Slang, 'id'> & {
     /**
+     * Заменяем id на slangId, так как конфликт
+     */
+    slangId?: number;
+
+    /**
    Максимальная высота изображения
    */
     maxHeight?: number;
@@ -34,6 +39,7 @@ export type Props = HasRootRef<HTMLDivElement> &
 
 export const SlangCard: FC<Props> = (props: Props) => {
   const {
+    slangId,
     // slang props
     word,
     user,
@@ -66,6 +72,7 @@ export const SlangCard: FC<Props> = (props: Props) => {
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Title weight="semibold" level="3">
               {word}
+              {slangId && ' | №' + slangId}
             </Title>
           </div>
 

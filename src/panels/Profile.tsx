@@ -1,9 +1,9 @@
-import type { FC } from 'react';
+import { CSSProperties, FC, useEffect } from 'react';
 
 import useSWR from 'swr';
 import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { useAtomValue } from '@mntm/precoil';
+import { useSetAtomState, useAtomValue } from '@mntm/precoil';
 import { transition, useHistoryState, useParams } from '@unexp/router';
 import {
   Group,
@@ -22,20 +22,30 @@ import {
   Gradient,
   SizeType,
   InfoRow,
-  PanelHeaderBack
+  PanelHeaderBack,
+  CellButton
 } from '@vkontakte/vkui';
 import {
+  Icon28BugOutline,
   Icon28CalendarOutline,
+  Icon28CancelOutline,
   Icon28ChecksOutline,
   Icon28CoinsOutline,
+  Icon28KeySquareOutline,
   Icon28RefreshOutline,
   Icon28SendOutline,
-  Icon28SettingsOutline
+  Icon28SettingsOutline,
+  Icon28UserOutline
 } from '@vkontakte/icons';
 
 import { capitalize, fetcher, pluralize } from '../utils';
-import { ResponseError, User } from '../types';
-import { vkUserAtom } from '../store';
+import {
+  ResponseError,
+  SetUserRightsDto,
+  SnackbarIconType,
+  User
+} from '../types';
+import { rightsAtom, snackbarAtom, vkUserAtom } from '../store';
 import { ErrorPlaceholder, Skeleton, UserBadge } from '../components';
 
 type Props = {
@@ -46,7 +56,12 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
   const { viewWidth, sizeX } = useAdaptivity();
   const { userId: paramsId } = useParams();
   const { backButton } = useHistoryState();
+
   const { id: currentId } = useAtomValue(vkUserAtom);
+  const currentRights: string = useAtomValue(rightsAtom);
+
+  const setSnackbar = useSetAtomState(snackbarAtom);
+  const setRights = useSetAtomState(rightsAtom);
 
   const id: number = nav === '/' ? currentId : paramsId ? +paramsId : currentId;
   const { data, error, isValidating, mutate } = useSWR<User, ResponseError>(
@@ -65,6 +80,9 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
   } = data ?? { vk: {} };
 
   const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
+  const style: CSSProperties = {
+    color: 'var(--button_secondary_destructive_foreground)'
+  };
   const limitCount: number =
     dayLimitDate &&
     dayLimitCount &&
@@ -77,6 +95,24 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
     moderator: 'Модератор',
     admin: 'Администратор'
   };
+
+  const setUserRights = async (
+    rights: SetUserRightsDto['rights']
+  ): Promise<void> => {
+    const update: User = await fetcher('/admin/setUserRights', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, rights } as SetUserRightsDto),
+      throw: true
+    });
+
+    await mutate(update, false);
+    setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успех' });
+  };
+
+  useEffect(() => {
+    if (nav === '/') setRights(rights || 'user');
+  }, [data]);
 
   return (
     <Panel nav={nav}>
@@ -216,6 +252,36 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
               </Div>
             </Group>
           )
+        )}
+
+        {id !== currentId && currentRights === 'admin' && (
+          <Group>
+            <CellButton
+              before={<Icon28CancelOutline style={style} />}
+              onClick={() => setUserRights('banned')}
+              style={style}
+            >
+              Забанить
+            </CellButton>
+            <CellButton
+              before={<Icon28UserOutline />}
+              onClick={() => setUserRights('moderator')}
+            >
+              Выдать пользователя
+            </CellButton>
+            <CellButton
+              before={<Icon28BugOutline />}
+              onClick={() => setUserRights('moderator')}
+            >
+              Выдать модератора
+            </CellButton>
+            <CellButton
+              before={<Icon28KeySquareOutline />}
+              onClick={() => setUserRights('admin')}
+            >
+              Выдать администратора
+            </CellButton>
+          </Group>
         )}
       </PullToRefresh>
     </Panel>

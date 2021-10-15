@@ -28,6 +28,10 @@ input[type="number"]:focus {
     height: calc(100% - 16px);
 }
 
+.infinite-scroll-component__outerdiv {
+    width: 100%;
+}
+
 .Spinner__loader {
     position: absolute;
     top: calc(50% - 15px);

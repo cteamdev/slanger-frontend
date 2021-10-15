@@ -1,10 +1,12 @@
-import type { FC } from 'react';
+import { CSSProperties, FC, useReducer } from 'react';
+import type { UserInfo } from '@vkontakte/vk-bridge';
 
-import useSWR from 'swr';
+import useSWR, { mutate as swrMutate } from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import { useEffect } from 'react';
 import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import { useAtomValue, useSetAtomState } from '@mntm/precoil';
 import { transition, useHistoryState, useParams } from '@unexp/router';
 import {
   Div,
@@ -22,7 +24,9 @@ import {
   SimpleCell,
   Avatar,
   IconButton,
-  ViewWidth
+  ViewWidth,
+  CellButton,
+  Separator
 } from '@vkontakte/vkui';
 import {
   Icon12Verified,
@@ -31,6 +35,11 @@ import {
   Icon24FavoriteOutline,
   Icon24ShareOutline,
   Icon24UnfavoriteOutline,
+  Icon28AppleWatchOutlite,
+  Icon28CancelOutline,
+  Icon28ChecksOutline,
+  Icon28DeleteOutline,
+  Icon28EditOutline,
   Icon28UserCircleOutline
 } from '@vkontakte/icons';
 
@@ -40,9 +49,12 @@ import {
   CreateBookmarkDto,
   RemoveBookmarkDto,
   ResponseError,
-  Slang as TSlang
+  SetSlangStatusDto,
+  Slang as TSlang,
+  SnackbarIconType
 } from '../types';
 import { ErrorPlaceholder, Skeleton, UserBadge } from '../components';
+import { rightsAtom, snackbarAtom, vkUserAtom } from '../store';
 
 type Props = {
   nav: string;
@@ -52,10 +64,18 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   const { viewWidth, sizeX } = useAdaptivity();
   const { slangId: paramsId } = useParams();
 
+  const vkUser: UserInfo = useAtomValue(vkUserAtom);
+  const rights: string = useAtomValue(rightsAtom);
+
+  const setSnackbar = useSetAtomState(snackbarAtom);
+
+  // Нехорошо так делать, но пока так придется
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+
   const slang: TSlang | undefined = useHistoryState();
   const id: number = paramsId ? +paramsId : slang.id;
 
-  const { data, error } = useSWR<TSlang, ResponseError>(
+  const { data, error, mutate } = useSWR<TSlang, ResponseError>(
     paramsId ? `/slangs/getById?id=${id}` : null,
     fetcher,
     {
@@ -76,6 +96,14 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   );
 
   const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
+  const style: CSSProperties = {
+    color: 'var(--button_secondary_destructive_foreground)'
+  };
+  const statusRu: Record<string, string> = {
+    moderating: 'На модерации',
+    declined: 'Отклонено модерацией'
+  };
+
   const { cover, word, type, status, user, description, date } = paramsId
     ? data ?? {}
     : slang ?? {};
@@ -96,6 +124,29 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
     );
 
     await mutateBookmark(bookmark ? null : update, false);
+    setSnackbar({
+      icon: SnackbarIconType.SUCCESS,
+      text: 'Успешно ' + (bookmark ? 'убрано' : 'добавлено')
+    });
+  };
+
+  const setSlangStatus = async (status: TSlang['status']): Promise<void> => {
+    const update: TSlang = await fetcher('/admin/setSlangStatus', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status } as SetSlangStatusDto),
+      throw: true
+    });
+
+    if (data) {
+      await mutate(update, false);
+    } else {
+      slang.status = status;
+      forceUpdate();
+    }
+
+    await swrMutate('/admin/search');
+    setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успех' });
   };
 
   useEffect(() => {
@@ -155,12 +206,62 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
               style={{ textAlign: 'center', color: '#6D7885' }}
             >
               {type ?? 'Загрузка...'} | №{id}
-              {status && status !== 'public' && ' | ' + status}
+              {status && status !== 'public' && ' | ' + statusRu[status]}
             </Title>
           </>
         )}
 
         {!error && <Spacing size={16} />}
+
+        {!error && vkUser.id === user?.id && (
+          <>
+            {/* TODO: Сделать это @NovaStream2030 */}
+            {status === 'moderating' && (
+              <CellButton before={<Icon28EditOutline />}>
+                Редактировать
+              </CellButton>
+            )}
+            {/* TODO: Сделать это @NovaStream2030; здесь еще надо подтверждение через Alert */}
+            <CellButton
+              before={<Icon28DeleteOutline style={style} />}
+              style={style}
+            >
+              Удалить
+            </CellButton>
+
+            <Spacing size={12} />
+            <Separator />
+            <Spacing size={12} />
+          </>
+        )}
+
+        {!error && ['moderator', 'admin'].includes(rights) && (
+          <>
+            <CellButton
+              before={<Icon28ChecksOutline />}
+              onClick={() => setSlangStatus('public')}
+            >
+              Одобрить
+            </CellButton>
+            <CellButton
+              before={<Icon28AppleWatchOutlite />}
+              onClick={() => setSlangStatus('moderating')}
+            >
+              Отправить на модерацию
+            </CellButton>
+            <CellButton
+              before={<Icon28CancelOutline style={style} />}
+              style={style}
+              onClick={() => setSlangStatus('declined')}
+            >
+              Отклонить
+            </CellButton>
+
+            <Spacing size={12} />
+            <Separator />
+            <Spacing size={12} />
+          </>
+        )}
 
         {user ? (
           <SimpleCell

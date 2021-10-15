@@ -36,12 +36,12 @@ type Props = {
 
 export const Explore: FC<Props> = ({ nav }: Props) => {
   const { viewWidth } = useAdaptivity();
-  const [query, setQuery] = useState<string>('');
+  const [q, setQuery] = useState<string>('');
 
-  const { hits, error, isValidating, refresh, ...other } = useMeilisearch(
+  const { hits, error, isValidating, mutate, ...other } = useMeilisearch(
     '/slangs/search',
-    query,
-    10
+    10,
+    { q }
   );
   const {
     data: random,
@@ -56,9 +56,9 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
     marginBottom: 8
   };
 
-  const reload = (): void => {
+  const refresh = (): void => {
     randomMutate();
-    refresh();
+    mutate();
   };
 
   return (
@@ -72,7 +72,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
         }
         right={
           desktop && (
-            <PanelHeaderButton onClick={reload}>
+            <PanelHeaderButton onClick={refresh}>
               {isValidating || isRandomValidating ? (
                 <Spinner style={{ marginRight: 2 }} />
               ) : (
@@ -86,18 +86,18 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
       </PanelHeader>
 
       <PullToRefresh
-        onRefresh={reload}
+        onRefresh={refresh}
         isFetching={isValidating || isRandomValidating}
       >
         <Group>
           <VKUISearch
-            value={query}
+            value={q}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setQuery(e.target.value)
             }
           />
 
-          {hits.length === 0 && error && <ErrorPlaceholder />}
+          {!hits && error && <ErrorPlaceholder />}
 
           {random ? (
             <Banner
