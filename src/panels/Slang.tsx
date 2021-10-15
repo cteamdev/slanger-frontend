@@ -1,10 +1,11 @@
 import type { FC } from 'react';
 
+import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import { useEffect } from 'react';
 import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { transition, useHistoryState } from '@unexp/router';
+import { transition, useHistoryState, useParams } from '@unexp/router';
 import {
   Div,
   Group,
@@ -47,39 +48,57 @@ type Props = {
 };
 
 export const Slang: FC<Props> = ({ nav }: Props) => {
-  const slang: TSlang = useHistoryState();
   const { sizeX } = useAdaptivity();
+  const { id: paramsId } = useParams();
 
-  const { id, cover, word, type, status, user, description, date } = slang;
+  const slang: TSlang | undefined = useHistoryState();
+  const id: number = +paramsId ?? slang.id;
 
-  const { data, isValidating, mutate } = useSWRImmutable<
-    Bookmark | null,
-    ResponseError
-  >(id ? `/bookmarks/has?slangId=${id}` : null, fetcher, {
-    revalidateIfStale: true
-  });
+  const { data, error } = useSWR<TSlang, ResponseError>(
+    paramsId ? `/slangs/getById?id=${id}` : null,
+    fetcher,
+    {
+      revalidateIfStale: true
+    }
+  );
+
+  const { cover, word, type, status, user, description, date } = paramsId
+    ? data ?? {}
+    : slang ?? {};
+
+  const {
+    data: bookmark,
+    isValidating: isBookmarkValidating,
+    mutate: mutateBookmark
+  } = useSWRImmutable<Bookmark | null, ResponseError>(
+    id ? `/bookmarks/has?slangId=${id}` : null,
+    fetcher,
+    {
+      revalidateIfStale: true
+    }
+  );
 
   const updateBookmark = async (): Promise<void> => {
-    const bookmark: Bookmark = await fetcher(
-      data ? '/bookmarks/remove' : '/bookmarks/create',
+    const update: Bookmark = await fetcher(
+      bookmark ? '/bookmarks/remove' : '/bookmarks/create',
       {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(
-          data
-            ? ({ id: data.id } as RemoveBookmarkDto)
+          bookmark
+            ? ({ id: bookmark.id } as RemoveBookmarkDto)
             : ({ slangId: id } as CreateBookmarkDto)
         ),
         throw: true
       }
     );
 
-    await mutate(data ? null : bookmark, false);
+    await mutateBookmark(bookmark ? null : update, false);
   };
 
   useEffect(() => {
     window.scroll({ left: 0, top: 0 });
-    mutate(null, true);
+    mutateBookmark(null, true);
   }, []);
 
   return (
@@ -121,7 +140,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
         <Spacing />
         <Title level="1" weight="bold" style={{ textAlign: 'center' }}>
-          {word}
+          {word ?? 'Загрузка...'}
         </Title>
         <Spacing size={8} />
         <Title
@@ -129,8 +148,8 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           weight="regular"
           style={{ textAlign: 'center', color: '#6D7885' }}
         >
-          {type} | №{id}
-          {status !== 'public' && ' | ' + status}
+          {type ?? 'Загрузка...'} | №{id}
+          {status && status !== 'public' && ' | ' + status}
         </Title>
 
         <Spacing size={16} />
@@ -151,7 +170,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           >
             {user.vk.fullName}
           </SimpleCell>
-        ) : (
+        ) : data && !error ? (
           <SimpleCell
             before={
               <Avatar
@@ -165,32 +184,54 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           >
             Редакция
           </SimpleCell>
+        ) : (
+          !error && (
+            <Div>
+              <Skeleton />
+            </Div>
+          )
         )}
 
         <Spacing size={16} />
 
-        <MiniInfoCell
-          before={<Icon20ArticleOutline />}
-          textWrap="full"
-          textLevel="primary"
-        >
-          {description}
-        </MiniInfoCell>
-        <MiniInfoCell
-          before={<Icon20CalendarOutline />}
-          textWrap="full"
-          textLevel="primary"
-        >
-          {date &&
-            capitalize(
+        {description ? (
+          <MiniInfoCell
+            before={<Icon20ArticleOutline />}
+            textWrap="full"
+            textLevel="primary"
+          >
+            {description}
+          </MiniInfoCell>
+        ) : (
+          !error && (
+            <Div>
+              <Skeleton style={{ height: 102 }} />
+            </Div>
+          )
+        )}
+
+        {date ? (
+          <MiniInfoCell
+            before={<Icon20CalendarOutline />}
+            textWrap="full"
+            textLevel="primary"
+          >
+            {capitalize(
               formatRelative(parseISO(date), new Date(), {
                 locale: ru
               })
             )}
-        </MiniInfoCell>
+          </MiniInfoCell>
+        ) : (
+          !error && (
+            <Div>
+              <Skeleton />
+            </Div>
+          )
+        )}
 
         <Div style={{ display: 'flex' }}>
-          {isValidating ? (
+          {isBookmarkValidating || (!data && !error) ? (
             <Skeleton style={{ height: 36, marginRight: 8 }} />
           ) : (
             <Button
@@ -198,22 +239,30 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
               stretched
               mode="secondary"
               before={
-                data ? <Icon24UnfavoriteOutline /> : <Icon24FavoriteOutline />
+                bookmark ? (
+                  <Icon24UnfavoriteOutline />
+                ) : (
+                  <Icon24FavoriteOutline />
+                )
               }
               style={{ marginRight: 8 }}
               onClick={updateBookmark}
             >
-              {data ? 'Удалить из избранного' : 'Добавить в избранное'}
+              {bookmark ? 'Удалить из избранного' : 'Добавить в избранное'}
             </Button>
           )}
-          <Button
-            size="l"
-            mode="primary"
-            before={<Icon24ShareOutline />}
-            onClick={() =>
-              transition('/dictionary/slang?modal=share-slang', slang)
-            }
-          />
+          {word ? (
+            <Button
+              size="l"
+              mode="primary"
+              before={<Icon24ShareOutline />}
+              onClick={() =>
+                transition('/dictionary/slang?modal=share-slang', slang)
+              }
+            />
+          ) : (
+            <Skeleton style={{ width: 64, height: 36 }} />
+          )}
         </Div>
       </Group>
     </Panel>

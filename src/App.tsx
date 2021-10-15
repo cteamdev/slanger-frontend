@@ -45,6 +45,7 @@ export const App: FC = () => {
     const load = async (): Promise<void> => {
       transition('/dictionary', { replace: true });
       // transition('/otherProfile?id=435214391', { replace: true });
+      //transition('/dictionary/slang?id=43', { replace: true });
 
       const vkUser: UserInfo = await send('VKWebAppGetUserInfo');
       setVkUser(vkUser);
