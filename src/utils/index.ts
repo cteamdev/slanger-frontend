@@ -5,3 +5,4 @@ export * from './swr';
 export * from './validation';
 export * from './giphy';
 export * from './smoothScroll';
+export * from './delay';

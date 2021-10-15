@@ -23,6 +23,7 @@ import { snackbarAtom, vkUserAtom } from './store';
 import { fetcher, useUpdateEffect } from './utils';
 
 import { Layout } from './Layout';
+import { delay } from './utils';
 
 export const App: FC = () => {
   const { pathname } = useLocation();
@@ -43,9 +44,20 @@ export const App: FC = () => {
 
   useEffect(() => {
     const load = async (): Promise<void> => {
+      // Сначала запишем данные, а то роутер стирает их
       const hash: string = window.location.hash.slice(1);
-      const [page, paramsString]: string[] = hash.split('?');
 
+      // Чтобы пользователь не смотрел на пустой экран, пока грузится
+      transition('/dictionary', { replace: true });
+
+      // Пока получим юзера
+      const vkUser: UserInfo = await send('VKWebAppGetUserInfo');
+      setVkUser(vkUser);
+
+      // Задержка: анти-мелькание
+      await delay(800);
+
+      const [page, paramsString]: string[] = hash.split('?');
       const params: URLSearchParams | null = paramsString
         ? new URLSearchParams(paramsString)
         : null;
@@ -59,9 +71,6 @@ export const App: FC = () => {
           replace: true
         });
       else transition('/dictionary', { replace: true });
-
-      const vkUser: UserInfo = await send('VKWebAppGetUserInfo');
-      setVkUser(vkUser);
     };
 
     load();
