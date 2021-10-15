@@ -2,8 +2,15 @@
     --accent: #B336FF !important;
     --header_tint: #B336FF !important;
     --tabbar_active_icon: #B336FF !important;
-    --button_secondary_foreground: #B336FF !important;
     --button_primary_background: #B336FF !important;
     --button_outline_border: #B336FF !important;
     --button_outline_foreground: #B336FF !important;
+}
+
+body[scheme=bright_light] {
+    --button_secondary_foreground: #B336FF !important;
+}
+
+body[scheme=space_gray] {
+    --button_primary_foreground: #fff !important;
 }

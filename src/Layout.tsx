@@ -65,6 +65,7 @@ export const Layout: FC = () => {
       >
         <Explore nav="/" />
         <Slang nav="/slang" />
+        <Profile nav="/otherProfile" />
         <CreateSlang nav="/create" />
         <ChooseGif nav="/choose-gif" />
       </View>

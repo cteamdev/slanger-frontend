@@ -21,7 +21,8 @@ import {
   SizeType,
   SimpleCell,
   Avatar,
-  IconButton
+  IconButton,
+  ViewWidth
 } from '@vkontakte/vkui';
 import {
   Icon12Verified,
@@ -48,7 +49,7 @@ type Props = {
 };
 
 export const Slang: FC<Props> = ({ nav }: Props) => {
-  const { sizeX } = useAdaptivity();
+  const { viewWidth, sizeX } = useAdaptivity();
   const { slangId: paramsId } = useParams();
 
   const slang: TSlang | undefined = useHistoryState();
@@ -62,10 +63,6 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
     }
   );
 
-  const { cover, word, type, status, user, description, date } = paramsId
-    ? data ?? {}
-    : slang ?? {};
-
   const {
     data: bookmark,
     isValidating: isBookmarkValidating,
@@ -77,6 +74,11 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
       revalidateIfStale: true
     }
   );
+
+  const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
+  const { cover, word, type, status, user, description, date } = paramsId
+    ? data ?? {}
+    : slang ?? {};
 
   const updateBookmark = async (): Promise<void> => {
     const update: Bookmark = await fetcher(
@@ -164,7 +166,16 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           <SimpleCell
             before={<Avatar size={48} src={user.vk.avatarUrl} />}
             after={
-              <IconButton>
+              <IconButton
+                onClick={() =>
+                  transition(`/dictionary/otherProfile?userId=${user.id}`, {
+                    backButton: true,
+                    // При переходе сначала сброс состояния, а потом анимация. Из-за этого видим загрузку при переходе
+                    // Так как Profile не требует historyState, то передаем туда то, что сами приняли
+                    ...slang
+                  })
+                }
+              >
                 <Icon28UserCircleOutline />
               </IconButton>
             }
@@ -256,7 +267,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                 {bookmark ? 'Удалить из избранного' : 'Добавить в избранное'}
               </Button>
             ) : (
-              <Skeleton style={{ height: 36, marginRight: 8 }} />
+              <Skeleton style={{ height: desktop ? 36 : 44, marginRight: 8 }} />
             )}
             {word ? (
               <Button
@@ -268,7 +279,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                 }
               />
             ) : (
-              <Skeleton style={{ width: 64, height: 36 }} />
+              <Skeleton style={{ width: 64, height: desktop ? 36 : 44 }} />
             )}
           </Div>
         )}

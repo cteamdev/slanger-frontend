@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useAtomValue } from '@mntm/precoil';
-import { transition, useParams } from '@unexp/router';
+import { transition, useHistoryState, useParams } from '@unexp/router';
 import {
   Group,
   Panel,
@@ -21,7 +21,8 @@ import {
   Title,
   Gradient,
   SizeType,
-  InfoRow
+  InfoRow,
+  PanelHeaderBack
 } from '@vkontakte/vkui';
 import {
   Icon28CalendarOutline,
@@ -44,9 +45,10 @@ type Props = {
 export const Profile: FC<Props> = ({ nav }: Props) => {
   const { viewWidth, sizeX } = useAdaptivity();
   const { userId: paramsId } = useParams();
+  const { backButton } = useHistoryState();
   const { id: currentId } = useAtomValue(vkUserAtom);
 
-  const id: number = nav === '/' ? currentId : paramsId ?? currentId;
+  const id: number = nav === '/' ? currentId : paramsId ? +paramsId : currentId;
   const { data, error, isValidating, mutate } = useSWR<User, ResponseError>(
     id ? `/users/getById?id=${id}` : null,
     fetcher,
@@ -81,12 +83,14 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
       <PanelHeader
         separator={false}
         left={
-          nav === '/' && (
+          nav === '/' ? (
             <PanelHeaderButton>
               <Icon28SettingsOutline
                 onClick={() => transition('/profile?modal=settings')}
               />
             </PanelHeaderButton>
+          ) : (
+            backButton && <PanelHeaderBack onClick={() => transition(-1)} />
           )
         }
         right={
