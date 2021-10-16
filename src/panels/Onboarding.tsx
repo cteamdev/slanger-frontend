@@ -51,7 +51,7 @@ export const Onboarding: FC<Props> = ({ nav }: Props) => {
         >
           <OnboardingSlide
             title="Slanger"
-            imageSrc="/src/assets/avatar.png"
+            imageSrc="/avatar.png"
             style={desktop ? { height: 150 } : {}}
             buttonText="Далее"
             onClick={next}
@@ -67,7 +67,7 @@ export const Onboarding: FC<Props> = ({ nav }: Props) => {
           </OnboardingSlide>
           <OnboardingSlide
             title="Словарь"
-            imageSrc="/src/assets/onboarding-1.png"
+            imageSrc="/onboarding-1.png"
             buttonText="Далее"
             onClick={next}
           >
@@ -78,7 +78,7 @@ export const Onboarding: FC<Props> = ({ nav }: Props) => {
           </OnboardingSlide>
           <OnboardingSlide
             title="Профиль"
-            imageSrc="/src/assets/onboarding-2.png"
+            imageSrc="/onboarding-2.png"
             buttonText="Далее"
             onClick={next}
           >

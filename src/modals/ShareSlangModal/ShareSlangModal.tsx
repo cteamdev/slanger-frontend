@@ -1,6 +1,7 @@
 import './ShareSlangModal.css';
 
 import type { CSSProperties, FC } from 'react';
+
 import { useRef, useState } from 'react';
 import { stripIndents } from 'common-tags';
 import { send } from '@vkontakte/vk-bridge';
@@ -65,7 +66,7 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
     canvas.height = 1920;
 
     const sharingStockImage: HTMLImageElement = new Image(1080, 1920);
-    sharingStockImage.src = `/src/assets/${path}-template.png`;
+    sharingStockImage.src = `/${path}-template.png`;
     sharingStockImage.crossOrigin = 'anonymous';
     await waitLoading(sharingStockImage);
 
@@ -135,14 +136,14 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
           </>
         )}
         <ImageGridItem
-          src="/src/assets/story-light.png"
+          src="/story-light.png"
           className="ShareSlangModal__StoryItem"
           style={style}
           onLoad={onLoad}
           onClick={() => chooseStory('story-light')}
         />
         <ImageGridItem
-          src="/src/assets/story-dark.png"
+          src="/story-dark.png"
           className="ShareSlangModal__StoryItem"
           style={style}
           onLoad={onLoad}

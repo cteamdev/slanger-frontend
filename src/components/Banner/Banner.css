@@ -1,4 +1,4 @@
 .OurBanner--pink {
-    background: url('/src/assets/duck.svg') no-repeat right bottom, linear-gradient(90deg, rgba(255,68,170,1) 0%, rgba(243,63,224,1) 50%, rgba(244,88,249,1) 100%) no-repeat;
+    background: url('/duck.svg') no-repeat right bottom, linear-gradient(90deg, rgba(255,68,170,1) 0%, rgba(243,63,224,1) 50%, rgba(244,88,249,1) 100%) no-repeat;
     overflow: hidden;
 }
