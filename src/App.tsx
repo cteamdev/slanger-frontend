@@ -17,17 +17,15 @@ import {
   VKCOM,
   WebviewType
 } from '@vkontakte/vkui';
-import { transition, useLocation } from '@unexp/router';
+import { transition } from '@unexp/router';
 
-import { snackbarAtom, vkUserAtom } from './store';
-import { fetcher, useUpdateEffect } from './utils';
+import { vkUserAtom } from './store';
+import { fetcher } from './utils';
 
 import { Layout } from './Layout';
 import { delay } from './utils';
 
 export const App: FC = () => {
-  const { pathname } = useLocation();
-
   const platformParam: string | null = new URLSearchParams(
     window.location.search
   ).get('vk_platform');
@@ -39,7 +37,6 @@ export const App: FC = () => {
       ? ANDROID
       : VKCOM;
 
-  const setSnackbar = useSetAtomState(snackbarAtom);
   const setVkUser = useSetAtomState(vkUserAtom);
 
   useEffect(() => {
@@ -75,10 +72,6 @@ export const App: FC = () => {
 
     load();
   }, []);
-
-  useUpdateEffect(() => {
-    setSnackbar(undefined);
-  }, [pathname]);
 
   return (
     <ConfigProvider
