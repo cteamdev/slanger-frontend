@@ -1,4 +1,4 @@
-import { CSSProperties, FC, useEffect } from 'react';
+import { CSSProperties, FC, MouseEvent, useEffect } from 'react';
 
 import useSWR from 'swr';
 import { formatRelative, parseISO } from 'date-fns';
@@ -149,7 +149,21 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
           {error ? (
             <ErrorPlaceholder />
           ) : (
-            <Link href={`https://vk.com/id${id}`} target="_blank">
+            <Link
+              href={id ? 'https://vk.com/id' + id : 'javascript:void(0)'}
+              target="_blank"
+              style={
+                !id
+                  ? {
+                      pointerEvents: 'none',
+                      cursor: 'default'
+                    }
+                  : {}
+              }
+              onClick={(e: MouseEvent<HTMLElement>) =>
+                !id && e.preventDefault()
+              }
+            >
               <div
                 style={{
                   display: 'flex',
