@@ -15,6 +15,7 @@ import {
   ChooseGif,
   CreateSlang,
   Explore,
+  Onboarding,
   OwnSlangs,
   Profile,
   Slang
@@ -59,6 +60,8 @@ export const Layout: FC = () => {
       <View nav="/">
         {/* Пустая панель, отображается, пока сервис думает, куда сделать переход */}
         <Panel nav="/" />
+
+        <Onboarding nav="/onboarding" />
       </View>
 
       <View

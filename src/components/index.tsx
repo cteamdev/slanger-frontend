@@ -9,3 +9,4 @@ export * from './VoidPlaceholder';
 export * from './ErrorPlaceholder';
 export * from './UserBadge';
 export * from './CreditsFooter';
+export * from './OnboardingSlide';

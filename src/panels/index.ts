@@ -6,3 +6,4 @@ export * from './Bookmarks';
 export * from './Profile';
 export * from './AdminExplore';
 export * from './OwnSlangs';
+export * from './Onboarding';

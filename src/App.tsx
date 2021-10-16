@@ -54,6 +54,15 @@ export const App: FC = () => {
       // Задержка: анти-мелькание
       await delay(800);
 
+      // Онбоардинг
+      const { keys } = await send('VKWebAppStorageGet', {
+        keys: ['onboarding']
+      });
+      if (
+        !keys.some((data) => data.key === 'onboarding' && data.value === 'true')
+      )
+        transition('/onboarding', { replace: true });
+
       const [page, paramsString]: string[] = hash.split('?');
       const params: URLSearchParams | null = paramsString
         ? new URLSearchParams(paramsString)

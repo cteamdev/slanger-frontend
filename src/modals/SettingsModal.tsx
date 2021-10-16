@@ -23,8 +23,11 @@ import {
   SnackbarIconType,
   User
 } from '../types';
-import { Icon28ClearDataOutline } from '@vkontakte/icons';
-import { fetcher } from '../utils';
+import {
+  Icon28ClearDataOutline,
+  Icon28UserOutgoingOutline
+} from '@vkontakte/icons';
+import { delay, fetcher } from '../utils';
 import { Skeleton } from '../components';
 
 type Props = {
@@ -89,7 +92,7 @@ export const SettingsModal: FC<Props> = ({ nav }: Props) => {
     loading.current = false;
   };
 
-  const clearStorage = async () => {
+  const clearStorage = async (): Promise<void> => {
     const { keys = [] } = await send('VKWebAppStorageGetKeys', {
       count: 100,
       offset: 0
@@ -103,6 +106,12 @@ export const SettingsModal: FC<Props> = ({ nav }: Props) => {
       icon: SnackbarIconType.SUCCESS,
       text: 'VK Storage успешно очищен'
     });
+  };
+
+  const go = async (): Promise<void> => {
+    transition(-1);
+    await delay(800);
+    transition('/onboarding', { replace: true });
   };
 
   return (
@@ -145,7 +154,10 @@ export const SettingsModal: FC<Props> = ({ nav }: Props) => {
       </Group>
 
       <Group>
-        <CellButton onClick={clearStorage} before={<Icon28ClearDataOutline />}>
+        <CellButton before={<Icon28UserOutgoingOutline />} onClick={go}>
+          Перейти к онбоардингу
+        </CellButton>
+        <CellButton before={<Icon28ClearDataOutline />} onClick={clearStorage}>
           Очистить VK Storage
         </CellButton>
       </Group>

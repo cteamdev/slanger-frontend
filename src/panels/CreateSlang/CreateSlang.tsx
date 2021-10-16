@@ -160,7 +160,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
               <Group className="Caption--container">
                 <Caption level="1" weight="regular">
                   Предлагая новое выражение, вы соглашаетесь с{' '}
-                  <a href="https://vk.com/@slangerpub-rules">
+                  <a href="https://vk.com/@slangerpub-rules" target="_blank">
                     Правилами сервиса
                   </a>
                   . <br />
