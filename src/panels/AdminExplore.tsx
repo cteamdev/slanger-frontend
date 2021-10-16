@@ -85,7 +85,10 @@ export const AdminExplore: FC<Props> = ({ nav }: Props) => {
                       slangId={slang.id}
                       onClick={() =>
                         // TODO: Убрать Object.assign, когда это будет исправлено в роутере
-                        transition('/admin/slang', Object.assign({}, slang))
+                        transition(
+                          `/admin/slang?profileView=/admin`,
+                          Object.assign({}, slang)
+                        )
                       }
                     />
                   ))}

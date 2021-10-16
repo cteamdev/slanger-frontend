@@ -58,8 +58,6 @@ export const Layout: FC = () => {
       <View nav="/">
         {/* Пустая панель, отображается, пока сервис думает, куда сделать переход */}
         <Panel nav="/" />
-
-        <Profile nav="/otherProfile" />
       </View>
 
       <View
@@ -97,6 +95,7 @@ export const Layout: FC = () => {
       <View nav="/admin">
         <AdminExplore nav="/" />
         <Slang nav="/slang" />
+        <Profile nav="/otherProfile" />
       </View>
     </NavigationLayout>
   );

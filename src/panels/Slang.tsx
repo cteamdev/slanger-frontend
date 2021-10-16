@@ -62,7 +62,7 @@ type Props = {
 
 export const Slang: FC<Props> = ({ nav }: Props) => {
   const { viewWidth, sizeX } = useAdaptivity();
-  const { slangId: paramsId } = useParams();
+  const { slangId: paramsId, profileView = '/dictionary' } = useParams();
 
   const vkUser: UserInfo = useAtomValue(vkUserAtom);
   const rights: string = useAtomValue(rightsAtom);
@@ -269,7 +269,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
             after={
               <IconButton
                 onClick={() =>
-                  transition(`/dictionary/otherProfile?userId=${user.id}`, {
+                  transition(`${profileView}/otherProfile?userId=${user.id}`, {
                     backButton: true,
                     // При переходе сначала сброс состояния, а потом анимация. Из-за этого видим загрузку при переходе
                     // Так как Profile не требует historyState, то передаем туда то, что сами приняли

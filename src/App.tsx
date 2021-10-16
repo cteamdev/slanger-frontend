@@ -67,7 +67,7 @@ export const App: FC = () => {
           replace: true
         });
       else if (page === 'profile' && params?.has('id'))
-        transition(`/otherProfile?userId=${params.get('id')}`, {
+        transition(`/dictionary/otherProfile?userId=${params.get('id')}`, {
           replace: true
         });
       else transition('/dictionary', { replace: true });
