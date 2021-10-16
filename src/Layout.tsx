@@ -14,13 +14,19 @@ import {
   Bookmarks,
   ChooseGif,
   CreateSlang,
+  EditSlang,
   Explore,
   Onboarding,
   OwnSlangs,
   Profile,
   Slang
 } from './panels';
-import { ChooseGifModal, SettingsModal, ShareSlangModal } from './modals';
+import {
+  ChooseGifModal,
+  NotifyModalCard,
+  SettingsModal,
+  ShareSlangModal
+} from './modals';
 import { NavigationLayout } from './components';
 import { menuVisibilityAtom, rightsAtom } from './store';
 
@@ -70,25 +76,37 @@ export const Layout: FC = () => {
           <ModalRoot activeModal={modal} onClose={() => transition(-1)}>
             <ChooseGifModal nav="choose-gif" />
             <ShareSlangModal nav="share-slang" />
+            <NotifyModalCard nav="notify-card" />
+            <SettingsModal nav="settings" />
           </ModalRoot>
         }
       >
         <Explore nav="/" />
         <Slang nav="/slang" />
+        <EditSlang nav="/editSlang" />
         <Profile nav="/otherProfile" />
         <CreateSlang nav="/create" />
         <ChooseGif nav="/choose-gif" />
       </View>
 
-      <View nav="/bookmarks">
+      <View
+        nav="/bookmarks"
+        modal={
+          <ModalRoot activeModal={modal} onClose={() => transition(-1)}>
+            <ChooseGifModal nav="choose-gif" />
+          </ModalRoot>
+        }
+      >
         <Bookmarks nav="/" />
         <Slang nav="/slang" />
+        <EditSlang nav="/editSlang" />
       </View>
 
       <View
         nav="/profile"
         modal={
           <ModalRoot activeModal={modal} onClose={() => transition(-1)}>
+            <ChooseGifModal nav="choose-gif" />
             <SettingsModal nav="settings" />
           </ModalRoot>
         }
@@ -97,11 +115,20 @@ export const Layout: FC = () => {
         <Profile nav="/otherProfile" />
         <OwnSlangs nav="/ownSlangs" />
         <Slang nav="/slang" />
+        <EditSlang nav="/editSlang" />
       </View>
 
-      <View nav="/admin">
+      <View
+        nav="/admin"
+        modal={
+          <ModalRoot activeModal={modal} onClose={() => transition(-1)}>
+            <ChooseGifModal nav="choose-gif" />
+          </ModalRoot>
+        }
+      >
         <AdminExplore nav="/" />
         <Slang nav="/slang" />
+        <EditSlang nav="/editSlang" />
         <Profile nav="/otherProfile" />
       </View>
     </NavigationLayout>

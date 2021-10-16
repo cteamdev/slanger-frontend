@@ -3,20 +3,44 @@ import './ChooseGif.css';
 import type { ChangeEvent, FC } from 'react';
 import type { GifsResult } from '@giphy/js-fetch-api';
 import { useRef, useState } from 'react';
-import { Caption, Group, Search as VKUISearch } from '@vkontakte/vkui';
-import { useSetAtomState } from '@mntm/precoil';
+import {
+  Avatar,
+  Caption,
+  CellButton,
+  Div,
+  Group,
+  Placeholder,
+  Search as VKUISearch
+} from '@vkontakte/vkui';
+import { useAtomState } from '@mntm/precoil';
 import { transition } from '@unexp/router';
 
 import { gifAtom } from '../../store';
-import { giphy } from '../../utils';
+import { delay, giphy } from '../../utils';
 
 import { ImageGrid, ImageGridItem } from '../ImageGrid';
+import { Icon24DeleteOutline, Icon56CompassOutline } from '@vkontakte/icons';
+
+const GiphyCaption: FC = () => (
+  <Caption
+    level="1"
+    weight="regular"
+    style={{ textAlign: 'center', color: '#909499' }}
+  >
+    Обложки представлены сервисом{' '}
+    <a href="https://giphy.com" target="_blank" style={{ color: 'inherit' }}>
+      Giphy.com
+    </a>
+  </Caption>
+);
 
 export const ChooseGif: FC = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [gifs, setGifs] = useState<GifsResult['data']>([]);
+
   const searchTimeout = useRef<number | undefined>();
-  const setGif = useSetAtomState(gifAtom);
+
+  const [gif, setGif] = useAtomState(gifAtom);
 
   const close = () => transition(-1);
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -37,36 +61,58 @@ export const ChooseGif: FC = () => {
     }, 1000);
   };
 
-  const pickGif = (id: string | number) => {
-    setGif(String(id));
+  const getLink = (id: string | number): string =>
+    `https://media1.giphy.com/media/${id}/giphy.gif`;
+
+  const pickGif = async (id: string | number): Promise<void> => {
     close();
+    await delay(250);
+
+    setGif(getLink(id));
   };
 
   return (
     <>
       <VKUISearch value={searchValue} onChange={onSearchChange} />
       <Group separator="hide">
-        <Caption level="1" weight="regular" className="OurCaption">
-          Обложки представлены сервисом{' '}
-          <a href="https://giphy.com" target="_blank">
-            Giphy.com
-          </a>
-        </Caption>
+        {gif ? (
+          <CellButton
+            before={
+              <Avatar shadow={false} size={40}>
+                <Icon24DeleteOutline />
+              </Avatar>
+            }
+            onClick={() => setGif(null)}
+          >
+            Удалить обложку
+            <GiphyCaption />
+          </CellButton>
+        ) : (
+          <GiphyCaption />
+        )}
       </Group>
+
       <Group>
-        <ImageGrid>
-          {gifs.length > 0 ? (
-            gifs.map((gif) => (
+        {gifs.length > 0 ? (
+          <ImageGrid>
+            {gifs.map(({ id }) => (
               <ImageGridItem
-                src={`https://media1.giphy.com/media/${gif.id}/giphy.gif`}
-                key={gif.id}
-                onClick={() => pickGif(gif.id)}
+                src={getLink(id)}
+                key={id}
+                style={{
+                  cursor: 'pointer'
+                }}
+                onClick={() => pickGif(id)}
               />
-            ))
-          ) : (
-            <></>
-          )}
-        </ImageGrid>
+            ))}
+          </ImageGrid>
+        ) : (
+          <Div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Placeholder header="Пустота" icon={<Icon56CompassOutline />}>
+              Начните вводить запрос
+            </Placeholder>
+          </Div>
+        )}
       </Group>
     </>
   );

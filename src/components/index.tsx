@@ -1,3 +1,5 @@
+export { SlangForm } from './SlangForm';
+
 export * from './ImageGrid';
 export * from './CustomSnackbar';
 export * from './SlangCard';

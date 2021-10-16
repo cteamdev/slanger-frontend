@@ -23,17 +23,24 @@ export const fetcher = async (
         'x-vk': window.location.search.replace('?', ''),
         ...(init.headers ?? {})
       }
+    }).catch((e: unknown) => {
+      if (init.throw)
+        setSnackbar({
+          icon: SnackbarIconType.ERROR,
+          text: 'Не удалось загрузить данные'
+        });
+
+      throw e;
     });
     const body: Record<string, unknown> = await res.json();
 
     if (!res.ok) {
-      await delay(400);
-
       if (init.throw)
         setSnackbar({
           icon: SnackbarIconType.ERROR,
           text: body.message as string
         });
+
       throw body;
     }
 
@@ -43,11 +50,6 @@ export const fetcher = async (
   } catch (e: unknown) {
     await delay(400);
 
-    if (init.throw && typeof e === 'string')
-      setSnackbar({
-        icon: SnackbarIconType.ERROR,
-        text: 'Не удалось загрузить данные'
-      });
     throw e;
   }
 };

@@ -222,9 +222,12 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
         {!error && vkUser.id === user?.id && (
           <>
-            {/* TODO: Сделать это @NovaStream2030 */}
             {status === 'moderating' && (
-              <CellButton centered before={<Icon28EditOutline />}>
+              <CellButton
+                centered
+                before={<Icon28EditOutline />}
+                onClick={() => transition(view + '/editSlang', slang)}
+              >
                 Редактировать
               </CellButton>
             )}

@@ -1,5 +1,6 @@
 export * from './Explore';
 export * from './CreateSlang';
+export * from './EditSlang';
 export * from './Slang';
 export * from './ChooseGif';
 export * from './Bookmarks';
