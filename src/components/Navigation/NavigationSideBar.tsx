@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import {
   Cell,
-  Footer,
   Group,
   Panel,
   PanelHeader,
@@ -13,6 +12,7 @@ import { transition, useDeserializedLocation } from '@unexp/router';
 
 import { NavigationButton } from '../../types';
 import { smoothScroll } from '../../utils';
+import { CreditsFooter } from '../CreditsFooter';
 
 type Props = {
   buttons: NavigationButton[];
@@ -50,10 +50,7 @@ export const NavigationSideBar: FC<Props> = ({ buttons }: Props) => {
           ))}
         </Group>
 
-        <Footer style={{ marginTop: 0 }}>
-          Сделано с любовью <br />
-          {'<'}3 cteamdev, 2021
-        </Footer>
+        <CreditsFooter />
       </Panel>
     </SplitCol>
   );

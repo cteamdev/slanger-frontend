@@ -15,6 +15,7 @@ import {
   ChooseGif,
   CreateSlang,
   Explore,
+  OwnSlangs,
   Profile,
   Slang
 } from './panels';
@@ -90,6 +91,9 @@ export const Layout: FC = () => {
         }
       >
         <Profile nav="/" />
+        <Profile nav="/otherProfile" />
+        <OwnSlangs nav="/ownSlangs" />
+        <Slang nav="/slang" />
       </View>
 
       <View nav="/admin">

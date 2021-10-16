@@ -23,8 +23,7 @@ import {
   SizeType,
   InfoRow,
   PanelHeaderBack,
-  CellButton,
-  Footer
+  CellButton
 } from '@vkontakte/vkui';
 import {
   Icon28BugOutline,
@@ -36,6 +35,7 @@ import {
   Icon28RefreshOutline,
   Icon28SendOutline,
   Icon28SettingsOutline,
+  Icon28SubtitlesOutline,
   Icon28UserOutline
 } from '@vkontakte/icons';
 
@@ -47,7 +47,12 @@ import {
   User
 } from '../types';
 import { rightsAtom, snackbarAtom, vkUserAtom } from '../store';
-import { ErrorPlaceholder, Skeleton, UserBadge } from '../components';
+import {
+  CreditsFooter,
+  ErrorPlaceholder,
+  Skeleton,
+  UserBadge
+} from '../components';
 
 type Props = {
   nav: string;
@@ -55,8 +60,9 @@ type Props = {
 
 export const Profile: FC<Props> = ({ nav }: Props) => {
   const { viewWidth, sizeX } = useAdaptivity();
-  const { userId: paramsId } = useParams();
+
   const { backButton } = useHistoryState();
+  const { userId: paramsId } = useParams();
 
   const { id: currentId } = useAtomValue(vkUserAtom);
   const currentRights: string = useAtomValue(rightsAtom);
@@ -269,9 +275,28 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
           )
         )}
 
-        {id !== currentId && currentRights === 'admin' && (
+        {nav === '/' && !error && (
+          <Group>
+            {data ? (
+              <CellButton
+                centered
+                before={<Icon28SubtitlesOutline />}
+                onClick={() => transition('/profile/ownSlangs')}
+              >
+                Мои слэнги
+              </CellButton>
+            ) : (
+              <Div>
+                <Skeleton />
+              </Div>
+            )}
+          </Group>
+        )}
+
+        {currentRights === 'admin' && (
           <Group>
             <CellButton
+              centered
               before={<Icon28CancelOutline style={style} />}
               onClick={() => setUserRights('banned')}
               style={style}
@@ -279,18 +304,21 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
               Забанить
             </CellButton>
             <CellButton
+              centered
               before={<Icon28UserOutline />}
               onClick={() => setUserRights('moderator')}
             >
               Выдать пользователя
             </CellButton>
             <CellButton
+              centered
               before={<Icon28BugOutline />}
               onClick={() => setUserRights('moderator')}
             >
               Выдать модератора
             </CellButton>
             <CellButton
+              centered
               before={<Icon28KeySquareOutline />}
               onClick={() => setUserRights('admin')}
             >
@@ -300,12 +328,7 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
         )}
       </PullToRefresh>
 
-      {!desktop && (
-        <Footer style={{ marginTop: 8 }}>
-          Сделано с любовью <br />
-          {'<'}3 cteamdev, 2021
-        </Footer>
-      )}
+      {!desktop && <CreditsFooter />}
     </Panel>
   );
 };

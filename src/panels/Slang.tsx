@@ -7,7 +7,12 @@ import { useEffect } from 'react';
 import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useAtomValue, useSetAtomState } from '@mntm/precoil';
-import { transition, useHistoryState, useParams } from '@unexp/router';
+import {
+  transition,
+  useDeserializedLocation,
+  useHistoryState,
+  useParams
+} from '@unexp/router';
 import {
   Div,
   Group,
@@ -62,7 +67,9 @@ type Props = {
 
 export const Slang: FC<Props> = ({ nav }: Props) => {
   const { viewWidth, sizeX } = useAdaptivity();
-  const { slangId: paramsId, profileView = '/dictionary' } = useParams();
+
+  const { view } = useDeserializedLocation();
+  const { slangId: paramsId } = useParams();
 
   const vkUser: UserInfo = useAtomValue(vkUserAtom);
   const rights: string = useAtomValue(rightsAtom);
@@ -217,12 +224,13 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           <>
             {/* TODO: Сделать это @NovaStream2030 */}
             {status === 'moderating' && (
-              <CellButton before={<Icon28EditOutline />}>
+              <CellButton centered before={<Icon28EditOutline />}>
                 Редактировать
               </CellButton>
             )}
             {/* TODO: Сделать это @NovaStream2030; здесь еще надо подтверждение через Alert */}
             <CellButton
+              centered
               before={<Icon28DeleteOutline style={style} />}
               style={style}
             >
@@ -238,18 +246,21 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
         {!error && ['moderator', 'admin'].includes(rights) && (
           <>
             <CellButton
+              centered
               before={<Icon28ChecksOutline />}
               onClick={() => setSlangStatus('public')}
             >
               Одобрить
             </CellButton>
             <CellButton
+              centered
               before={<Icon28AppleWatchOutlite />}
               onClick={() => setSlangStatus('moderating')}
             >
               Отправить на модерацию
             </CellButton>
             <CellButton
+              centered
               before={<Icon28CancelOutline style={style} />}
               style={style}
               onClick={() => setSlangStatus('declined')}
@@ -269,7 +280,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
             after={
               <IconButton
                 onClick={() =>
-                  transition(`${profileView}/otherProfile?userId=${user.id}`, {
+                  transition(`${view}/otherProfile?userId=${user.id}`, {
                     backButton: true,
                     // При переходе сначала сброс состояния, а потом анимация. Из-за этого видим загрузку при переходе
                     // Так как Profile не требует historyState, то передаем туда то, что сами приняли
@@ -280,9 +291,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                 <Icon28UserCircleOutline />
               </IconButton>
             }
-            badge={
-              <UserBadge verified={user.vk.verified} rights={user.rights} />
-            }
+            badge={<UserBadge verified={user.vk.verified} />}
             description={user.vk.verified ? 'Подтверждённый автор' : 'Автор'}
             disabled
           >

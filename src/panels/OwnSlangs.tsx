@@ -12,7 +12,8 @@ import {
   PullToRefresh,
   useAdaptivity,
   ViewWidth,
-  Div
+  Div,
+  PanelHeaderBack
 } from '@vkontakte/vkui';
 import { Icon28RefreshOutline } from '@vkontakte/icons';
 
@@ -28,11 +29,11 @@ type Props = {
   nav: string;
 };
 
-export const AdminExplore: FC<Props> = ({ nav }: Props) => {
+export const OwnSlangs: FC<Props> = ({ nav }: Props) => {
   const { viewWidth } = useAdaptivity();
 
   const { hits, error, isValidating, mutate, ...other } = useMeilisearch(
-    '/admin/search',
+    '/slangs/getOwn',
     10
   );
 
@@ -46,6 +47,7 @@ export const AdminExplore: FC<Props> = ({ nav }: Props) => {
     <Panel nav={nav}>
       <PanelHeader
         separator={false}
+        left={<PanelHeaderBack onClick={() => transition(-1)} />}
         right={
           desktop && (
             <PanelHeaderButton onClick={() => mutate()}>
@@ -58,7 +60,7 @@ export const AdminExplore: FC<Props> = ({ nav }: Props) => {
           )
         }
       >
-        Модерация
+        Мои слэнги
       </PanelHeader>
 
       <PullToRefresh onRefresh={mutate} isFetching={isValidating}>
@@ -85,7 +87,7 @@ export const AdminExplore: FC<Props> = ({ nav }: Props) => {
                       slangId={slang.id}
                       onClick={() =>
                         // TODO: Убрать Object.assign, когда это будет исправлено в роутере
-                        transition('/admin/slang', Object.assign({}, slang))
+                        transition('/profile/slang', Object.assign({}, slang))
                       }
                     />
                   ))}

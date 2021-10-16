@@ -6,8 +6,8 @@ import {
 } from '@vkontakte/icons';
 
 type Props = {
-  verified: boolean | undefined;
-  rights: string | undefined;
+  verified?: boolean;
+  rights?: string;
 };
 
 export const UserBadge: FC<Props> = ({ verified, rights }: Props) =>
