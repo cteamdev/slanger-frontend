@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import {
   Cell,
+  Footer,
   Group,
   Panel,
   PanelHeader,
@@ -48,6 +49,11 @@ export const NavigationSideBar: FC<Props> = ({ buttons }: Props) => {
             </Cell>
           ))}
         </Group>
+
+        <Footer style={{ marginTop: 0 }}>
+          Сделано с любовью <br />
+          {'<'}3 cteamdev, 2021
+        </Footer>
       </Panel>
     </SplitCol>
   );

@@ -23,7 +23,8 @@ import {
   SizeType,
   InfoRow,
   PanelHeaderBack,
-  CellButton
+  CellButton,
+  Footer
 } from '@vkontakte/vkui';
 import {
   Icon28BugOutline,
@@ -298,6 +299,13 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
           </Group>
         )}
       </PullToRefresh>
+
+      {!desktop && (
+        <Footer style={{ marginTop: 8 }}>
+          Сделано с любовью <br />
+          {'<'}3 cteamdev, 2021
+        </Footer>
+      )}
     </Panel>
   );
 };
