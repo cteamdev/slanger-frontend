@@ -103,7 +103,7 @@ export const Layout: FC = () => {
         <EditSlang nav="/editSlang" />
       </View>
 
-      <View>
+      <View nav="/admin">
         <AdminExplore nav="/" />
         <Slang nav="/slang" />
         <EditSlang nav="/editSlang" />

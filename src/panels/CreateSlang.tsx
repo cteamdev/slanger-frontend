@@ -28,10 +28,11 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        cover: gif,
         type: types[values.type - 1],
         word: values.word,
         description: values.description,
-        cover: gif
+        fromEdition: values.fromEdition
       } as CreateSlangDto),
       throw: true
     });

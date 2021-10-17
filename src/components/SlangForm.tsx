@@ -19,12 +19,13 @@ import {
   useAdaptivity,
   ViewWidth,
   FormLayout,
-  Footer
+  Footer,
+  Checkbox
 } from '@vkontakte/vkui';
 import { Icon24AddOutline } from '@vkontakte/icons';
 
 import { CreateSlangDto } from '../types';
-import { gifAtom } from '../store';
+import { gifAtom, rightsAtom } from '../store';
 
 type Props = {
   mode: 'create' | 'edit';
@@ -38,13 +39,15 @@ export const SlangForm: FC<Props> = ({
   initialValues = {
     type: 0,
     word: '',
-    description: ''
+    description: '',
+    fromEdition: false
   },
   handleSubmit: parentHandleSubmit
 }: Props) => {
   const { viewWidth } = useAdaptivity();
   const { view, panel } = useDeserializedLocation();
 
+  const rights: string = useAtomValue(rightsAtom);
   const gif: string | null = useAtomValue(gifAtom);
 
   const [values, dispatchValues] = useReducer(
@@ -63,7 +66,8 @@ export const SlangForm: FC<Props> = ({
     {
       type: null,
       word: null,
-      description: null
+      description: null,
+      fromEdition: null
     } as SchemaErrors
   );
 
@@ -82,7 +86,10 @@ export const SlangForm: FC<Props> = ({
     if (e.target.name === 'type') dispatchErrors({ type: null });
 
     dispatchValues({
-      [e.target.name]: e.target.value
+      [e.target.name]:
+        e.target.type === 'checkbox'
+          ? (e.target as HTMLInputElement).checked
+          : e.target.value
     });
   };
 
@@ -172,6 +179,22 @@ export const SlangForm: FC<Props> = ({
           onChange={handleChange}
         />
       </FormItem>
+
+      {['moderator', 'admin'].includes(rights) && (
+        <FormItem
+          status={errors.fromEdition ? 'error' : 'default'}
+          bottom={errors.fromEdition}
+        >
+          <Checkbox
+            name="fromEdition"
+            checked={values.fromEdition}
+            onChange={handleChange}
+          >
+            От имени редакции
+          </Checkbox>
+        </FormItem>
+      )}
+
       <Spacing separator="top" />
       <Group mode="plain">
         <Caption
@@ -212,6 +235,7 @@ export const points: number[] = [8, 10, 12, 12];
 export const schema = yup
   .object({
     // В обратном порядке, так как yup читает именно так
+    fromEdition: yup.boolean(),
     description: yup
       .string()
       .min(1, 'Укажите описание от 1 до 1000 символов.')

@@ -7,5 +7,6 @@ export type EditSlangDto = {
     cover?: string;
     word?: string;
     description?: string;
+    fromEdition?: boolean;
     id: number;
 }
