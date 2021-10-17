@@ -17,12 +17,17 @@ import { CustomSnackbar } from '../CustomSnackbar';
 type Props = {
   children: ReactNode;
 
+  modal: ReactNode;
+  popout: ReactNode;
+
   buttons: (NavigationButton | null | false)[];
   menuVisibility: boolean;
 };
 
 export const NavigationLayout: FC<Props> = ({
   children,
+  modal,
+  popout,
   buttons: rawButtons,
   menuVisibility
 }: Props) => {
@@ -41,6 +46,8 @@ export const NavigationLayout: FC<Props> = ({
       <SplitLayout
         header={!desktop && <PanelHeader separator={false} />}
         style={{ justifyContent: 'center' }}
+        modal={modal}
+        popout={popout}
       >
         <SplitCol
           spaced={spaced}

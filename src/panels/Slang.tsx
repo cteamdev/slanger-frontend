@@ -58,8 +58,13 @@ import {
   Slang as TSlang,
   SnackbarIconType
 } from '../types';
-import { ErrorPlaceholder, Skeleton, UserBadge } from '../components';
-import { rightsAtom, snackbarAtom, vkUserAtom } from '../store';
+import {
+  ErrorPlaceholder,
+  Skeleton,
+  SlangDeleteAlert,
+  UserBadge
+} from '../components';
+import { popoutAtom, rightsAtom, snackbarAtom, vkUserAtom } from '../store';
 
 type Props = {
   nav: string;
@@ -74,6 +79,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   const vkUser: UserInfo = useAtomValue(vkUserAtom);
   const rights: string = useAtomValue(rightsAtom);
 
+  const setPopout = useSetAtomState(popoutAtom);
   const setSnackbar = useSetAtomState(snackbarAtom);
 
   // Нехорошо так делать, но пока так придется
@@ -236,6 +242,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
               centered
               before={<Icon28DeleteOutline style={style} />}
               style={style}
+              onClick={() => setPopout(<SlangDeleteAlert />)}
             >
               Удалить
             </CellButton>

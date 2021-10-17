@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { useAtomValue } from '@mntm/precoil';
 import { transition, useParams, View } from '@unexp/router';
 import { ModalRoot, Panel } from '@vkontakte/vkui';
@@ -28,16 +28,26 @@ import {
   ShareSlangModal
 } from './modals';
 import { NavigationLayout } from './components';
-import { menuVisibilityAtom, rightsAtom } from './store';
+import { menuVisibilityAtom, popoutAtom, rightsAtom } from './store';
 
 export const Layout: FC = () => {
   const { modal = null } = useParams();
 
+  const popout: ReactNode = useAtomValue(popoutAtom);
   const menuVisibility: boolean = useAtomValue(menuVisibilityAtom);
   const rights: string = useAtomValue(rightsAtom);
 
   return (
     <NavigationLayout
+      modal={
+        <ModalRoot activeModal={modal} onClose={() => transition(-1)}>
+          <ChooseGifModal nav="choose-gif" />
+          <ShareSlangModal nav="share-slang" />
+          <NotifyModalCard nav="notify-card" />
+          <SettingsModal nav="settings" />
+        </ModalRoot>
+      }
+      popout={popout}
       buttons={[
         {
           icon: <Icon28BookmarkOutline />,
@@ -70,17 +80,7 @@ export const Layout: FC = () => {
         <Onboarding nav="/onboarding" />
       </View>
 
-      <View
-        nav="/dictionary"
-        modal={
-          <ModalRoot activeModal={modal} onClose={() => transition(-1)}>
-            <ChooseGifModal nav="choose-gif" />
-            <ShareSlangModal nav="share-slang" />
-            <NotifyModalCard nav="notify-card" />
-            <SettingsModal nav="settings" />
-          </ModalRoot>
-        }
-      >
+      <View nav="/dictionary">
         <Explore nav="/" />
         <Slang nav="/slang" />
         <EditSlang nav="/editSlang" />
@@ -89,28 +89,13 @@ export const Layout: FC = () => {
         <ChooseGif nav="/choose-gif" />
       </View>
 
-      <View
-        nav="/bookmarks"
-        modal={
-          <ModalRoot activeModal={modal} onClose={() => transition(-1)}>
-            <ChooseGifModal nav="choose-gif" />
-          </ModalRoot>
-        }
-      >
+      <View nav="/bookmarks">
         <Bookmarks nav="/" />
         <Slang nav="/slang" />
         <EditSlang nav="/editSlang" />
       </View>
 
-      <View
-        nav="/profile"
-        modal={
-          <ModalRoot activeModal={modal} onClose={() => transition(-1)}>
-            <ChooseGifModal nav="choose-gif" />
-            <SettingsModal nav="settings" />
-          </ModalRoot>
-        }
-      >
+      <View nav="/profile">
         <Profile nav="/" />
         <Profile nav="/otherProfile" />
         <OwnSlangs nav="/ownSlangs" />
@@ -118,14 +103,7 @@ export const Layout: FC = () => {
         <EditSlang nav="/editSlang" />
       </View>
 
-      <View
-        nav="/admin"
-        modal={
-          <ModalRoot activeModal={modal} onClose={() => transition(-1)}>
-            <ChooseGifModal nav="choose-gif" />
-          </ModalRoot>
-        }
-      >
+      <View>
         <AdminExplore nav="/" />
         <Slang nav="/slang" />
         <EditSlang nav="/editSlang" />
