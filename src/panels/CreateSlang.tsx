@@ -46,6 +46,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
       replace: true,
       ...slang
     });
+    setGif(null);
   };
 
   return (

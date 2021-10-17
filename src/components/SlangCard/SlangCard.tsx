@@ -42,7 +42,7 @@ export const SlangCard: FC<Props> = (props: Props) => {
     slangId,
     // slang props
     word,
-    user,
+    type,
     description,
     // card props
     className,
@@ -76,15 +76,13 @@ export const SlangCard: FC<Props> = (props: Props) => {
             </Title>
           </div>
 
-          {user && (
-            <Caption
-              className="SlangCard__text SlangCard__text--secondary"
-              weight="regular"
-              level="1"
-            >
-              {user.vk.fullName}
-            </Caption>
-          )}
+          <Caption
+            className="SlangCard__text SlangCard__text--secondary"
+            weight="regular"
+            level="1"
+          >
+            {type}
+          </Caption>
 
           <Caption
             className="SlangCard__description"

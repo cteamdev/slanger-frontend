@@ -63,7 +63,13 @@ import {
   SlangDeleteAlert,
   UserBadge
 } from '../components';
-import { popoutAtom, rightsAtom, snackbarAtom, vkUserAtom } from '../store';
+import {
+  gifAtom,
+  popoutAtom,
+  rightsAtom,
+  snackbarAtom,
+  vkUserAtom
+} from '../store';
 
 type Props = {
   nav: string;
@@ -80,6 +86,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
   const setPopout = useSetAtomState(popoutAtom);
   const setSnackbar = useSetAtomState(snackbarAtom);
+  const setGif = useSetAtomState(gifAtom);
 
   // Нехорошо так делать, но пока так придется
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -108,6 +115,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   );
 
   const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
+  const isModerator: boolean = ['moderator', 'admin'].includes(rights);
   const style: CSSProperties = {
     color: 'var(--button_secondary_destructive_foreground)'
   };
@@ -225,18 +233,20 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
         {!error && <Spacing size={16} />}
 
-        {!error && vkUser.id === user?.id && (
+        {!error && (vkUser.id === user?.id || isModerator) && (
           <>
-            {status === 'moderating' && (
+            {(status === 'moderating' || isModerator) && (
               <CellButton
                 centered
                 before={<Icon28EditOutline />}
-                onClick={() => transition(view + '/editSlang', slang)}
+                onClick={() => {
+                  if (cover) setGif(cover);
+                  transition(view + '/editSlang', slang);
+                }}
               >
                 Редактировать
               </CellButton>
             )}
-            {/* TODO: Сделать это @NovaStream2030; здесь еще надо подтверждение через Alert */}
             <CellButton
               centered
               before={<Icon28DeleteOutline style={style} />}
@@ -252,7 +262,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           </>
         )}
 
-        {word && ['moderator', 'admin'].includes(rights) && (
+        {word && isModerator && (
           <>
             <CellButton
               centered

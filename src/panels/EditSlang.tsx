@@ -53,6 +53,7 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
       replace: true,
       ...update
     });
+    setGif(null);
   };
 
   return (
@@ -67,7 +68,8 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
           initialValues={{
             type: types.indexOf(slang.type) + 1,
             word: slang.word,
-            description: slang.description
+            description: slang.description,
+            fromEdition: !slang.user
           }}
           handleSubmit={handleSubmit}
         />

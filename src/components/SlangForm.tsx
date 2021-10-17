@@ -20,7 +20,8 @@ import {
   ViewWidth,
   FormLayout,
   Footer,
-  Checkbox
+  Checkbox,
+  Textarea
 } from '@vkontakte/vkui';
 import { Icon24AddOutline } from '@vkontakte/icons';
 
@@ -78,18 +79,29 @@ export const SlangForm: FC<Props> = ({
       desktop ? `${view}${panel}?modal=choose-gif` : `${view}/choose-gif`
     );
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
-  ): void => {
-    if (!(e.target.name in values)) return;
+  const handleChange = ({
+    target
+  }: ChangeEvent<
+    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  >): void => {
+    if (!(target.name in values)) return;
+    if (target.name === 'type') dispatchErrors({ type: null });
 
-    if (e.target.name === 'type') dispatchErrors({ type: null });
+    const prop: Record<keyof Schema, keyof typeof target> = {
+      type: 'value',
+      word: 'value',
+      description: 'value',
+      // eslint-disable-next-line
+      // @ts-ignore
+      fromEdition: 'checked'
+    };
+
+    // eslint-disable-next-line
+      // @ts-ignore
+    console.log(target.checked);
 
     dispatchValues({
-      [e.target.name]:
-        e.target.type === 'checkbox'
-          ? (e.target as HTMLInputElement).checked
-          : e.target.value
+      [target.name]: target[prop[target.name as keyof Schema]]
     });
   };
 
@@ -172,7 +184,7 @@ export const SlangForm: FC<Props> = ({
         status={errors.description ? 'error' : 'default'}
         bottom={errors.description}
       >
-        <Input
+        <Textarea
           name="description"
           placeholder="Понятно для читателя"
           value={values.description}
