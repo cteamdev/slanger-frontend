@@ -8,7 +8,8 @@
     "typegen": "openapi --input http://localhost:3000/api/json --output src/types/api --useUnionTypes --exportCore false --exportServices false",
     "dev": "vite",
     "build": "tsc && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "deploy": "vk-miniapps-deploy"
   },
   "devDependencies": {
     "@types/node": "^16.10.9",
@@ -38,6 +39,7 @@
     "@unexp/router": "^1.0.0-beta13",
     "@vkontakte/icons": "^1.128.1",
     "@vkontakte/vk-bridge": "npm:@mntm/painless-bridge@1.0.2",
+    "@vkontakte/vk-miniapps-deploy": "^0.0.25",
     "@vkontakte/vkjs": "^0.22.1",
     "@vkontakte/vkui": "^4.15.0",
     "common-tags": "^1.8.0",
