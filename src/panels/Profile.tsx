@@ -212,14 +212,14 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
           <Group mode="plain">
             {data ? (
               <>
-                {points && (
+                {points !== undefined && (
                   <SimpleCell before={<Icon28CoinsOutline />} disabled>
                     <InfoRow header="Баллы">
                       {points} {pluralize(points, ['балл', 'балла', 'баллов'])}
                     </InfoRow>
                   </SimpleCell>
                 )}
-                {dayLimitCount && (
+                {dayLimitCount !== undefined && (
                   <SimpleCell before={<Icon28SendOutline />} disabled>
                     <InfoRow header="Предложено сегодня">
                       {limitCount}{' '}
