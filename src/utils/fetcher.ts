@@ -16,14 +16,17 @@ export const fetcher = async (
   const startTime: number = Date.now();
 
   try {
-    const res: Response = await fetch('http://localhost:3000' + resource, {
-      method: 'get',
-      ...init,
-      headers: {
-        'x-vk': window.location.search.replace('?', ''),
-        ...(init.headers ?? {})
+    const res: Response = await fetch(
+      'https://slanger-backend.cteam.codes' + resource,
+      {
+        method: 'get',
+        ...init,
+        headers: {
+          'x-vk': window.location.search.replace('?', ''),
+          ...(init.headers ?? {})
+        }
       }
-    }).catch((e: unknown) => {
+    ).catch((e: unknown) => {
       if (init.throw)
         setSnackbar({
           icon: SnackbarIconType.ERROR,
