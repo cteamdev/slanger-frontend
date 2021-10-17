@@ -246,7 +246,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           </>
         )}
 
-        {!error && ['moderator', 'admin'].includes(rights) && (
+        {word && ['moderator', 'admin'].includes(rights) && (
           <>
             <CellButton
               centered
