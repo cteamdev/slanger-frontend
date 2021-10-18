@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { send } from '@vkontakte/vk-bridge';
+import { useSetAtomState } from '@mntm/precoil';
 import { transition } from '@unexp/router';
 import {
   Panel,
@@ -12,8 +13,10 @@ import {
   Text,
   Caption
 } from '@vkontakte/vkui';
-import { OnboardingSlide } from '../components';
 import { Icon56GestureOutline } from '@vkontakte/icons';
+
+import { OnboardingSlide } from '../components';
+import { menuVisibilityAtom } from '../store';
 
 type Props = {
   nav: string;
@@ -22,6 +25,7 @@ type Props = {
 export const Onboarding: FC<Props> = ({ nav }: Props) => {
   const { viewWidth } = useAdaptivity();
 
+  const setMenuVisibility = useSetAtomState(menuVisibilityAtom);
   const [slideIndex, setSlideIndex] = useState<number>(0);
 
   const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
@@ -32,6 +36,12 @@ export const Onboarding: FC<Props> = ({ nav }: Props) => {
     send('VKWebAppStorageSet', { key: 'onboarding', value: 'true' });
     transition('/dictionary');
   };
+
+  useEffect(() => {
+    setMenuVisibility(false);
+
+    return () => void setMenuVisibility(true);
+  }, []);
 
   return (
     <Panel nav={nav}>
