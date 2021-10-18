@@ -69,12 +69,10 @@ export const App: FC = () => {
         : null;
 
       if (page === 'slang' && params?.has('id'))
-        transition(`/dictionary/slang?slangId=${params.get('id')}`, {
-          replace: true
-        });
+        transition(`/dictionary/slang?slangId=${params.get('id')}`);
       else if (page === 'profile' && params?.has('id'))
         transition(`/dictionary/otherProfile?userId=${params.get('id')}`, {
-          replace: true
+          backButton: true
         });
     };
 
