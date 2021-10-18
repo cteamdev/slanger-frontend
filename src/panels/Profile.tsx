@@ -306,7 +306,7 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
             <CellButton
               centered
               before={<Icon28UserOutline />}
-              onClick={() => setUserRights('moderator')}
+              onClick={() => setUserRights('user')}
             >
               Выдать пользователя
             </CellButton>
