@@ -256,7 +256,7 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
               <SimpleCell before={<Icon28CalendarOutline />} disabled>
                 <InfoRow header="Дата регистрации">
                   {capitalize(
-                    formatRelative(new Date(), parseISO(registration), {
+                    formatRelative(parseISO(registration), new Date(), {
                       locale: ru
                     })
                   )}
