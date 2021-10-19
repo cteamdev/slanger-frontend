@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite';
-import { readFileSync } from 'fs';
 
 import react from '@vitejs/plugin-react';
 import legacy from '@vitejs/plugin-legacy';
@@ -14,8 +13,8 @@ export default defineConfig({
 
   server: {
     https: {
-      key: readFileSync('./localhost.key'),
-      cert: readFileSync('./localhost.cert')
+      key: './localhost.key',
+      cert: './localhost.cert'
     },
     port: 10888,
     host: true,
