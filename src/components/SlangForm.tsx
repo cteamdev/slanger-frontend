@@ -96,10 +96,6 @@ export const SlangForm: FC<Props> = ({
       fromEdition: 'checked'
     };
 
-    // eslint-disable-next-line
-      // @ts-ignore
-    console.log(target.checked);
-
     dispatchValues({
       [target.name]: target[prop[target.name as keyof Schema]]
     });

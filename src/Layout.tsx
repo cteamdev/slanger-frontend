@@ -93,6 +93,7 @@ export const Layout: FC = () => {
         <Bookmarks nav="/" />
         <Slang nav="/slang" />
         <EditSlang nav="/editSlang" />
+        <ChooseGif nav="/choose-gif" />
       </View>
 
       <View nav="/profile">
@@ -101,12 +102,14 @@ export const Layout: FC = () => {
         <OwnSlangs nav="/ownSlangs" />
         <Slang nav="/slang" />
         <EditSlang nav="/editSlang" />
+        <ChooseGif nav="/choose-gif" />
       </View>
 
       <View nav="/admin">
         <AdminExplore nav="/" />
         <Slang nav="/slang" />
         <EditSlang nav="/editSlang" />
+        <ChooseGif nav="/choose-gif" />
         <Profile nav="/otherProfile" />
       </View>
     </NavigationLayout>
