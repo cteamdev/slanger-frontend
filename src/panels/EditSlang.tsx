@@ -32,6 +32,7 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
   };
 
   const handleSubmit = async (values: Schema): Promise<void> => {
+    console.log(values);
     const update: Slang = await fetcher('/slangs/edit', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -40,7 +41,7 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
         type: types[values.type - 1],
         word: values.word,
         description: values.description,
-        themes: values.themes.map((option) => option.value),
+        themes: values.themes.map((option) => option.option),
         cover: gif
       } as EditSlangDto),
       throw: true

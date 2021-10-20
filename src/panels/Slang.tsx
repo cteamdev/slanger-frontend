@@ -245,8 +245,9 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                   marginTop: 0
                 }}
               >
-                {themes.map((theme) => (
+                {themes.map((theme, index) => (
                   <Chip
+                    key={index}
                     value={theme}
                     removable={false}
                     style={{ marginRight: 6, marginTop: 6 }}
