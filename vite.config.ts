@@ -21,9 +21,5 @@ export default defineConfig({
     proxy: {
       'https://localhost:10888/': 'https://localhost:10888/'
     }
-  },
-
-  build: {
-    outDir: 'build'
   }
 });

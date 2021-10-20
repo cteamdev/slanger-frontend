@@ -7,8 +7,8 @@ yarn.lock
 package-lock.json
 
 node_modules
-build
-build.zip
+dist
+*.zip
 .yarn
 .idea
 
@@ -18,3 +18,5 @@ build.zip
 
 *.cert
 *.key
+
+.vercel
