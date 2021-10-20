@@ -81,6 +81,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
   const { view } = useDeserializedLocation();
   const { slangId: paramsId } = useParams();
+  const { ad = true } = useHistoryState();
 
   const vkUser: UserInfo = useAtomValue(vkUserAtom);
   const rights: string = useAtomValue(rightsAtom);
@@ -92,10 +93,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   // Нехорошо так делать, но пока так придется
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
-  const {
-    ad = true,
-    ...slang
-  }: (TSlang & Record<string, unknown>) | undefined = useHistoryState();
+  const slang: TSlang | undefined = useHistoryState();
   const id: number = paramsId ? +paramsId : slang.id;
 
   const { data, error, mutate } = useSWR<TSlang, ResponseError>(
