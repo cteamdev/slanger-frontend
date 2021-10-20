@@ -363,7 +363,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
             textLevel="primary"
           >
             {capitalize(
-              formatRelative(new Date(), parseISO(date), {
+              formatRelative(parseISO(date), new Date(), {
                 locale: ru
               })
             )}
