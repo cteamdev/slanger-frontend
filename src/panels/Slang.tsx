@@ -1,12 +1,12 @@
-import { CSSProperties, FC, useReducer } from 'react';
-import type { UserInfo } from '@vkontakte/vk-bridge';
+import type { CSSProperties, FC } from 'react';
 
 import useSWR, { mutate as swrMutate } from 'swr';
 import useSWRImmutable from 'swr/immutable';
-import { useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
 import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useAtomValue, useSetAtomState } from '@mntm/precoil';
+import { send, UserInfo } from '@vkontakte/vk-bridge';
 import {
   transition,
   useDeserializedLocation,
@@ -91,7 +91,10 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   // Нехорошо так делать, но пока так придется
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
-  const slang: TSlang | undefined = useHistoryState();
+  const {
+    ad = true,
+    ...slang
+  }: (TSlang & Record<string, unknown>) | undefined = useHistoryState();
   const id: number = paramsId ? +paramsId : slang.id;
 
   const { data, error, mutate } = useSWR<TSlang, ResponseError>(
@@ -172,6 +175,10 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   useEffect(() => {
     window.scroll({ left: 0, top: 0 });
     mutateBookmark(null, true);
+
+    // На рандоме показываем рекламку
+    if (ad && Math.floor(Math.random() * 5) === 1)
+      send('VKWebAppShowNativeAds', { ad_format: 'interstitial' });
   }, []);
 
   return (

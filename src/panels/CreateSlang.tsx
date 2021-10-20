@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import { mutate } from 'swr';
 import { useAtomState } from '@mntm/precoil';
+import { send } from '@vkontakte/vk-bridge';
 import { transition } from '@unexp/router';
 import { Group, Panel, PanelHeader, PanelHeaderBack } from '@vkontakte/vkui';
 
@@ -38,15 +39,37 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
     });
 
     await mutate('/slangs/search');
-    setTimeout(
-      () => transition('/dictionary/slang?modal=notify-card', slang),
-      800
-    );
+
     transition('/dictionary/slang', {
       replace: true,
+      ad: false,
       ...slang
     });
     setGif(null);
+
+    const { keys } = await send('VKWebAppStorageGet', {
+      keys: ['notify-card-date']
+    });
+    if (
+      !keys.some((data) => data.key === 'notify-card-date') ||
+      keys.some(
+        (data) =>
+          data.key === 'notify-card-date' &&
+          Date.now() - Date.parse(data.value) > 24 * 60 * 60 * 1000
+      )
+    ) {
+      setTimeout(
+        () => transition('/dictionary/slang?modal=notify-card', slang),
+        800
+      );
+    } else {
+      await send('VKWebAppShowNativeAds', { ad_format: 'interstitial' });
+    }
+
+    await send('VKWebAppStorageSet', {
+      key: 'notify-card-date',
+      value: new Date().toString()
+    });
   };
 
   return (
