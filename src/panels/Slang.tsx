@@ -237,12 +237,19 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
             </Title>
 
             {themes && (
-              <Div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexWrap: 'wrap',
+                  marginTop: 0
+                }}
+              >
                 {themes.map((theme) => (
                   <Chip
                     value={theme}
                     removable={false}
-                    style={{ marginRight: 6 }}
+                    style={{ marginRight: 6, marginTop: 6 }}
                   >
                     {theme}
                   </Chip>
