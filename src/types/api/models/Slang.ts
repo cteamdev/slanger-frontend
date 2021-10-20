@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { CreateSlangDto } from '..';
 import type { User } from './User';
 
 export type Slang = {
@@ -11,6 +12,7 @@ export type Slang = {
     cover?: string;
     word: string;
     description: string;
+    themes: CreateSlangDto['themes'];
     status: 'moderating' | 'declined' | 'public';
     date: string;
 }

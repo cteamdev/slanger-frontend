@@ -40,6 +40,7 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
         type: types[values.type - 1],
         word: values.word,
         description: values.description,
+        themes: values.themes.map((option) => option.value),
         cover: gif
       } as EditSlangDto),
       throw: true
@@ -73,6 +74,10 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
             type: types.indexOf(slang.type) + 1,
             word: slang.word,
             description: slang.description,
+            themes: slang.themes.map((theme) => ({
+              label: theme,
+              option: theme
+            })),
             fromEdition: !slang.user
           }}
           handleSubmit={handleSubmit}

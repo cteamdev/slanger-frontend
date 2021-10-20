@@ -31,7 +31,8 @@ import {
   IconButton,
   ViewWidth,
   CellButton,
-  Separator
+  Separator,
+  Chip
 } from '@vkontakte/vkui';
 import {
   Icon20ArticleOutline,
@@ -127,9 +128,8 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
     declined: 'Отклонено модерацией'
   };
 
-  const { cover, word, type, status, user, description, date } = paramsId
-    ? data ?? {}
-    : slang ?? {};
+  const { cover, word, type, themes, status, user, description, date } =
+    paramsId ? data ?? {} : slang ?? {};
 
   const updateBookmark = async (): Promise<void> => {
     const update: Bookmark = await fetcher(
@@ -235,6 +235,20 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
               {type ?? 'Загрузка...'} | №{id}
               {status && status !== 'public' && ' | ' + statusRu[status]}
             </Title>
+
+            {themes && (
+              <Div style={{ display: 'flex', justifyContent: 'center' }}>
+                {themes.map((theme) => (
+                  <Chip
+                    value={theme}
+                    removable={false}
+                    style={{ marginRight: 6 }}
+                  >
+                    {theme}
+                  </Chip>
+                ))}
+              </Div>
+            )}
           </>
         )}
 

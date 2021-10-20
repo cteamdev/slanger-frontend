@@ -1,4 +1,4 @@
-import type { ChangeEvent, FC } from 'react';
+import type { FC } from 'react';
 import type { Asserts, ValidationError } from 'yup';
 
 import * as yup from 'yup';
@@ -23,6 +23,7 @@ import {
   Checkbox,
   Textarea
 } from '@vkontakte/vkui';
+import { ChipsSelect } from '@vkontakte/vkui/unstable';
 import { Icon24AddOutline } from '@vkontakte/icons';
 
 import { CreateSlangDto } from '../types';
@@ -41,6 +42,7 @@ export const SlangForm: FC<Props> = ({
     type: 0,
     word: '',
     description: '',
+    themes: [],
     fromEdition: false
   },
   handleSubmit: parentHandleSubmit
@@ -79,27 +81,10 @@ export const SlangForm: FC<Props> = ({
       desktop ? `${view}${panel}?modal=choose-gif` : `${view}/choose-gif`
     );
 
-  const handleChange = ({
-    target
-  }: ChangeEvent<
-    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-  >): void => {
-    if (!(target.name in values)) return;
-    if (target.name === 'type') dispatchErrors({ type: null });
-
-    const prop: Record<keyof Schema, keyof typeof target> = {
-      type: 'value',
-      word: 'value',
-      description: 'value',
-      // eslint-disable-next-line
-      // @ts-ignore
-      fromEdition: 'checked'
-    };
-
+  const handleChange = (name: string, value: unknown): void =>
     dispatchValues({
-      [target.name]: target[prop[target.name as keyof Schema]]
+      [name]: value
     });
-  };
 
   const handleSubmit = async (): Promise<void> => {
     dispatchErrors({ type: null, word: null, description: null });
@@ -156,7 +141,10 @@ export const SlangForm: FC<Props> = ({
           name="type"
           placeholder="Выберите тип выражения"
           value={values.type !== 0 ? values.type : undefined}
-          onChange={handleChange}
+          onChange={({ target }) => {
+            dispatchErrors({ type: null });
+            handleChange(target.name, target.value);
+          }}
           options={types.map((type, index) => ({
             value: index + 1,
             label: `${type} (${points[index]} баллов)`
@@ -172,7 +160,7 @@ export const SlangForm: FC<Props> = ({
           name="word"
           placeholder="Например, кринж"
           value={values.word}
-          onChange={handleChange}
+          onChange={({ target }) => handleChange(target.name, target.value)}
         />
       </FormItem>
       <FormItem
@@ -184,7 +172,20 @@ export const SlangForm: FC<Props> = ({
           name="description"
           placeholder="Понятно для читателя"
           value={values.description}
-          onChange={handleChange}
+          onChange={({ target }) => handleChange(target.name, target.value)}
+        />
+      </FormItem>
+      <FormItem
+        top="Темы"
+        status={errors.description ? 'error' : 'default'}
+        bottom={errors.description}
+      >
+        <ChipsSelect
+          name="themes"
+          placeholder="Которые больше всего подходят"
+          value={values.themes}
+          options={themes.map((theme) => ({ label: theme, value: theme }))}
+          onChange={(options) => handleChange('themes', options)}
         />
       </FormItem>
 
@@ -196,7 +197,7 @@ export const SlangForm: FC<Props> = ({
           <Checkbox
             name="fromEdition"
             checked={values.fromEdition}
-            onChange={handleChange}
+            onChange={({ target }) => handleChange(target.name, target.checked)}
           >
             От имени редакции
           </Checkbox>
@@ -239,11 +240,25 @@ export const types: CreateSlangDto['type'][] = [
   'Пословица',
   'Фразеологизм'
 ];
+export const themes: CreateSlangDto['themes'] = [
+  'Слэнг',
+  'Мемы',
+  'Игры',
+  'Политика',
+  'Общество',
+  'Интернет',
+  'Наука',
+  'Спорт',
+  'Музыка',
+  'Искусство',
+  'Религия'
+];
 export const points: number[] = [8, 10, 12, 12];
 export const schema = yup
   .object({
     // В обратном порядке, так как yup читает именно так
     fromEdition: yup.boolean(),
+    themes: yup.array().required(),
     description: yup
       .string()
       .min(1, 'Укажите описание от 1 до 1000 символов.')

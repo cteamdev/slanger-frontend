@@ -33,6 +33,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
         type: types[values.type - 1],
         word: values.word,
         description: values.description,
+        themes: values.themes.map((option) => option.value),
         fromEdition: values.fromEdition
       } as CreateSlangDto),
       throw: true

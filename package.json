@@ -5,7 +5,7 @@
   "author": "NovaStream2030 and ItzNevikat_",
   "scripts": {
     "fmt": "eslint --fix ./src/",
-    "typegen": "openapi --input http://localhost:3000/api/json --output src/types/api --useUnionTypes --exportCore false --exportServices false",
+    "typegen": "openapi --input https://slanger-backend.cteam.codes/api/json --output src/types/api --useUnionTypes --exportCore false --exportServices false",
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
