@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from 'react';
-import { Match, Root, Epic } from '@unexp/router';
+import { Match, Root, Epic, EXPERIENCE_DRIVEN_STYLE } from '@unexp/router';
 import {
   PanelHeader,
   SplitCol,
@@ -42,7 +42,7 @@ export const NavigationLayout: FC<Props> = ({
   ) as NavigationButton[];
 
   return (
-    <Match>
+    <Match style={EXPERIENCE_DRIVEN_STYLE}>
       <SplitLayout
         header={!desktop && <PanelHeader separator={false} />}
         style={{ justifyContent: 'center' }}
