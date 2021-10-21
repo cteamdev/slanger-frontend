@@ -2,7 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { CreateSlangDto } from '..';
 import type { User } from './User';
 
 export type Slang = {
@@ -12,7 +11,7 @@ export type Slang = {
     cover?: string;
     word: string;
     description: string;
-    themes: CreateSlangDto['themes'];
+    themes: Array<'Слэнг' | 'Диалект' | 'Мемы' | 'Игры' | 'Политика' | 'Общество' | 'Интернет' | 'Наука' | 'Спорт' | 'Музыка' | 'Искусство' | 'Религия'>;
     status: 'moderating' | 'declined' | 'public';
     date: string;
 }

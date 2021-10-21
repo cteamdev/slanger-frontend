@@ -2,7 +2,6 @@ import type { FC } from 'react';
 
 import { mutate } from 'swr';
 import { useAtomState } from '@mntm/precoil';
-import { send } from '@vkontakte/vk-bridge';
 import {
   transition,
   useDeserializedLocation,
@@ -59,7 +58,6 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
     });
 
     setGif(null);
-    await send('VKWebAppShowNativeAds', { ad_format: 'interstitial' });
   };
 
   return (

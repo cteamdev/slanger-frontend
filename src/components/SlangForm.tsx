@@ -182,7 +182,7 @@ export const SlangForm: FC<Props> = ({
       >
         <ChipsSelect
           name="themes"
-          placeholder="Которые больше всего подходят"
+          placeholder="Которые больше всего подходят, необязательно"
           value={values.themes}
           options={themes.map((theme) => ({ label: theme, value: theme }))}
           onChange={(options) => handleChange('themes', options)}
@@ -242,6 +242,7 @@ export const types: CreateSlangDto['type'][] = [
 ];
 export const themes: CreateSlangDto['themes'] = [
   'Слэнг',
+  'Диалект',
   'Мемы',
   'Игры',
   'Политика',

@@ -43,7 +43,6 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
 
     transition('/dictionary/slang', {
       replace: true,
-      ad: false,
       ...slang
     });
     setGif(null);

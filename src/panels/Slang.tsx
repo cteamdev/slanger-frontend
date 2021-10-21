@@ -6,7 +6,7 @@ import { useEffect, useReducer } from 'react';
 import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useAtomValue, useSetAtomState } from '@mntm/precoil';
-import { send, UserInfo } from '@vkontakte/vk-bridge';
+import { UserInfo } from '@vkontakte/vk-bridge';
 import {
   transition,
   useDeserializedLocation,
@@ -81,7 +81,6 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
   const { view } = useDeserializedLocation();
   const { slangId: paramsId } = useParams();
-  const { ad = true } = useHistoryState();
 
   const vkUser: UserInfo = useAtomValue(vkUserAtom);
   const rights: string = useAtomValue(rightsAtom);
@@ -173,10 +172,6 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   useEffect(() => {
     window.scroll({ left: 0, top: 0 });
     mutateBookmark(null, true);
-
-    // На рандоме показываем рекламку
-    if (ad && Math.floor(Math.random() * 5) === 1)
-      send('VKWebAppShowNativeAds', { ad_format: 'interstitial' });
   }, []);
 
   return (
