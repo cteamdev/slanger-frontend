@@ -2,7 +2,8 @@ import type { CSSProperties, FC } from 'react';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import useSWRImmutable from 'swr/immutable';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
+import { useAtomState } from '@mntm/precoil';
 import { transition } from '@unexp/router';
 import {
   Group,
@@ -29,6 +30,7 @@ import {
 import { useMeilisearch } from '../hooks';
 import { capitalize, fetcher, uncapitalize } from '../utils';
 import { ResponseError, Slang } from '../types';
+import { queryAtom } from '../store';
 
 type Props = {
   nav: string;
@@ -36,7 +38,8 @@ type Props = {
 
 export const Explore: FC<Props> = ({ nav }: Props) => {
   const { viewWidth } = useAdaptivity();
-  const [q, setQuery] = useState<string>('');
+
+  const [q, setQuery] = useAtomState(queryAtom);
 
   const { hits, error, isValidating, mutate, ...other } = useMeilisearch(
     '/slangs/search',
