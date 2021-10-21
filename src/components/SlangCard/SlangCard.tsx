@@ -89,7 +89,9 @@ export const SlangCard: FC<Props> = (props: Props) => {
             weight="regular"
             level="1"
           >
-            {description.slice(0, 120)}...
+            {description.length > 120
+              ? description.slice(0, 120) + '...'
+              : description}
           </Caption>
         </div>
       </Tappable>
