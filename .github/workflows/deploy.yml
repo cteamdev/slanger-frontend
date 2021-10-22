@@ -1,0 +1,29 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      - run: yarn
+      - run: yarn build
+      - run: yarn deploy
+        env:
+          MINI_APPS_ACCESS_TOKEN: ${{ secrets.MINI_APPS_ACCESS_TOKEN }}
+      - run: |
+          VK_TOKEN=${{ secrets.VK_TOKEN }}
+          VK_PEER_ID=${{ secrets.VK_PEER_ID }}
+
+          VK_MESSAGE=$'🔔 Workflow завершён\n\n📚 Репозиторий:' + ${{ github.repository }} + $'\n🌳 Ветка: '+ ${{ github.ref }} + $'\n📃 Название: ' + ${{ github.workflow }} + $'\n⚙️ Статус: ' + ${{ github.event.check_run.conclusion }}
+
+          PARAMS="access_token=$VK_TOKEN&v=5.131&peer_id=$VK_PEER_ID&message=$VK_MESSAGE"
+
+          curl -d "$PARAMS" https://api.vk.com/method/messages.send
