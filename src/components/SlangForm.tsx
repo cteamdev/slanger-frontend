@@ -3,7 +3,7 @@ import type { Asserts, ValidationError } from 'yup';
 
 import * as yup from 'yup';
 import { useReducer } from 'react';
-import { useAtomValue } from '@mntm/precoil';
+import { useAtomState, useAtomValue } from '@mntm/precoil';
 import { transition, useDeserializedLocation } from '@unexp/router';
 import {
   Div,
@@ -27,24 +27,16 @@ import { ChipsSelect } from '@vkontakte/vkui/unstable';
 import { Icon24AddOutline } from '@vkontakte/icons';
 
 import { CreateSlangDto } from '../types';
-import { gifAtom, rightsAtom } from '../store';
+import { gifAtom, rightsAtom, valuesAtom } from '../store';
 
 type Props = {
   mode: 'create' | 'edit';
-  initialValues?: Schema;
 
   handleSubmit: (values: Schema) => Promise<void>;
 };
 
 export const SlangForm: FC<Props> = ({
   mode,
-  initialValues = {
-    type: 0,
-    word: '',
-    description: '',
-    themes: [],
-    fromEdition: false
-  },
   handleSubmit: parentHandleSubmit
 }: Props) => {
   const { viewWidth } = useAdaptivity();
@@ -53,41 +45,36 @@ export const SlangForm: FC<Props> = ({
   const rights: string = useAtomValue(rightsAtom);
   const gif: string | null = useAtomValue(gifAtom);
 
-  const [values, dispatchValues] = useReducer(
-    (state: Schema, action: Partial<Schema>) => ({
-      ...state,
-      ...action
-    }),
-    initialValues
-  );
+  const [values, dispatchValues] = useAtomState(valuesAtom);
 
   const [errors, dispatchErrors] = useReducer(
     (state: SchemaErrors, action: Partial<SchemaErrors>) => ({
       ...state,
       ...action
     }),
-    {
-      type: null,
-      word: null,
-      description: null,
-      fromEdition: null
-    } as SchemaErrors
+    {} as SchemaErrors
   );
 
   const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
 
-  const selectCover = (): void =>
-    transition(
-      desktop ? `${view}${panel}?modal=choose-gif` : `${view}/choose-gif`
-    );
+  const selectCover = (): void => {
+    if (desktop) {
+      transition(`${view}${panel}?modal=choose-gif`);
+    } else {
+      transition(`${view}/choose-gif`);
+    }
+  };
 
-  const handleChange = (name: string, value: unknown): void =>
+  const handleChange = (name: string, value: unknown): void => {
+    dispatchErrors({ [name]: null });
     dispatchValues({
+      ...values,
       [name]: value
     });
+  };
 
   const handleSubmit = async (): Promise<void> => {
-    dispatchErrors({ type: null, word: null, description: null });
+    dispatchErrors({ type: null, word: null, description: null, themes: null });
 
     const validation: Schema | void = await schema
       .validate(values)
@@ -177,15 +164,20 @@ export const SlangForm: FC<Props> = ({
       </FormItem>
       <FormItem
         top="Темы"
-        status={errors.description ? 'error' : 'default'}
-        bottom={errors.description}
+        status={errors.themes ? 'error' : 'default'}
+        bottom={errors.themes}
       >
         <ChipsSelect
           name="themes"
           placeholder="Которые больше всего подходят, необязательно"
-          value={values.themes}
+          value={values.themes.map((theme) => ({ label: theme, value: theme }))}
           options={themes.map((theme) => ({ label: theme, value: theme }))}
-          onChange={(options) => handleChange('themes', options)}
+          onChange={(options) =>
+            handleChange(
+              'themes',
+              options.map((option) => option.value)
+            )
+          }
         />
       </FormItem>
 
@@ -255,11 +247,18 @@ export const themes: CreateSlangDto['themes'] = [
   'Религия'
 ];
 export const points: number[] = [8, 10, 12, 12];
+export const voidValues: Schema = {
+  type: 0,
+  word: '',
+  description: '',
+  themes: [],
+  fromEdition: false
+};
 export const schema = yup
   .object({
     // В обратном порядке, так как yup читает именно так
     fromEdition: yup.boolean(),
-    themes: yup.array().required(),
+    themes: yup.array().of(yup.string().oneOf(themes).required()).required(),
     description: yup
       .string()
       .min(1, 'Укажите описание от 1 до 1000 символов.')

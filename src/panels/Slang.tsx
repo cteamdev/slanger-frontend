@@ -69,8 +69,10 @@ import {
   popoutAtom,
   rightsAtom,
   snackbarAtom,
+  valuesAtom,
   vkUserAtom
 } from '../store';
+import { types } from '../components/SlangForm';
 
 type Props = {
   nav: string;
@@ -87,6 +89,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
   const setPopout = useSetAtomState(popoutAtom);
   const setSnackbar = useSetAtomState(snackbarAtom);
+  const setValues = useSetAtomState(valuesAtom);
   const setGif = useSetAtomState(gifAtom);
 
   // Нехорошо так делать, но пока так придется
@@ -127,6 +130,19 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
   const { cover, word, type, themes, status, user, description, date } =
     paramsId ? data ?? {} : slang ?? {};
+
+  const editSlang = () => {
+    if (cover) setGif(cover);
+    setValues({
+      type: types.indexOf(slang.type) + 1,
+      word: slang.word,
+      description: slang.description,
+      themes: slang.themes,
+      fromEdition: !slang.user
+    });
+
+    transition(view + '/editSlang', slang);
+  };
 
   const updateBookmark = async (): Promise<void> => {
     const update: Bookmark = await fetcher(
@@ -261,10 +277,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
               <CellButton
                 centered
                 before={<Icon28EditOutline />}
-                onClick={() => {
-                  if (cover) setGif(cover);
-                  transition(view + '/editSlang', slang);
-                }}
+                onClick={editSlang}
               >
                 Редактировать
               </CellButton>

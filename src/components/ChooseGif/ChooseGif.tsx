@@ -42,19 +42,16 @@ export const ChooseGif: FC = () => {
 
   const [gif, setGif] = useAtomState(gifAtom);
 
-  const close = () => transition(-1);
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
     if (searchTimeout.current) clearTimeout(searchTimeout.current);
 
     searchTimeout.current = setTimeout(() => {
-      console.log(e.target.value);
       if (e.target.value.trim().length > 0) {
         setGifs([]);
         giphy
           .search(e.target.value, { limit: 10, sort: 'relevant', type: 'gifs' })
           .then((gifs) => {
-            console.log(gifs);
             setGifs(gifs.data);
           });
       }
@@ -65,7 +62,7 @@ export const ChooseGif: FC = () => {
     `https://media1.giphy.com/media/${id}/giphy.gif`;
 
   const pickGif = async (id: string | number): Promise<void> => {
-    close();
+    transition(-1);
     await delay(250);
 
     setGif(getLink(id));

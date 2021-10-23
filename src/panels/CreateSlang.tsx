@@ -1,16 +1,16 @@
 import type { FC } from 'react';
 
 import { mutate } from 'swr';
-import { useAtomState } from '@mntm/precoil';
+import { useAtomState, useSetAtomState } from '@mntm/precoil';
 import { send } from '@vkontakte/vk-bridge';
 import { transition } from '@unexp/router';
 import { Group, Panel, PanelHeader, PanelHeaderBack } from '@vkontakte/vkui';
 
 import { CreateSlangDto, Slang } from '../types';
-import { gifAtom } from '../store';
-import { fetcher } from '../utils';
+import { gifAtom, valuesAtom } from '../store';
+import { delay, fetcher } from '../utils';
 import { SlangForm } from '../components';
-import { Schema, types } from '../components/SlangForm';
+import { Schema, types, voidValues } from '../components/SlangForm';
 
 type Props = {
   nav: string;
@@ -18,10 +18,14 @@ type Props = {
 
 export const CreateSlang: FC<Props> = ({ nav }: Props) => {
   const [gif, setGif] = useAtomState(gifAtom);
+  const setValues = useSetAtomState(valuesAtom);
 
-  const close = (): void => {
+  const close = async (): Promise<void> => {
     setGif(null);
     transition(-1);
+
+    await delay(800);
+    setValues(voidValues);
   };
 
   const handleSubmit = async (values: Schema): Promise<void> => {
@@ -33,7 +37,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
         type: types[values.type - 1],
         word: values.word,
         description: values.description,
-        themes: values.themes.map((option) => option.value),
+        themes: values.themes,
         fromEdition: values.fromEdition
       } as CreateSlangDto),
       throw: true
@@ -45,7 +49,11 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
       replace: true,
       ...slang
     });
+
+    await delay(800);
+
     setGif(null);
+    setValues(voidValues);
 
     const { keys } = await send('VKWebAppStorageGet', {
       keys: ['notify-card-date']
@@ -58,10 +66,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
           Date.now() - Date.parse(data.value) > 24 * 60 * 60 * 1000
       )
     ) {
-      setTimeout(
-        () => transition('/dictionary/slang?modal=notify-card', slang),
-        800
-      );
+      transition('/dictionary/slang?modal=notify-card', slang);
     } else {
       await send('VKWebAppShowNativeAds', { ad_format: 'interstitial' });
     }
