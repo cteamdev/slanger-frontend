@@ -18,7 +18,8 @@ jobs:
       - run: yarn deploy
         env:
           MINI_APPS_ACCESS_TOKEN: ${{ secrets.MINI_APPS_ACCESS_TOKEN }}
-      - uses: cteamdev/vk-actions-notify@beta5
+          MINI_APPS_ENVIRONMENT: 'production'
+      - uses: cteamdev/vk-actions-notify@beta6
         with:
           token: ${{ secrets.VK_TOKEN }}
           peer_id: ${{ secrets.VK_PEER_ID }}
