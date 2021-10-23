@@ -9,7 +9,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
-    "deploy": "vk-miniapps-deploy"
+    "deploy": "vk-miniapps-deploy -y"
   },
   "devDependencies": {
     "@types/node": "^16.10.9",
