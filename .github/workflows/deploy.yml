@@ -19,7 +19,7 @@ jobs:
         env:
           MINI_APPS_ACCESS_TOKEN: ${{ secrets.MINI_APPS_ACCESS_TOKEN }}
           MINI_APPS_ENVIRONMENT: 'production'
-      - uses: cteamdev/vk-actions-notify@v1
+      - uses: cteamdev/vk-actions-notify@v2-beta1
         with:
           token: ${{ secrets.VK_TOKEN }}
           peer_id: ${{ secrets.VK_PEER_ID }}
