@@ -14,7 +14,7 @@ export const ChooseGif: FC<Props> = ({ nav }: Props) => {
   return (
     <Panel nav={nav}>
       <PanelHeader left={<PanelHeaderBack onClick={close} />} separator={false}>
-        Выберите обложку
+        Обложка
       </PanelHeader>
 
       <ChooseGifComponent />

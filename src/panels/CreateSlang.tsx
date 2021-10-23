@@ -75,7 +75,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
   return (
     <Panel nav={nav}>
       <PanelHeader left={<PanelHeaderBack onClick={close} />}>
-        Новое выражение
+        Создание
       </PanelHeader>
 
       <Group>

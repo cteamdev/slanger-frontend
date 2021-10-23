@@ -184,7 +184,7 @@ export const SlangForm: FC<Props> = ({
           name="themes"
           placeholder="Которые больше всего подходят, необязательно"
           value={values.themes}
-          options={themes.map((theme) => ({ label: theme, option: theme }))}
+          options={themes.map((theme) => ({ label: theme, value: theme }))}
           onChange={(options) => handleChange('themes', options)}
         />
       </FormItem>
