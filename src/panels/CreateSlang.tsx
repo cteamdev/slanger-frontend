@@ -21,10 +21,10 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
   const setValues = useSetAtomState(valuesAtom);
 
   const close = async (): Promise<void> => {
-    setGif(null);
     transition(-1);
 
     await delay(800);
+    setGif(null);
     setValues(voidValues);
   };
 
