@@ -1,8 +1,8 @@
-import type { CSSProperties, FC } from 'react';
+import type { CSSProperties, FC, ChangeEvent } from 'react';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import useSWRImmutable from 'swr/immutable';
-import { ChangeEvent } from 'react';
+import { useEffect } from 'react';
 import { useAtomState } from '@mntm/precoil';
 import { transition } from '@unexp/router';
 import {
@@ -63,6 +63,8 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
     randomMutate();
     mutate();
   };
+
+  useEffect(() => void mutate(), []);
 
   return (
     <Panel nav={nav}>

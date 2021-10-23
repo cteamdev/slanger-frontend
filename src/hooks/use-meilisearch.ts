@@ -18,8 +18,7 @@ export const useMeilisearch = (
       `${path}?offset=${
         previousData ? previousData.offset + pageSize : 0
       }&limit=${pageSize}&` + new URLSearchParams(otherOptions).toString(),
-    fetcher,
-    { revalidateAll: true }
+    fetcher
   );
 
   const hits: Hits<Slang> | null = data

@@ -1,6 +1,7 @@
 import type { CSSProperties, FC } from 'react';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useEffect } from 'react';
 import { transition } from '@unexp/router';
 import {
   Group,
@@ -42,6 +43,8 @@ export const OwnSlangs: FC<Props> = ({ nav }: Props) => {
     height: 104,
     marginBottom: 8
   };
+
+  useEffect(() => void mutate(), []);
 
   return (
     <Panel nav={nav}>

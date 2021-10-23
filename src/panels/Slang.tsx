@@ -1,6 +1,6 @@
 import type { CSSProperties, FC } from 'react';
 
-import useSWR, { mutate as swrMutate } from 'swr';
+import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import { useEffect, useReducer } from 'react';
 import { formatRelative, parseISO } from 'date-fns';
@@ -181,7 +181,6 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
       forceUpdate();
     }
 
-    await swrMutate('/admin/search');
     setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успех' });
   };
 

@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 
-import { mutate } from 'swr';
 import { useAtomState, useSetAtomState } from '@mntm/precoil';
 import {
   transition,
@@ -50,8 +49,6 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
       throw: true
     });
     slang.word = update.word;
-
-    await mutate('/slangs/search');
 
     transition(-1);
     await delay(200);
