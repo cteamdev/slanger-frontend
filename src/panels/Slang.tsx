@@ -100,10 +100,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
   const { data, error, mutate } = useSWR<TSlang, ResponseError>(
     paramsId ? `/slangs/getById?id=${id}` : null,
-    fetcher,
-    {
-      revalidateIfStale: true
-    }
+    fetcher
   );
 
   const {
@@ -112,10 +109,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
     mutate: mutateBookmark
   } = useSWRImmutable<Bookmark | null, ResponseError>(
     id ? `/bookmarks/has?slangId=${id}` : null,
-    fetcher,
-    {
-      revalidateIfStale: true
-    }
+    fetcher
   );
 
   const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
