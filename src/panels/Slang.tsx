@@ -109,7 +109,10 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
     mutate: mutateBookmark
   } = useSWRImmutable<Bookmark | null, ResponseError>(
     id ? `/bookmarks/has?slangId=${id}` : null,
-    fetcher
+    fetcher,
+    {
+      shouldRetryOnError: false
+    }
   );
 
   const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
@@ -127,13 +130,14 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
   const editSlang = () => {
     if (cover) setGif(cover);
-    setValues({
-      type: types.indexOf(slang.type) + 1,
-      word: slang.word,
-      description: slang.description,
-      themes: slang.themes,
-      fromEdition: !slang.user
-    });
+    if (type && word && description && themes)
+      setValues({
+        type: types.indexOf(type) + 1,
+        word: word,
+        description: description,
+        themes: themes,
+        fromEdition: !user
+      });
 
     transition((view === '/' ? '' : view) + '/editSlang', slang);
   };
@@ -411,7 +415,9 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
         {!error && (
           <Div style={{ display: 'flex' }}>
-            {!isBookmarkValidating ? (
+            {isBookmarkValidating ? (
+              <Skeleton style={{ height: desktop ? 36 : 44, marginRight: 8 }} />
+            ) : (
               <Button
                 size="l"
                 stretched
@@ -428,8 +434,6 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
               >
                 {bookmark ? 'Удалить из избранного' : 'Добавить в избранное'}
               </Button>
-            ) : (
-              <Skeleton style={{ height: desktop ? 36 : 44, marginRight: 8 }} />
             )}
             {word ? (
               <Button
