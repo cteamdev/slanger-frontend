@@ -102,6 +102,8 @@ export const SettingsModal: FC<Props> = ({ nav }: Props) => {
       await new Promise((resolve) => setTimeout(resolve, 250));
     }
 
+    close();
+    await delay(400);
     setSnackbar({
       icon: SnackbarIconType.SUCCESS,
       text: 'VK Storage успешно очищен'
@@ -109,7 +111,7 @@ export const SettingsModal: FC<Props> = ({ nav }: Props) => {
   };
 
   const go = async (): Promise<void> => {
-    transition(-1);
+    close();
     await delay(800);
     transition('/onboarding', { replace: true });
   };

@@ -4,6 +4,7 @@ import type { CSSProperties, FC } from 'react';
 
 import { useRef, useState } from 'react';
 import { stripIndents } from 'common-tags';
+import { useSetAtomState } from '@mntm/precoil';
 import { send } from '@vkontakte/vk-bridge';
 import { transition, useHistoryState } from '@unexp/router';
 import {
@@ -15,11 +16,12 @@ import {
   useAdaptivity,
   ViewWidth
 } from '@vkontakte/vkui';
-import { Icon28WriteOutline } from '@vkontakte/icons';
+import { Icon28CopyOutline, Icon28WriteOutline } from '@vkontakte/icons';
 
 import { ImageGrid, ImageGridItem, Skeleton } from '../../components';
-import { Slang } from '../../types';
-import { uncapitalize } from '../../utils';
+import { Slang, SnackbarIconType } from '../../types';
+import { delay, uncapitalize } from '../../utils';
+import { snackbarAtom } from '../../store';
 
 const waitLoading = (image: HTMLImageElement): Promise<void> =>
   new Promise((resolve) => (image.onload = () => resolve()));
@@ -31,6 +33,8 @@ type Props = {
 export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
   const { viewWidth } = useAdaptivity();
   const { id, word, description }: Slang = useHistoryState();
+
+  const setSnackbar = useSetAtomState(snackbarAtom);
 
   const [loading, setLoading] = useState<boolean>(true);
   const startTime = useRef(Date.now());
@@ -109,6 +113,29 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
     });
   };
 
+  const linkShare = async (): Promise<void> => {
+    const input: HTMLInputElement = document.createElement('input');
+    input.value = 'https://vk.com/app7969491#slang?id=' + id;
+    input.style.position = 'fixed';
+    input.style.border = 'none';
+    input.style.top = '-100';
+    input.style.left = '-100';
+    input.style.width = '0';
+    input.style.height = '0';
+
+    document.body.appendChild(input);
+    input.focus();
+    input.select();
+
+    document.execCommand('copy');
+    transition(-1);
+
+    await delay(400);
+
+    input.remove();
+    setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успех ' });
+  };
+
   return (
     <ModalPage
       nav={nav}
@@ -121,6 +148,10 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
         </ModalPageHeader>
       }
     >
+      <CellButton before={<Icon28CopyOutline />} onClick={linkShare}>
+        Скопировать ссылку
+      </CellButton>
+
       <CellButton before={<Icon28WriteOutline />} onClick={wallShare}>
         Поделиться на стене
       </CellButton>
