@@ -441,6 +441,8 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           </Div>
         )}
       </Group>
+
+      <div style={{ height: 16 }} />
     </Panel>
   );
 };
