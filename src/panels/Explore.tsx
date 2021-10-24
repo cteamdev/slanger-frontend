@@ -1,8 +1,8 @@
-import type { CSSProperties, FC, ChangeEvent } from 'react';
+import { CSSProperties, FC, ChangeEvent, useState } from 'react';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import useSWRImmutable from 'swr/immutable';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAtomState } from '@mntm/precoil';
 import { transition } from '@unexp/router';
 import {
@@ -40,6 +40,8 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
   const { viewWidth } = useAdaptivity();
 
   const [q, setQuery] = useAtomState(queryAtom);
+  const [searchValue, setSearchValue] = useState(q);
+  const searchTimeout = useRef<number | undefined>();
 
   const { hits, error, isValidating, mutate, ...other } = useMeilisearch(
     '/slangs/search',
@@ -57,6 +59,13 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
   const style: CSSProperties = {
     height: 104,
     marginBottom: 8
+  };
+
+  const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+    if (searchTimeout.current) clearTimeout(searchTimeout.current);
+
+    searchTimeout.current = setTimeout(() => setQuery(e.target.value), 400);
   };
 
   const refresh = (): void => {
@@ -95,12 +104,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
         isFetching={isValidating || isRandomValidating}
       >
         <Group>
-          <VKUISearch
-            value={q}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setQuery(e.target.value)
-            }
-          />
+          <VKUISearch value={searchValue} onChange={onSearchChange} />
 
           {!hits && error && <ErrorPlaceholder />}
 

@@ -55,7 +55,7 @@ export const ChooseGif: FC = () => {
             setGifs(gifs.data);
           });
       }
-    }, 1000);
+    }, 400);
   };
 
   const getLink = (id: string | number): string =>
