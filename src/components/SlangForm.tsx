@@ -59,9 +59,9 @@ export const SlangForm: FC<Props> = ({
 
   const selectCover = (): void => {
     if (desktop) {
-      transition(`${view}${panel}?modal=choose-gif`);
+      transition(`${view === '/' ? '' : view}${panel}?modal=choose-gif`);
     } else {
-      transition(`${view}/choose-gif`);
+      transition(`${view === '/' ? '' : view}/choose-gif`);
     }
   };
 

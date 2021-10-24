@@ -52,7 +52,7 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
 
     transition(-1);
     await delay(200);
-    transition(`${view}/slang`, {
+    transition(`${view === '/' ? '' : view}/slang`, {
       replace: true,
       ad: false,
       ...update

@@ -80,7 +80,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
       <PanelHeader
         separator={false}
         left={
-          <PanelHeaderButton onClick={() => transition('/dictionary/create')}>
+          <PanelHeaderButton onClick={() => transition('/create')}>
             <Icon28AddOutline />
           </PanelHeaderButton>
         }
@@ -124,7 +124,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
               buttonText="Открыть"
               // TODO: Убрать Object.assign, когда это будет исправлено в роутере
               onButtonClick={() =>
-                transition('/dictionary/slang', Object.assign({}, random))
+                transition('/slang', Object.assign({}, random))
               }
             />
           ) : (
@@ -172,10 +172,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
                       id={'slang-card-' + slang.id}
                       onClick={() =>
                         // TODO: Убрать Object.assign, когда это будет исправлено в роутере
-                        transition(
-                          '/dictionary/slang',
-                          Object.assign({}, slang)
-                        )
+                        transition('/slang', Object.assign({}, slang))
                       }
                     />
                   ))}

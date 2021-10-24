@@ -3,6 +3,9 @@ import '@vkontakte/vkui/dist/unstable.css';
 import './styles.css';
 import './colors.css';
 
+// Сразу подгружаем первую картинку в онбоардинге
+import '/avatar.png';
+
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { SWRConfig } from 'swr';
@@ -46,7 +49,7 @@ export const App: FC = () => {
       const hash: string = window.location.hash.slice(1);
 
       // Чтобы пользователь не смотрел на пустой экран, пока грузится
-      transition('/dictionary', { replace: true });
+      transition('/', { replace: true });
 
       // Пока получим юзера
       const vkUser: UserInfo = await send('VKWebAppGetUserInfo');
@@ -70,9 +73,9 @@ export const App: FC = () => {
         : null;
 
       if (page === 'slang' && params?.has('id'))
-        transition(`/dictionary/slang?slangId=${params.get('id')}`);
+        transition(`/slang?slangId=${params.get('id')}`);
       else if (page === 'profile' && params?.has('id'))
-        transition(`/dictionary/otherProfile?userId=${params.get('id')}`, {
+        transition(`/otherProfile?userId=${params.get('id')}`, {
           backButton: true
         });
     };

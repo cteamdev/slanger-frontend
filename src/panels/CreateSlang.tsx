@@ -45,7 +45,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
 
     await mutate('/slangs/search');
 
-    transition('/dictionary/slang', {
+    transition('/slang', {
       replace: true,
       ...slang
     });
@@ -66,7 +66,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
           Date.now() - Date.parse(data.value) > 24 * 60 * 60 * 1000
       )
     ) {
-      transition('/dictionary/slang?modal=notify-card', slang);
+      transition('/slang?modal=notify-card', slang);
     } else {
       await send('VKWebAppShowNativeAds', { ad_format: 'interstitial' });
     }

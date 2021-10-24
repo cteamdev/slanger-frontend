@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import { useAtomValue } from '@mntm/precoil';
 import { transition, useParams, View } from '@unexp/router';
-import { ModalRoot, Panel } from '@vkontakte/vkui';
+import { ModalRoot } from '@vkontakte/vkui';
 import {
   Icon28BookmarkOutline,
   Icon28BugOutline,
@@ -56,7 +56,7 @@ export const Layout: FC = () => {
         },
         {
           icon: <Icon28SearchOutline />,
-          story: '/dictionary',
+          story: '/',
           text: 'Словарь'
         },
         {
@@ -72,15 +72,11 @@ export const Layout: FC = () => {
       ]}
       menuVisibility={menuVisibility}
     >
-      {/* Здесь все панели, которые не должны быть во вкладках Epic'а */}
-      <View nav="/">
-        {/* Пустая панель, отображается, пока сервис думает, куда сделать переход */}
-        <Panel nav="/" />
-
-        <Onboarding nav="/onboarding" />
+      <View nav="/onboarding">
+        <Onboarding nav="/" />
       </View>
 
-      <View nav="/dictionary">
+      <View nav="/">
         <Explore nav="/" />
         <Slang nav="/slang" />
         <EditSlang nav="/editSlang" />

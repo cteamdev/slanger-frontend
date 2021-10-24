@@ -18,7 +18,7 @@ export const NotifyModalCard: FC<Props> = ({ nav }: Props) => {
   const next = async (): Promise<void> => {
     transition(-1);
     await delay(800);
-    transition('/dictionary/slang?modal=settings', historyState);
+    transition('/slang?modal=settings', historyState);
   };
 
   return (
