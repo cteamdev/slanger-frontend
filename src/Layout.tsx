@@ -90,6 +90,8 @@ export const Layout: FC = () => {
         <Slang nav="/slang" />
         <EditSlang nav="/editSlang" />
         <ChooseGif nav="/choose-gif" />
+        <Profile nav="/otherProfile" />
+        <OwnSlangs nav="/ownSlangs" />
       </View>
 
       <View nav="/profile">
