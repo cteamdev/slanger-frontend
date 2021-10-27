@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { useAtomValue } from '@mntm/precoil';
 import { transition, useParams, View } from '@unexp/router';
 import { ModalRoot } from '@vkontakte/vkui';
@@ -27,13 +27,12 @@ import {
   SettingsModal,
   ShareSlangModal
 } from './modals';
-import { NavigationLayout } from './components';
-import { menuVisibilityAtom, popoutAtom, rightsAtom } from './store';
+import { NavigationLayout, SlangDeleteAlert } from './components';
+import { menuVisibilityAtom, rightsAtom } from './store';
 
 export const Layout: FC = () => {
-  const { modal = null } = useParams();
+  const { modal = null, popout = null } = useParams();
 
-  const popout: ReactNode = useAtomValue(popoutAtom);
   const menuVisibility: boolean = useAtomValue(menuVisibilityAtom);
   const rights: string = useAtomValue(rightsAtom);
 
@@ -47,7 +46,13 @@ export const Layout: FC = () => {
           <SettingsModal nav="settings" />
         </ModalRoot>
       }
-      popout={popout}
+      popout={
+        popout
+          ? {
+              'slang-delete-alert': <SlangDeleteAlert />
+            }[popout]
+          : null
+      }
       buttons={[
         {
           icon: <Icon28BookmarkOutline />,

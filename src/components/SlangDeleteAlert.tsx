@@ -5,14 +5,13 @@ import { useSetAtomState } from '@mntm/precoil';
 import { transition, useHistoryState } from '@unexp/router';
 import { Alert } from '@vkontakte/vkui';
 
-import { popoutAtom, snackbarAtom } from '../store';
+import { snackbarAtom } from '../store';
 import { fetcher } from '../utils';
 import { DeleteSlangDto, SnackbarIconType } from '../types';
 
 export const SlangDeleteAlert: FC = () => {
   const { id } = useHistoryState();
 
-  const setPopout = useSetAtomState(popoutAtom);
   const setSnackbar = useSetAtomState(snackbarAtom);
 
   const action = async (): Promise<void> => {
@@ -48,7 +47,7 @@ export const SlangDeleteAlert: FC = () => {
           autoclose: true
         }
       ]}
-      onClose={() => setPopout(null)}
+      onClose={() => transition(-1)}
     />
   );
 };

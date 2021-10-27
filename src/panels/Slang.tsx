@@ -58,15 +58,9 @@ import {
   Slang as TSlang,
   SnackbarIconType
 } from '../types';
-import {
-  ErrorPlaceholder,
-  Skeleton,
-  SlangDeleteAlert,
-  UserBadge
-} from '../components';
+import { ErrorPlaceholder, Skeleton, UserBadge } from '../components';
 import {
   gifAtom,
-  popoutAtom,
   rightsAtom,
   snackbarAtom,
   valuesAtom,
@@ -81,13 +75,12 @@ type Props = {
 export const Slang: FC<Props> = ({ nav }: Props) => {
   const { viewWidth, sizeX } = useAdaptivity();
 
-  const { view } = useDeserializedLocation();
+  const { view, panel } = useDeserializedLocation();
   const { slangId: paramsId } = useParams();
 
   const vkUser: UserInfo = useAtomValue(vkUserAtom);
   const rights: string = useAtomValue(rightsAtom);
 
-  const setPopout = useSetAtomState(popoutAtom);
   const setSnackbar = useSetAtomState(snackbarAtom);
   const setValues = useSetAtomState(valuesAtom);
   const setGif = useSetAtomState(gifAtom);
@@ -283,7 +276,13 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
               centered
               before={<Icon28DeleteOutline style={style} />}
               style={style}
-              onClick={() => setPopout(<SlangDeleteAlert />)}
+              onClick={() =>
+                transition(
+                  `${
+                    view === '/' ? '' : view
+                  }${panel}?popout=slang-delete-alert`
+                )
+              }
             >
               Удалить
             </CellButton>
