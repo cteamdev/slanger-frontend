@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { mutate } from 'swr';
 import { useSetAtomState } from '@mntm/precoil';
-import { transition, useParams } from '@unexp/router';
+import { transition, useHistoryState } from '@unexp/router';
 import { Alert } from '@vkontakte/vkui';
 
 import { snackbarAtom } from '../store';
@@ -10,7 +10,7 @@ import { fetcher } from '../utils';
 import { DeleteSlangDto, SnackbarIconType } from '../types';
 
 export const SlangDeleteAlert: FC = () => {
-  const { id } = useParams();
+  const { id } = useHistoryState();
 
   const setSnackbar = useSetAtomState(snackbarAtom);
 

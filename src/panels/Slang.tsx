@@ -280,7 +280,10 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                 transition(
                   `${
                     view === '/' ? '' : view
-                  }${panel}?popout=slang-delete-alert&id=${id}`
+                  }${panel}?popout=slang-delete-alert`,
+                  {
+                    id
+                  }
                 )
               }
             >
