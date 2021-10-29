@@ -1,7 +1,9 @@
 import type { CSSProperties, FC, MouseEventHandler, ReactNode } from 'react';
 
-import { Button, Div, Title, useAdaptivity, ViewWidth } from '@vkontakte/vkui';
+import { Button, Div, Title, ViewWidth } from '@vkontakte/vkui';
 import { Icon24Chevron } from '@vkontakte/icons';
+
+import { useAdaptivity } from '../hooks';
 
 type Props = {
   title: string;

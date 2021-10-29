@@ -1,13 +1,5 @@
 import type { FC } from 'react';
-import {
-  Cell,
-  Group,
-  Panel,
-  PanelHeader,
-  SplitCol,
-  useAdaptivity,
-  ViewWidth
-} from '@vkontakte/vkui';
+import { Cell, Group, Panel, SplitCol } from '@vkontakte/vkui';
 import { transition, useDeserializedLocation } from '@unexp/router';
 
 import { NavigationButton } from '../../types';
@@ -19,15 +11,11 @@ type Props = {
 };
 
 export const NavigationSideBar: FC<Props> = ({ buttons }: Props) => {
-  const { viewWidth } = useAdaptivity();
   const { view } = useDeserializedLocation();
-
-  const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
 
   return (
     <SplitCol fixed width="280px" maxWidth="280px">
       <Panel>
-        {!desktop && <PanelHeader />}
         <Group>
           {buttons.map(({ icon, story, text }: NavigationButton) => (
             <Cell

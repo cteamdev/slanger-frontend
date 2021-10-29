@@ -13,11 +13,11 @@ import {
   ModalPage,
   ModalPageHeader,
   PanelHeaderClose,
-  useAdaptivity,
   ViewWidth
 } from '@vkontakte/vkui';
 import { Icon28CopyOutline, Icon28WriteOutline } from '@vkontakte/icons';
 
+import { useAdaptivity } from '../../hooks';
 import { ImageGrid, ImageGridItem, Skeleton } from '../../components';
 import { Slang, SnackbarIconType } from '../../types';
 import { delay, uncapitalize } from '../../utils';

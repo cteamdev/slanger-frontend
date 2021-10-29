@@ -16,7 +16,6 @@ import {
   FormItem,
   Select,
   Button,
-  useAdaptivity,
   ViewWidth,
   FormLayout,
   Footer,
@@ -26,6 +25,7 @@ import {
 import { ChipsSelect } from '@vkontakte/vkui/unstable';
 import { Icon24AddOutline } from '@vkontakte/icons';
 
+import { useAdaptivity } from '../hooks';
 import { CreateSlangDto } from '../types';
 import { gifAtom, rightsAtom, valuesAtom } from '../store';
 

@@ -23,7 +23,6 @@ import {
   MiniInfoCell,
   Button,
   Gradient,
-  useAdaptivity,
   SizeType,
   SimpleCell,
   Avatar,
@@ -65,6 +64,7 @@ import {
   valuesAtom,
   vkUserAtom
 } from '../store';
+import { useAdaptivity } from '../hooks';
 import { types } from '../components/SlangForm';
 
 type Props = {

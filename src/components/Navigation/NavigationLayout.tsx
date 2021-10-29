@@ -1,15 +1,10 @@
 import type { FC, ReactNode } from 'react';
 import { Match, Root, Epic, EXPERIENCE_DRIVEN_STYLE } from '@unexp/router';
-import {
-  PanelHeader,
-  SplitCol,
-  SplitLayout,
-  useAdaptivity,
-  ViewWidth
-} from '@vkontakte/vkui';
+import { PanelHeader, SplitCol, SplitLayout, ViewWidth } from '@vkontakte/vkui';
 
 import { NavigationButton } from '../../types';
 
+import { useAdaptivity } from '../../hooks';
 import { NavigationSideBar } from './NavigationSideBar';
 import { NavigationTabbar } from './NavigationTabbar';
 import { CustomSnackbar } from '../CustomSnackbar';
@@ -33,9 +28,11 @@ export const NavigationLayout: FC<Props> = ({
 }: Props) => {
   const { viewWidth } = useAdaptivity();
 
-  const desktop: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
-  const spaced: boolean = (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET;
-  const animate: boolean = (viewWidth ?? 0) <= ViewWidth.MOBILE;
+  console.log(screen.orientation.type);
+
+  const desktop: boolean =
+    (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET &&
+    screen.orientation.type === 'landscape-primary';
 
   const buttons: NavigationButton[] = rawButtons.filter(
     (button) => !!button
@@ -50,8 +47,8 @@ export const NavigationLayout: FC<Props> = ({
         popout={popout}
       >
         <SplitCol
-          spaced={spaced}
-          animate={animate}
+          spaced={desktop}
+          animate={!desktop}
           width={desktop ? '650px' : '100%'}
           maxWidth={desktop ? '650px' : '100%'}
         >

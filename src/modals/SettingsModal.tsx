@@ -11,7 +11,6 @@ import {
   ModalPage,
   ModalPageHeader,
   PanelHeaderClose,
-  useAdaptivity,
   ViewWidth
 } from '@vkontakte/vkui';
 import { send } from '@vkontakte/vk-bridge';
@@ -27,6 +26,8 @@ import {
   Icon28ClearDataOutline,
   Icon28UserOutgoingOutline
 } from '@vkontakte/icons';
+
+import { useAdaptivity } from '../hooks';
 import { delay, fetcher } from '../utils';
 import { Skeleton } from '../components';
 

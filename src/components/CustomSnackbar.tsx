@@ -1,7 +1,8 @@
-import { Avatar, Snackbar, useAdaptivity, ViewWidth } from '@vkontakte/vkui';
+import { Avatar, Snackbar, ViewWidth } from '@vkontakte/vkui';
 import { Icon16Cancel, Icon16Done } from '@vkontakte/icons';
 import { useAtomState } from '@mntm/precoil';
 
+import { useAdaptivity } from '../hooks';
 import { snackbarAtom } from '../store';
 import { SnackbarIconType } from '../types';
 

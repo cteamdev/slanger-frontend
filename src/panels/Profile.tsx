@@ -12,7 +12,6 @@ import {
   PanelHeaderButton,
   Spinner,
   PullToRefresh,
-  useAdaptivity,
   ViewWidth,
   Div,
   Link,
@@ -53,6 +52,7 @@ import {
   Skeleton,
   UserBadge
 } from '../components';
+import { useAdaptivity } from '../hooks';
 
 type Props = {
   nav: string;

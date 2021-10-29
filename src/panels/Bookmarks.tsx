@@ -10,7 +10,6 @@ import {
   PanelHeaderButton,
   Spinner,
   PullToRefresh,
-  useAdaptivity,
   ViewWidth,
   SimpleCell,
   IconButton,
@@ -19,9 +18,10 @@ import {
 } from '@vkontakte/vkui';
 import { Icon24DeleteOutline, Icon28RefreshOutline } from '@vkontakte/icons';
 
+import { useAdaptivity } from '../hooks';
 import { fetcher } from '../utils';
-import { Bookmark, RemoveBookmarkDto, ResponseError, User } from '../types';
 import { vkUserAtom } from '../store';
+import { Bookmark, RemoveBookmarkDto, ResponseError, User } from '../types';
 import { ErrorPlaceholder, Skeleton, VoidPlaceholder } from '../components';
 
 type Props = {

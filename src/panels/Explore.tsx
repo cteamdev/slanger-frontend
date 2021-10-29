@@ -14,7 +14,6 @@ import {
   CardGrid,
   Spinner,
   PullToRefresh,
-  useAdaptivity,
   ViewWidth,
   Div
 } from '@vkontakte/vkui';
@@ -27,7 +26,7 @@ import {
   VoidPlaceholder,
   ErrorPlaceholder
 } from '../components';
-import { useMeilisearch } from '../hooks';
+import { useMeilisearch, useAdaptivity } from '../hooks';
 import { capitalize, fetcher, uncapitalize } from '../utils';
 import { ResponseError, Slang } from '../types';
 import { queryAtom } from '../store';

@@ -8,13 +8,13 @@ import {
   Panel,
   Group,
   Gallery,
-  useAdaptivity,
   ViewWidth,
   Text,
   Caption
 } from '@vkontakte/vkui';
 import { Icon56GestureOutline } from '@vkontakte/icons';
 
+import { useAdaptivity } from '../hooks';
 import { OnboardingSlide } from '../components';
 import { menuVisibilityAtom } from '../store';
 
