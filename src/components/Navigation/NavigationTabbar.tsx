@@ -19,7 +19,11 @@ export const NavigationTabbar: FC<Props> = ({ buttons }: Props) => {
           key={story}
           selected={view === story}
           text={text}
-          onClick={() => (view !== story ? transition(story) : smoothScroll())}
+          onClick={() =>
+            view === story && window.scrollY !== 0
+              ? smoothScroll()
+              : transition(story)
+          }
         >
           {icon}
         </TabbarItem>

@@ -42,7 +42,9 @@ export const NavigationSideBar: FC<Props> = ({ buttons }: Props) => {
                   : {}
               }
               onClick={() =>
-                view !== story ? transition(story) : smoothScroll()
+                view === story && window.scrollY !== 0
+                  ? smoothScroll()
+                  : transition(story)
               }
             >
               {text}
