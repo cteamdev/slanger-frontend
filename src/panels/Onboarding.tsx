@@ -67,12 +67,12 @@ export const Onboarding: FC<Props> = ({ nav }: Props) => {
             onClick={next}
           >
             <Text weight="regular">
-              Кринж, рофл, зашквар - эти, а также многие другие современные
+              Кринж, рофл, зашквар — эти, а также многие другие современные
               слова мы знаем хорошо и готовы рассказать тебе их значения.
             </Text>
 
             <Text weight="medium">
-              Добро пожаловать в slanger - словарь XXI века!
+              Добро пожаловать в slanger — словарь XXI века!
             </Text>
           </OnboardingSlide>
           <OnboardingSlide
