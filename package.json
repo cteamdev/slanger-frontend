@@ -26,8 +26,8 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.24.0",
-    "openapi-typescript-codegen": "^0.10.0-alpha",
     "meilisearch": "^0.22.0",
+    "openapi-typescript-codegen": "^0.10.0-alpha",
     "prettier": "^2.3.2",
     "typescript": "4.4.4",
     "vite": "2.6.7"
@@ -38,7 +38,7 @@
     "@mntm/precoil": "^4.0.4",
     "@sentry/react": "^6.12.0",
     "@sentry/tracing": "^6.12.0",
-    "@unexp/router": "1.0.0-beta21",
+    "@unexp/router": "1.0.0-beta18",
     "@vkontakte/icons": "^1.128.1",
     "@vkontakte/vk-bridge": "npm:@mntm/painless-bridge@1.0.2",
     "@vkontakte/vkjs": "^0.22.1",
