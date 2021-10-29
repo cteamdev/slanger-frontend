@@ -172,7 +172,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
       forceUpdate();
     }
 
-    setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успех' });
+    setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успешно' });
   };
 
   useEffect(() => {

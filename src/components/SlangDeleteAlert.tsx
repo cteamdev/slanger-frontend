@@ -26,7 +26,7 @@ export const SlangDeleteAlert: FC = () => {
     await mutate('/slangs/getOwn');
 
     transition(-1);
-    setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успех' });
+    setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успешно' });
   };
 
   return (

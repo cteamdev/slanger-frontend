@@ -113,7 +113,7 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
     });
 
     await mutate(update, false);
-    setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успех' });
+    setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успешно' });
   };
 
   useEffect(() => {

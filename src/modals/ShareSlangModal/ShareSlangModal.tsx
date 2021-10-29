@@ -20,7 +20,7 @@ import { Icon28CopyOutline, Icon28WriteOutline } from '@vkontakte/icons';
 import { useAdaptivity } from '../../hooks';
 import { ImageGrid, ImageGridItem, Skeleton } from '../../components';
 import { Slang, SnackbarIconType } from '../../types';
-import { delay, uncapitalize } from '../../utils';
+import { uncapitalize } from '../../utils';
 import { snackbarAtom } from '../../store';
 
 const waitLoading = (image: HTMLImageElement): Promise<void> =>
@@ -114,26 +114,11 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
   };
 
   const linkShare = async (): Promise<void> => {
-    const input: HTMLInputElement = document.createElement('input');
-    input.value = 'https://vk.com/app7969491#slang?id=' + id;
-    input.style.position = 'fixed';
-    input.style.border = 'none';
-    input.style.top = '-100';
-    input.style.left = '-100';
-    input.style.width = '0';
-    input.style.height = '0';
+    await send('VKWebAppCopyText', {
+      text: 'https://vk.com/app7969491#slang?id=' + id
+    });
 
-    document.body.appendChild(input);
-    input.focus();
-    input.select();
-
-    document.execCommand('copy');
-    transition(-1);
-
-    await delay(400);
-
-    input.remove();
-    setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успех ' });
+    setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успешно' });
   };
 
   return (
