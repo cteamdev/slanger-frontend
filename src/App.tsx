@@ -71,11 +71,15 @@ export const App: FC = () => {
       const params: URLSearchParams | null = paramsString
         ? new URLSearchParams(paramsString)
         : null;
+      const id: string | null = params && params.get('id');
 
-      if (page === 'slang' && params?.has('id'))
-        transition(`/slang?slangId=${params.get('id')}`);
-      else if (page === 'profile' && params?.has('id'))
-        transition(`/otherProfile?userId=${params.get('id')}`, {
+      if (page === 'slang' && id)
+        transition('/slang', {
+          slangId: +id
+        });
+      else if (page === 'profile' && id)
+        transition('/otherProfile', {
+          userId: +id,
           backButton: true
         });
     };

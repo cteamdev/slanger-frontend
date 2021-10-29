@@ -10,8 +10,7 @@ import { UserInfo } from '@vkontakte/vk-bridge';
 import {
   transition,
   useDeserializedLocation,
-  useHistoryState,
-  useParams
+  useHistoryState
 } from '@unexp/router';
 import {
   Div,
@@ -76,7 +75,9 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   const { viewWidth, sizeX } = useAdaptivity();
 
   const { view, panel } = useDeserializedLocation();
-  const { slangId: paramsId } = useParams();
+
+  const slang: TSlang | undefined = useHistoryState();
+  const { slangId: paramsId } = useHistoryState();
 
   const vkUser: UserInfo = useAtomValue(vkUserAtom);
   const rights: string = useAtomValue(rightsAtom);
@@ -88,8 +89,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   // Нехорошо так делать, но пока так придется
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
-  const slang: TSlang | undefined = useHistoryState();
-  const id: number = paramsId ? +paramsId : slang.id;
+  const id: number = paramsId ?? slang.id;
 
   const { data, error, mutate } = useSWR<TSlang, ResponseError>(
     paramsId ? `/slangs/getById?id=${id}` : null,

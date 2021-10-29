@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useSetAtomState, useAtomValue } from '@mntm/precoil';
-import { transition, useHistoryState, useParams } from '@unexp/router';
+import { transition, useHistoryState } from '@unexp/router';
 import {
   Group,
   Panel,
@@ -61,8 +61,7 @@ type Props = {
 export const Profile: FC<Props> = ({ nav }: Props) => {
   const { viewWidth, sizeX } = useAdaptivity();
 
-  const { backButton } = useHistoryState();
-  const { userId: paramsId } = useParams();
+  const { backButton, userId: paramsId } = useHistoryState();
 
   const { id: currentId } = useAtomValue(vkUserAtom);
   const currentRights: string = useAtomValue(rightsAtom);
@@ -70,7 +69,7 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
   const setSnackbar = useSetAtomState(snackbarAtom);
   const setRights = useSetAtomState(rightsAtom);
 
-  const id: number = nav === '/' ? currentId : paramsId ? +paramsId : currentId;
+  const id: number = nav === '/' ? currentId : paramsId ?? currentId;
   const { data, error, isValidating, mutate } = useSWR<User, ResponseError>(
     id ? `/users/getById?id=${id}` : null,
     fetcher,
