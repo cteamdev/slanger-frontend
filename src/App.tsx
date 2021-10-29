@@ -3,7 +3,7 @@ import '@vkontakte/vkui/dist/unstable.css';
 import './styles.css';
 import './colors.css';
 
-// Сразу подгружаем первую картинку в онбоардинге
+// Сразу подгружаем первую картинку в онбординге
 import '/avatar.png';
 
 import type { FC } from 'react';

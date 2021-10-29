@@ -157,7 +157,7 @@ export const SettingsModal: FC<Props> = ({ nav }: Props) => {
 
       <Group>
         <CellButton before={<Icon28UserOutgoingOutline />} onClick={go}>
-          Перейти к онбоардингу
+          Перейти к онбордингу
         </CellButton>
         <CellButton before={<Icon28ClearDataOutline />} onClick={clearStorage}>
           Очистить VK Storage
