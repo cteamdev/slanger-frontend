@@ -95,7 +95,15 @@ export const Bookmarks: FC<Props> = ({ nav }: Props) => {
               bookmarks.map(({ id, slang }) => (
                 <SimpleCell
                   key={id}
-                  before={<Avatar size={48} src={slang.cover} />}
+                  before={
+                    <Avatar
+                      size={48}
+                      src={
+                        slang.cover ??
+                        'https://sun9-11.userapi.com/impg/dycJqEhDYp71OBMwhT0ZChzYP1QD7erQ0XxtCA/3quT2uJB01I.jpg?size=1024x1024&quality=95&sign=f31ccc0d85a2d1b64ff095957b0fc369&type=album'
+                      }
+                    />
+                  }
                   after={
                     <IconButton
                       onClick={(e: MouseEvent<HTMLElement>) =>

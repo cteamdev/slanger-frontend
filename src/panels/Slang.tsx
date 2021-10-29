@@ -434,7 +434,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                 style={{ marginRight: 8 }}
                 onClick={updateBookmark}
               >
-                {bookmark ? 'Удалить из избранного' : 'Добавить в избранное'}
+                {bookmark ? 'Удалить из закладок' : 'Добавить в закладки'}
               </Button>
             )}
             {word ? (
