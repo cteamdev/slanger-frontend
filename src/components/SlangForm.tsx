@@ -157,7 +157,7 @@ export const SlangForm: FC<Props> = ({
       >
         <Textarea
           name="description"
-          placeholder="Понятно для читателя"
+          placeholder="Понятное для читателя"
           value={values.description}
           onChange={({ target }) => handleChange(target.name, target.value)}
         />
@@ -169,7 +169,7 @@ export const SlangForm: FC<Props> = ({
       >
         <ChipsSelect
           name="themes"
-          placeholder="Которые больше всего подходят, необязательно"
+          placeholder="Несколько, необязательно"
           value={values.themes.map((theme) => ({ label: theme, value: theme }))}
           options={themes.map((theme) => ({ label: theme, value: theme }))}
           onChange={(options) =>
