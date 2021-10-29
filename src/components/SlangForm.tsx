@@ -198,24 +198,26 @@ export const SlangForm: FC<Props> = ({
 
       <Spacing separator="top" />
       <Group mode="plain">
-        <Caption
-          level="1"
-          weight="regular"
-          style={{ textAlign: 'center', color: '#909499' }}
-        >
-          {mode === 'create' ? 'Предлагая новое' : 'Изменяя'} выражение, вы
-          соглашаетесь с{' '}
-          <a
-            href="https://vk.com/@slangerpub-rules"
-            target="_blank"
-            style={{ color: 'inherit' }}
+        <Div>
+          <Caption
+            level="1"
+            weight="regular"
+            style={{ textAlign: 'center', color: '#909499' }}
           >
-            Правилами сервиса
-          </a>
-          . <br />
-          Награда указана при выборе типа выражения. <br />
-          Максимум 10 выражений в сутки.
-        </Caption>
+            {mode === 'create' ? 'Предлагая новое' : 'Изменяя'} выражение, вы
+            соглашаетесь с{' '}
+            <a
+              href="https://vk.com/@slangerpub-rules"
+              target="_blank"
+              style={{ color: 'inherit' }}
+            >
+              Правилами сервиса
+            </a>
+            . <br />
+            Награда указана при выборе типа выражения. <br />
+            Максимум 10 выражений в сутки.
+          </Caption>
+        </Div>
       </Group>
       <Div>
         <Button stretched size="l" onClick={handleSubmit}>
