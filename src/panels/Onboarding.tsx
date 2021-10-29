@@ -34,7 +34,7 @@ export const Onboarding: FC<Props> = ({ nav }: Props) => {
   const end = (): void => {
     // Синхронно, чтобы не заставлять пользователя ждать
     send('VKWebAppStorageSet', { key: 'onboarding', value: 'true' });
-    transition('/');
+    transition('/', { replace: true });
   };
 
   useEffect(() => {
