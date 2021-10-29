@@ -282,7 +282,7 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
                 before={<Icon28SubtitlesOutline />}
                 onClick={() => transition('/profile/ownSlangs')}
               >
-                Мои слэнги
+                Мои сленги
               </CellButton>
             ) : (
               <Div>

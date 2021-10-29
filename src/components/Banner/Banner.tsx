@@ -1,5 +1,5 @@
 import type { FC, MouseEventHandler } from 'react';
-import { Banner as VKUIBanner, Button } from '@vkontakte/vkui';
+import { Banner as VKUIBanner, Button, getClassName } from '@vkontakte/vkui';
 
 import './Banner.css';
 
@@ -22,7 +22,16 @@ export const Banner: FC<BannerProps> = ({
     mode="image"
     header={header}
     subheader={subheader}
-    background={<div className={style === 'duck' ? 'OurBanner--pink' : ''} />}
+    className={getClassName('OurBanner')}
+    background={
+      <div
+        className={
+          style === 'duck'
+            ? `OurBanner--pink ${getClassName('OurBanner')}`
+            : getClassName('OurBanner')
+        }
+      />
+    }
     actions={
       <Button mode="overlay_primary" onClick={onButtonClick}>
         {buttonText}

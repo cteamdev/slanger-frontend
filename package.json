@@ -38,7 +38,7 @@
     "@mntm/precoil": "^4.0.4",
     "@sentry/react": "^6.12.0",
     "@sentry/tracing": "^6.12.0",
-    "@unexp/router": "1.0.0-beta18",
+    "@unexp/router": "1.0.0-beta21",
     "@vkontakte/icons": "^1.128.1",
     "@vkontakte/vk-bridge": "npm:@mntm/painless-bridge@1.0.2",
     "@vkontakte/vkjs": "^0.22.1",

@@ -280,7 +280,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                 transition(
                   `${
                     view === '/' ? '' : view
-                  }${panel}?popout=slang-delete-alert`
+                  }${panel}?popout=slang-delete-alert&id=${id}`
                 )
               }
             >
@@ -440,7 +440,10 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                 mode="primary"
                 before={<Icon24ShareOutline />}
                 onClick={() =>
-                  transition(view + '/slang?modal=share-slang', slang)
+                  transition(
+                    `${view === '/' ? '' : view}/slang?modal=share-slang`,
+                    slang
+                  )
                 }
               />
             ) : (

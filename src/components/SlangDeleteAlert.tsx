@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { mutate } from 'swr';
 import { useSetAtomState } from '@mntm/precoil';
-import { transition, useHistoryState } from '@unexp/router';
+import { transition, useParams } from '@unexp/router';
 import { Alert } from '@vkontakte/vkui';
 
 import { snackbarAtom } from '../store';
@@ -10,7 +10,7 @@ import { fetcher } from '../utils';
 import { DeleteSlangDto, SnackbarIconType } from '../types';
 
 export const SlangDeleteAlert: FC = () => {
-  const { id } = useHistoryState();
+  const { id } = useParams();
 
   const setSnackbar = useSetAtomState(snackbarAtom);
 
@@ -18,7 +18,7 @@ export const SlangDeleteAlert: FC = () => {
     await fetcher('/slangs/delete', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id } as DeleteSlangDto),
+      body: JSON.stringify({ id: parseInt(id) } as DeleteSlangDto),
       throw: true
     });
 

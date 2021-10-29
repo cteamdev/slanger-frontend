@@ -63,7 +63,7 @@ export const OwnSlangs: FC<Props> = ({ nav }: Props) => {
           )
         }
       >
-        Мои слэнги
+        Мои сленги
       </PanelHeader>
 
       <PullToRefresh onRefresh={mutate} isFetching={isValidating}>
