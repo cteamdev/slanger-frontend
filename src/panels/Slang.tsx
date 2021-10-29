@@ -132,7 +132,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
         fromEdition: !user
       });
 
-    transition((view === '/' ? '' : view) + '/editSlang', slang);
+    transition((view === '/' ? '' : view) + '/editSlang', { ...slang, id });
   };
 
   const updateBookmark = async (): Promise<void> => {
