@@ -1,7 +1,7 @@
 import { Footer } from '@vkontakte/vkui';
 
 export const CreditsFooter: React.FC = () => (
-  <Footer style={{ marginTop: 0 }}>
+  <Footer style={{ position: 'unset', marginTop: 0 }}>
     Сделано с любовью <br />
     {'<'}3{' '}
     <a
