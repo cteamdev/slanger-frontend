@@ -28,11 +28,9 @@ export const NavigationLayout: FC<Props> = ({
 }: Props) => {
   const { viewWidth } = useAdaptivity();
 
-  console.log(screen.orientation.type);
-
   const desktop: boolean =
     (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET &&
-    screen.orientation.type === 'landscape-primary';
+    (screen?.orientation?.type === 'landscape-primary' || true);
 
   const buttons: NavigationButton[] = rawButtons.filter(
     (button) => !!button
