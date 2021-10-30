@@ -32,7 +32,7 @@ export const SlangDeleteAlert: FC = () => {
   return (
     <Alert
       header="Подтверждение"
-      text="Вы действительно хотите удалить этот слэнг? Отменить действие невозможно."
+      text="Вы действительно хотите удалить этот сленг? Отменить действие невозможно."
       actionsLayout="vertical"
       actions={[
         {

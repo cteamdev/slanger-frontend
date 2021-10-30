@@ -242,7 +242,7 @@ export const types: CreateSlangDto['type'][] = [
   'Фразеологизм'
 ];
 export const themes: CreateSlangDto['themes'] = [
-  'Слэнг',
+  'Сленг',
   'Диалект',
   'Мемы',
   'Игры',

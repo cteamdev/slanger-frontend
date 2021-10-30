@@ -26,7 +26,7 @@ export const NotifyModalCard: FC<Props> = ({ nav }: Props) => {
       nav={nav}
       onClose={() => transition(-1)}
       icon={<Icon56NotificationOutline />}
-      header="Получите уведомление, когда ваш слэнг пройдёт модерацию"
+      header="Получите уведомление, когда ваш сленг пройдёт модерацию"
       subheader="И не только! Включите уведомления в настройках."
       actions={
         <Button
