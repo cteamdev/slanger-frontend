@@ -50,21 +50,17 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
 
   const close = (): void => transition(-1);
 
-  const wallShare = async (): Promise<void> => {
-    transition(-1);
-
-    await delay(250);
-    await send('VKWebAppShowWallPostBox', {
+  const wallShare = async (): Promise<void> =>
+    send('VKWebAppShowWallPostBox', {
       message: stripIndents`
-        [https://vk.com/app7969491#slang?id=${id}|${word}] — ${uncapitalize(
+      [https://vk.com/app7969491#slang?id=${id}|${word}] — ${uncapitalize(
         description
       )}
-        
-        Хочешь знать больше современных слов? Переходи в [https://vk.com/app7969491|Slanger]!
-      `,
+      
+      Хочешь знать больше современных слов? Переходи в [https://vk.com/app7969491|Slanger]!
+    `,
       attachments: 'photo-207745347_457239020'
-    });
-  };
+    }).then(() => void 0);
 
   const chooseStory = async (path: string): Promise<void> => {
     const canvas: HTMLCanvasElement = document.createElement('canvas');
