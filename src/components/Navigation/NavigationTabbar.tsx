@@ -23,7 +23,7 @@ export const NavigationTabbar: FC<Props> = ({ buttons, disabled }: Props) => {
           onClick={() =>
             view === story && window.scrollY !== 0
               ? smoothScroll()
-              : !disabled && transition(story)
+              : view !== story && !disabled && transition(story)
           }
         >
           {icon}
