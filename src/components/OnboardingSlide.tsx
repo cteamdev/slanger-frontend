@@ -1,6 +1,6 @@
 import type { CSSProperties, FC, MouseEventHandler, ReactNode } from 'react';
 
-import { Button, Div, Title, ViewWidth } from '@vkontakte/vkui';
+import { Button, Div, FixedLayout, Title, ViewWidth } from '@vkontakte/vkui';
 import { Icon24Chevron } from '@vkontakte/icons';
 
 import { useAdaptivity } from '../hooks';
@@ -63,17 +63,19 @@ export const OnboardingSlide: FC<Props> = ({
         <div style={{ marginTop: 12, width: '90%' }}>{children}</div>
       </div>
 
-      <Div>
-        <Button
-          stretched
-          size="l"
-          mode="secondary"
-          after={<Icon24Chevron />}
-          onClick={onClick}
-        >
-          {buttonText}
-        </Button>
-      </Div>
+      <FixedLayout vertical="bottom" style={{ paddingBottom: 12 }}>
+        <Div>
+          <Button
+            stretched
+            size="l"
+            mode="secondary"
+            after={<Icon24Chevron />}
+            onClick={onClick}
+          >
+            {buttonText}
+          </Button>
+        </Div>
+      </FixedLayout>
     </div>
   );
 };

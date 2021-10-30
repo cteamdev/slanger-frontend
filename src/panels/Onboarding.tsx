@@ -50,9 +50,8 @@ export const Onboarding: FC<Props> = ({ nav }: Props) => {
           slideWidth="100%"
           style={{
             width: '100%',
-            height: desktop
-              ? 'calc(100vh - 48px)'
-              : 'calc(100vh - var(--tabbar_height) - var(--safe-area-inset-bottom) - 16px)'
+            height: 'calc(100vh - 48px)',
+            overflow: 'hidden'
           }}
           align="center"
           slideIndex={slideIndex}
