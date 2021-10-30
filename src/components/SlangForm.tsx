@@ -94,12 +94,18 @@ export const SlangForm: FC<Props> = ({
             style={{
               display: 'flex',
               justifyContent: 'center',
-              height: '256px',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              maxHeight: '256px',
+              maxWidth: '98%',
+              margin: 0
             }}
             onClick={selectCover}
           >
-            <img src={gif} crossOrigin="anonymous" />
+            <img
+              src={gif}
+              crossOrigin="anonymous"
+              style={{ marginLeft: '2%', maxWidth: '100%', borderRadius: 4 }}
+            />
           </div>
           <Footer>Нажми на обложку, чтобы изменить или удалить</Footer>
         </>
