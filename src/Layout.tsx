@@ -27,13 +27,18 @@ import {
   SettingsModal,
   ShareSlangModal
 } from './modals';
-import { NavigationLayout, SlangDeleteAlert } from './components';
-import { menuVisibilityAtom, rightsAtom } from './store';
+import {
+  NavigationLayout,
+  SlangDeleteAlert,
+  SlangEditCancelAlert
+} from './components';
+import { disabledAtom, menuVisibilityAtom, rightsAtom } from './store';
 
 export const Layout: FC = () => {
   const { modal = null, popout = null } = useParams();
 
   const menuVisibility: boolean = useAtomValue(menuVisibilityAtom);
+  const disabled: boolean = useAtomValue(disabledAtom);
   const rights: string = useAtomValue(rightsAtom);
 
   return (
@@ -49,7 +54,8 @@ export const Layout: FC = () => {
       popout={
         popout
           ? {
-              'slang-delete-alert': <SlangDeleteAlert />
+              'slang-delete-alert': <SlangDeleteAlert />,
+              'slang-edit-cancel-alert': <SlangEditCancelAlert />
             }[popout]
           : null
       }
@@ -76,6 +82,7 @@ export const Layout: FC = () => {
         }
       ]}
       menuVisibility={menuVisibility}
+      disabled={disabled}
     >
       <View nav="/onboarding">
         <Onboarding nav="/" />

@@ -8,8 +8,10 @@ import { Schema } from './components/SlangForm';
 export const snackbarAtom = atom<Snackbar | undefined>(undefined, 'snackbar');
 export const rightsAtom = atom<string>('user', 'rights');
 export const queryAtom = atom<string>('', 'query');
-export const menuVisibilityAtom = atom<boolean>(true, 'menuVisibility');
 export const vkUserAtom = atom<UserInfo>({} as UserInfo, 'vkUser');
+
+export const menuVisibilityAtom = atom<boolean>(true, 'menuVisibility');
+export const disabledAtom = atom<boolean>(false, 'disabled');
 
 export const valuesAtom = atom<Schema>(
   {

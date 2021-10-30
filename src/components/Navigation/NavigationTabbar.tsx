@@ -7,9 +7,10 @@ import { smoothScroll } from '../../utils';
 
 type Props = {
   buttons: NavigationButton[];
+  disabled: boolean;
 };
 
-export const NavigationTabbar: FC<Props> = ({ buttons }: Props) => {
+export const NavigationTabbar: FC<Props> = ({ buttons, disabled }: Props) => {
   const { view } = useDeserializedLocation();
 
   return (
@@ -22,7 +23,7 @@ export const NavigationTabbar: FC<Props> = ({ buttons }: Props) => {
           onClick={() =>
             view === story && window.scrollY !== 0
               ? smoothScroll()
-              : transition(story)
+              : !disabled && transition(story)
           }
         >
           {icon}

@@ -17,6 +17,7 @@ type Props = {
 
   buttons: (NavigationButton | null | false)[];
   menuVisibility: boolean;
+  disabled: boolean;
 };
 
 export const NavigationLayout: FC<Props> = ({
@@ -24,7 +25,8 @@ export const NavigationLayout: FC<Props> = ({
   modal,
   popout,
   buttons: rawButtons,
-  menuVisibility
+  menuVisibility,
+  disabled
 }: Props) => {
   const { viewWidth } = useAdaptivity();
 
@@ -54,7 +56,11 @@ export const NavigationLayout: FC<Props> = ({
             <Root nav="/">{children}</Root>
           ) : (
             <Epic
-              tabbar={menuVisibility && <NavigationTabbar buttons={buttons} />}
+              tabbar={
+                menuVisibility && (
+                  <NavigationTabbar buttons={buttons} disabled={disabled} />
+                )
+              }
             >
               {children}
             </Epic>
@@ -63,7 +69,9 @@ export const NavigationLayout: FC<Props> = ({
           <CustomSnackbar />
         </SplitCol>
 
-        {desktop && menuVisibility && <NavigationSideBar buttons={buttons} />}
+        {desktop && menuVisibility && (
+          <NavigationSideBar buttons={buttons} disabled={disabled} />
+        )}
       </SplitLayout>
     </Match>
   );

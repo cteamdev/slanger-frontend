@@ -19,19 +19,11 @@ type Props = {
 };
 
 export const EditSlang: FC<Props> = ({ nav }: Props) => {
-  const { view } = useDeserializedLocation();
+  const { view, panel } = useDeserializedLocation();
   const slang: Slang = useHistoryState();
 
   const [gif, setGif] = useAtomState(gifAtom);
   const setValues = useSetAtomState(valuesAtom);
-
-  const close = async (): Promise<void> => {
-    transition(-1);
-
-    await delay(400);
-    setGif(null);
-    setValues(voidValues);
-  };
 
   const handleSubmit = async (values: Schema): Promise<void> => {
     const update: Slang = await fetcher('/slangs/edit', {
@@ -64,7 +56,19 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
 
   return (
     <Panel nav={nav}>
-      <PanelHeader left={<PanelHeaderBack onClick={close} />}>
+      <PanelHeader
+        left={
+          <PanelHeaderBack
+            onClick={() =>
+              transition(
+                `${
+                  view === '/' ? '' : view
+                }${panel}?popout=slang-edit-cancel-alert`
+              )
+            }
+          />
+        }
+      >
         Редактирование
       </PanelHeader>
 

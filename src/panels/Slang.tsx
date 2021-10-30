@@ -58,6 +58,7 @@ import {
 } from '../types';
 import { ErrorPlaceholder, Skeleton, UserBadge } from '../components';
 import {
+  disabledAtom,
   gifAtom,
   rightsAtom,
   snackbarAtom,
@@ -65,7 +66,7 @@ import {
   vkUserAtom
 } from '../store';
 import { useAdaptivity } from '../hooks';
-import { types } from '../components/SlangForm';
+import { types, voidValues } from '../components/SlangForm';
 
 type Props = {
   nav: string;
@@ -84,6 +85,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
   const setSnackbar = useSetAtomState(snackbarAtom);
   const setValues = useSetAtomState(valuesAtom);
+  const setDisabled = useSetAtomState(disabledAtom);
   const setGif = useSetAtomState(gifAtom);
 
   // Нехорошо так делать, но пока так придется
@@ -122,7 +124,8 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
     paramsId ? data ?? {} : slang ?? {};
 
   const editSlang = () => {
-    if (cover) setGif(cover);
+    setGif(cover ?? null);
+    setDisabled(true);
     if (type && word && description && themes)
       setValues({
         type: types.indexOf(type) + 1,
@@ -178,6 +181,10 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   useEffect(() => {
     window.scroll({ left: 0, top: 0 });
     mutateBookmark(null, true);
+
+    setValues(voidValues);
+    setDisabled(false);
+    setGif(null);
   }, []);
 
   return (

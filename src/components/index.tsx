@@ -13,3 +13,4 @@ export * from './UserBadge';
 export * from './CreditsFooter';
 export * from './OnboardingSlide';
 export * from './SlangDeleteAlert';
+export * from './SlangEditCancelAlert';
