@@ -333,17 +333,13 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
             after={
               <IconButton
                 onClick={() =>
-                  transition(
-                    `${view === '/' ? '' : view}/otherProfile?userId=${
-                      user.id
-                    }`,
-                    {
-                      backButton: true,
-                      // При переходе сначала сброс состояния, а потом анимация. Из-за этого видим загрузку при переходе
-                      // Так как Profile не требует historyState, то передаем туда то, что сами приняли
-                      ...slang
-                    }
-                  )
+                  transition(`${view === '/' ? '' : view}/otherProfile`, {
+                    backButton: true,
+                    userId: user.id,
+                    // При переходе сначала сброс состояния, а потом анимация. Из-за этого видим загрузку при переходе
+                    // Так как Profile не требует historyState, то передаем туда то, что сами приняли
+                    ...slang
+                  })
                 }
               >
                 <Icon28UserCircleOutline />
