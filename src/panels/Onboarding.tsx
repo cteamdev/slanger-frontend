@@ -72,7 +72,7 @@ export const Onboarding: FC<Props> = ({ nav }: Props) => {
             </Text>
 
             <Text weight="medium">
-              Добро пожаловать в slanger — словарь XXI века!
+              Добро пожаловать в Slanger — словарь XXI века!
             </Text>
           </OnboardingSlide>
           <OnboardingSlide
