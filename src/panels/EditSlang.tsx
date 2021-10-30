@@ -28,7 +28,7 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
   const close = async (): Promise<void> => {
     transition(-1);
 
-    await delay(800);
+    await delay(400);
     setGif(null);
     setValues(voidValues);
   };
@@ -51,14 +51,12 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
     slang.word = update.word;
 
     transition(-1);
-    await delay(200);
+    await delay(250);
     transition(`${view === '/' ? '' : view}/slang`, {
       replace: true,
       ad: false,
       ...update
     });
-
-    await delay(800);
 
     setGif(null);
     setValues(voidValues);
