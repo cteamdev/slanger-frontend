@@ -445,7 +445,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                 onClick={() =>
                   transition(
                     `${view === '/' ? '' : view}/slang?modal=share-slang`,
-                    slang
+                    { ...(data ?? slang), id }
                   )
                 }
               />

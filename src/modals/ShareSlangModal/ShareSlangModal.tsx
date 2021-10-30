@@ -20,7 +20,7 @@ import { Icon28CopyOutline, Icon28WriteOutline } from '@vkontakte/icons';
 import { useAdaptivity } from '../../hooks';
 import { ImageGrid, ImageGridItem, Skeleton } from '../../components';
 import { Slang, SnackbarIconType } from '../../types';
-import { uncapitalize } from '../../utils';
+import { delay, uncapitalize } from '../../utils';
 import { snackbarAtom } from '../../store';
 
 const waitLoading = (image: HTMLImageElement): Promise<void> =>
@@ -117,7 +117,9 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
     await send('VKWebAppCopyText', {
       text: 'https://vk.com/app7969491#slang?id=' + id
     });
+    transition(-1);
 
+    await delay(200);
     setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успешно' });
   };
 
