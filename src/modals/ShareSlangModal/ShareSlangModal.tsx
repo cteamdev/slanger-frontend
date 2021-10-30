@@ -52,6 +52,8 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
 
   const wallShare = async (): Promise<void> => {
     transition(-1);
+
+    await delay(250);
     await send('VKWebAppShowWallPostBox', {
       message: stripIndents`
         [https://vk.com/app7969491#slang?id=${id}|${word}] — ${uncapitalize(
