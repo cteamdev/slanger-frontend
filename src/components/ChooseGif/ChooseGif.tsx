@@ -10,7 +10,8 @@ import {
   Div,
   Group,
   Placeholder,
-  Search as VKUISearch
+  Search as VKUISearch,
+  Spinner
 } from '@vkontakte/vkui';
 import { useAtomState } from '@mntm/precoil';
 import { transition } from '@unexp/router';
@@ -103,6 +104,8 @@ export const ChooseGif: FC = () => {
               />
             ))}
           </ImageGrid>
+        ) : searchValue.length > 0 ? (
+          <Spinner />
         ) : (
           <Div style={{ display: 'flex', justifyContent: 'center' }}>
             <Placeholder header="Пустота" icon={<Icon56CompassOutline />}>
