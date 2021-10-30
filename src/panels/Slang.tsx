@@ -437,7 +437,11 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                 style={{ marginRight: 8 }}
                 onClick={updateBookmark}
               >
-                {bookmark ? 'Удалить из закладок' : 'Добавить в закладки'}
+                {window.innerWidth < 334
+                  ? 'Закладка'
+                  : bookmark
+                  ? 'Удалить из закладок'
+                  : 'Добавить в закладки'}
               </Button>
             )}
             {word ? (
