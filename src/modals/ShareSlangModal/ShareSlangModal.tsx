@@ -52,7 +52,7 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
 
   const wallShare = async (): Promise<void> => {
     if (
-      ['mobile_ipad', 'mobile_iphone', 'mobile_iphone_messenger'].includes(
+      !['mobile_ipad', 'mobile_iphone', 'mobile_iphone_messenger'].includes(
         new URLSearchParams(window.location.search).get('vk_platform') || ''
       )
     )
