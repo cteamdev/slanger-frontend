@@ -10,7 +10,8 @@ import {
   Gallery,
   ViewWidth,
   Text,
-  Caption
+  Caption,
+  Link
 } from '@vkontakte/vkui';
 import { Icon56GestureOutline } from '@vkontakte/icons';
 
@@ -104,13 +105,13 @@ export const Onboarding: FC<Props> = ({ nav }: Props) => {
           >
             <Caption level="1" weight="regular" style={{ color: '#909499' }}>
               Переходя к сервису, ты соглашаешься с<br />
-              <a
+              <Link
                 href="https://vk.com/@slangerpub-rules"
                 target="_blank"
-                style={{ color: '#909499' }}
+                style={{ color: '#909499', textDecorationLine: 'underline' }}
               >
                 Правилами сервиса
-              </a>
+              </Link>
               .
             </Caption>
           </OnboardingSlide>

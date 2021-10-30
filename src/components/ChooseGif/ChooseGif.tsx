@@ -9,6 +9,7 @@ import {
   CellButton,
   Div,
   Group,
+  Link,
   Placeholder,
   Search as VKUISearch,
   Spinner
@@ -29,9 +30,13 @@ const GiphyCaption: FC = () => (
     style={{ textAlign: 'center', color: '#909499' }}
   >
     Обложки представлены сервисом{' '}
-    <a href="https://giphy.com" target="_blank" style={{ color: 'inherit' }}>
+    <Link
+      href="https://giphy.com"
+      target="_blank"
+      style={{ color: 'inherit', textDecorationLine: 'underline' }}
+    >
       Giphy.com
-    </a>
+    </Link>
   </Caption>
 );
 

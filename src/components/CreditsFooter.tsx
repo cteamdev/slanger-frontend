@@ -1,4 +1,4 @@
-import { Caption } from '@vkontakte/vkui';
+import { Caption, Link } from '@vkontakte/vkui';
 
 export const CreditsFooter: React.FC = () => (
   <Caption
@@ -8,13 +8,13 @@ export const CreditsFooter: React.FC = () => (
   >
     Сделано с любовью <br />
     {'<'}3{' '}
-    <a
+    <Link
       href="https://vk.com/cteamdev"
       target="_blank"
-      style={{ color: 'inherit' }}
+      style={{ color: 'inherit', textDecorationLine: 'underline' }}
     >
       cteamdev
-    </a>
+    </Link>
     , 2021
   </Caption>
 );

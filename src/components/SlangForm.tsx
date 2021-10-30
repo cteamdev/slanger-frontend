@@ -20,7 +20,8 @@ import {
   FormLayout,
   Footer,
   Checkbox,
-  Textarea
+  Textarea,
+  Link
 } from '@vkontakte/vkui';
 import { ChipsSelect } from '@vkontakte/vkui/unstable';
 import { Icon24AddOutline } from '@vkontakte/icons';
@@ -212,13 +213,13 @@ export const SlangForm: FC<Props> = ({
           >
             {mode === 'create' ? 'Предлагая новое' : 'Изменяя'} выражение, вы
             соглашаетесь с{' '}
-            <a
+            <Link
               href="https://vk.com/@slangerpub-rules"
               target="_blank"
-              style={{ color: 'inherit' }}
+              style={{ color: 'inherit', textDecorationLine: 'underline' }}
             >
               Правилами сервиса
-            </a>
+            </Link>
             . <br />
             Награда указана при выборе типа выражения. <br />
             Максимум 10 выражений в сутки.
