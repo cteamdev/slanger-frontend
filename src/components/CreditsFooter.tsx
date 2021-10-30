@@ -1,7 +1,11 @@
-import { Footer } from '@vkontakte/vkui';
+import { Caption } from '@vkontakte/vkui';
 
 export const CreditsFooter: React.FC = () => (
-  <Footer style={{ position: 'unset', marginTop: 0 }}>
+  <Caption
+    level="1"
+    weight="regular"
+    style={{ textAlign: 'center', color: '#909499', marginBottom: 24 }}
+  >
     Сделано с любовью <br />
     {'<'}3{' '}
     <a
@@ -12,5 +16,5 @@ export const CreditsFooter: React.FC = () => (
       cteamdev
     </a>
     , 2021
-  </Footer>
+  </Caption>
 );

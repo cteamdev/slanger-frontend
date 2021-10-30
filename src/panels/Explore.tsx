@@ -24,7 +24,8 @@ import {
   Banner,
   Skeleton,
   VoidPlaceholder,
-  ErrorPlaceholder
+  ErrorPlaceholder,
+  EndFooter
 } from '../components';
 import { useMeilisearch, useAdaptivity } from '../hooks';
 import { capitalize, fetcher, uncapitalize } from '../utils';
@@ -163,6 +164,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
                       <br />
                     </>
                   }
+                  endMessage={<EndFooter />}
                 >
                   {hits.map((slang) => (
                     <SlangCard

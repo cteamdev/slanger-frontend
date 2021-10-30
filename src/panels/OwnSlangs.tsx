@@ -21,7 +21,8 @@ import {
   SlangCard,
   Skeleton,
   VoidPlaceholder,
-  ErrorPlaceholder
+  ErrorPlaceholder,
+  EndFooter
 } from '../components';
 import { useMeilisearch, useAdaptivity } from '../hooks';
 
@@ -80,6 +81,7 @@ export const OwnSlangs: FC<Props> = ({ nav }: Props) => {
                       <br />
                     </>
                   }
+                  endMessage={<EndFooter />}
                 >
                   {hits.map((slang) => (
                     <SlangCard
