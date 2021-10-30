@@ -147,7 +147,7 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
           )
         }
       >
-        {nav === '/' ? 'Мой профиль' : 'Профиль'}
+        Профиль
       </PanelHeader>
 
       <PullToRefresh onRefresh={() => mutate()} isFetching={isValidating}>
