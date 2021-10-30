@@ -37,3 +37,7 @@ input[type="number"]:focus {
     top: calc(50% - 15px);
     transform: translateY(-50%);
 }
+
+.SimpleCell__children.Title {
+    width: 100%;
+}
