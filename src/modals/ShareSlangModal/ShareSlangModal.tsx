@@ -71,7 +71,7 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
         
         Хочешь знать больше современных слов? Переходи в [https://vk.com/app7969491|Slanger]!
       `,
-      attachments: 'photo-207745347_457239020'
+      attachments: 'https://vk.com/app7969491'
     });
   };
 
