@@ -91,7 +91,9 @@ export const App: FC = () => {
     <ConfigProvider
       platform={platform}
       isWebView={true}
-      webviewType={WebviewType.INTERNAL}
+      webviewType={
+        platform === VKCOM ? WebviewType.INTERNAL : WebviewType.VKAPPS
+      }
     >
       <SWRConfig
         value={{
