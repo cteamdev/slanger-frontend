@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const NavigationTabbar: FC<Props> = ({ buttons, disabled }: Props) => {
-  const { view } = useDeserializedLocation();
+  const { view, panel } = useDeserializedLocation();
 
   return (
     <Tabbar>
@@ -23,7 +23,10 @@ export const NavigationTabbar: FC<Props> = ({ buttons, disabled }: Props) => {
           onClick={() =>
             view === story && window.scrollY !== 0
               ? smoothScroll()
-              : view !== story && !disabled && transition(story)
+              : !disabled &&
+                (view !== story
+                  ? transition(story)
+                  : panel !== '/' && transition(story, { replace: true }))
           }
         >
           {icon}
