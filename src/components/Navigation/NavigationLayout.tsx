@@ -32,7 +32,8 @@ export const NavigationLayout: FC<Props> = ({
 
   const desktop: boolean =
     (viewWidth ?? 0) >= ViewWidth.SMALL_TABLET &&
-    (screen?.orientation?.type === 'landscape-primary' || true);
+    new URLSearchParams(window.location.search).get('vk_platform') ===
+      'desktop_web';
 
   const buttons: NavigationButton[] = rawButtons.filter(
     (button) => !!button
