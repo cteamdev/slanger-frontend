@@ -14,7 +14,7 @@ export const SlangEditCancelAlert: FC = () => {
           title: 'Назад',
           mode: 'destructive',
           autoclose: true,
-          action: () => transition(-1)
+          action: () => setTimeout(() => transition(-1), 250)
         },
         {
           title: 'Отмена',
