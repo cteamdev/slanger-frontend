@@ -51,12 +51,12 @@ export const ChooseGif: FC = () => {
 
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
+    setLoading(true);
 
     if (searchTimeout.current) clearTimeout(searchTimeout.current);
 
     searchTimeout.current = setTimeout(() => {
       setGifs([]);
-      setLoading(true);
       giphy
         .search(e.target.value, { limit: 10, sort: 'relevant', type: 'gifs' })
         .then((gifs) => setGifs(gifs.data))
@@ -110,11 +110,13 @@ export const ChooseGif: FC = () => {
             ))}
           </ImageGrid>
         ) : loading ? (
-          <Spinner />
+          <Spinner style={{ paddingTop: 12, paddingBottom: 24 }} />
         ) : (
           <Div style={{ display: 'flex', justifyContent: 'center' }}>
             <Placeholder header="Пустота" icon={<Icon56CompassOutline />}>
-              Начните вводить запрос
+              {searchValue.length > 0
+                ? 'Ничего не найдено'
+                : 'Начните вводить запрос'}
             </Placeholder>
           </Div>
         )}
