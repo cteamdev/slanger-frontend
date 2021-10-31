@@ -1,4 +1,4 @@
-import type { CSSProperties, FC } from 'react';
+import { CSSProperties, FC, useState } from 'react';
 
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
@@ -90,6 +90,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
   // Нехорошо так делать, но пока так придется
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [bookmarkDisabled, setBookmarkDisabled] = useState<boolean>(false);
 
   const id: number = paramsId ?? slang.id;
 
@@ -139,6 +140,8 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   };
 
   const updateBookmark = async (): Promise<void> => {
+    setBookmarkDisabled(true);
+
     const update: Bookmark = await fetcher(
       bookmark ? '/bookmarks/remove' : '/bookmarks/create',
       {
@@ -154,6 +157,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
     );
 
     await mutateBookmark(bookmark ? null : update, false);
+    setBookmarkDisabled(false);
     setSnackbar({
       icon: SnackbarIconType.SUCCESS,
       text: 'Успешно ' + (bookmark ? 'убрано' : 'добавлено')
@@ -434,6 +438,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                     <Icon24FavoriteOutline />
                   )
                 }
+                disabled={bookmarkDisabled}
                 style={{ marginRight: 8 }}
                 onClick={updateBookmark}
               >
