@@ -58,23 +58,23 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
     const { keys } = await send('VKWebAppStorageGet', {
       keys: ['notify-card-date']
     });
+    const { value } =
+      keys.find((data) => data.key === 'notify-card-date') ?? {};
+
     if (
-      !keys.some((data) => data.key === 'notify-card-date') ||
-      keys.some(
-        (data) =>
-          data.key === 'notify-card-date' &&
-          Date.now() - Date.parse(data.value) > 24 * 60 * 60 * 1000
-      )
+      !value ||
+      Number.isNaN(Date.parse(value)) ||
+      Date.now() - Date.parse(value) > 24 * 60 * 60 * 1000
     ) {
       transition('/slang?modal=notify-card', slang);
+
+      await send('VKWebAppStorageSet', {
+        key: 'notify-card-date',
+        value: new Date().toString()
+      });
     } else {
       await send('VKWebAppShowNativeAds', { ad_format: 'interstitial' });
     }
-
-    await send('VKWebAppStorageSet', {
-      key: 'notify-card-date',
-      value: new Date().toString()
-    });
   };
 
   return (
