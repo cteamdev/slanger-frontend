@@ -42,6 +42,7 @@ const GiphyCaption: FC = () => (
 
 export const ChooseGif: FC = () => {
   const [searchValue, setSearchValue] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const [gifs, setGifs] = useState<GifsResult['data']>([]);
 
   const searchTimeout = useRef<number | undefined>();
@@ -50,17 +51,16 @@ export const ChooseGif: FC = () => {
 
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
+
     if (searchTimeout.current) clearTimeout(searchTimeout.current);
 
     searchTimeout.current = setTimeout(() => {
-      if (e.target.value.trim().length > 0) {
-        setGifs([]);
-        giphy
-          .search(e.target.value, { limit: 10, sort: 'relevant', type: 'gifs' })
-          .then((gifs) => {
-            setGifs(gifs.data);
-          });
-      }
+      setGifs([]);
+      setLoading(true);
+      giphy
+        .search(e.target.value, { limit: 10, sort: 'relevant', type: 'gifs' })
+        .then((gifs) => setGifs(gifs.data))
+        .then(() => setLoading(false));
     }, 400);
   };
 
@@ -109,7 +109,7 @@ export const ChooseGif: FC = () => {
               />
             ))}
           </ImageGrid>
-        ) : searchValue.length > 0 ? (
+        ) : loading ? (
           <Spinner />
         ) : (
           <Div style={{ display: 'flex', justifyContent: 'center' }}>
