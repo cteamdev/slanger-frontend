@@ -68,7 +68,7 @@ export const OwnSlangs: FC<Props> = ({ nav }: Props) => {
 
       <PullToRefresh onRefresh={mutate} isFetching={isValidating}>
         <Group>
-          {!hits && error && <ErrorPlaceholder />}
+          {(!hits || hits.length === 0) && error && <ErrorPlaceholder />}
           {hits ? (
             hits.length > 0 ? (
               <CardGrid size="l">
