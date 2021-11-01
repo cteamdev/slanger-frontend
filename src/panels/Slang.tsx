@@ -95,7 +95,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   const id: number = paramsId ?? slang.id;
 
   const { data, error, mutate } = useSWR<TSlang, ResponseError>(
-    paramsId ? `/slangs/getById?id=${id}` : null,
+    paramsId !== undefined ? `/slangs/getById?id=${id}` : null,
     fetcher
   );
 
@@ -104,7 +104,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
     isValidating: isBookmarkValidating,
     mutate: mutateBookmark
   } = useSWRImmutable<Bookmark | null, ResponseError>(
-    id ? `/bookmarks/has?slangId=${id}` : null,
+    id !== undefined ? `/bookmarks/has?slangId=${id}` : null,
     fetcher,
     {
       shouldRetryOnError: false
@@ -122,7 +122,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   };
 
   const { cover, word, type, themes, status, user, description, date } =
-    paramsId ? data ?? {} : slang ?? {};
+    paramsId !== undefined ? data ?? {} : slang ?? {};
 
   const editSlang = () => {
     setGif(cover ?? null);
@@ -362,7 +362,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
           >
             {user.vk.fullName}
           </SimpleCell>
-        ) : (paramsId ? data && !error : true) ? (
+        ) : (paramsId !== undefined ? data && !error : true) ? (
           <SimpleCell
             before={
               <Avatar
