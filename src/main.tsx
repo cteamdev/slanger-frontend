@@ -7,7 +7,9 @@ init();
 render(<App />, document.getElementById('root'));
 
 if (import.meta.env.DEV) import('./eruda');
-console.warn(`
+if (import.meta.env.PROD) import('./sentry');
+
+console.log(`
                   @@@                          
             @@@@@@@@@@@@@@@                    
           @@@@@@@@@@@@@@@@@.                  
