@@ -71,9 +71,11 @@ export const Onboarding: FC<Props> = ({ nav }: Props) => {
               слова мы знаем хорошо и готовы рассказать тебе их значения.
             </Text>
 
-            <Text weight="medium">
-              Добро пожаловать в Slanger — словарь XXI века!
-            </Text>
+            {window.innerHeight > 500 && (
+              <Text weight="medium">
+                Добро пожаловать в Slanger — словарь XXI века!
+              </Text>
+            )}
           </OnboardingSlide>
           <OnboardingSlide
             title="Словарь"

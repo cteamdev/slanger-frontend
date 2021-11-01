@@ -63,7 +63,10 @@ export const OnboardingSlide: FC<Props> = ({
         <div style={{ marginTop: 12, width: '90%' }}>{children}</div>
       </div>
 
-      <FixedLayout vertical="bottom" style={{ paddingBottom: 12 }}>
+      <FixedLayout
+        vertical="bottom"
+        style={{ paddingBottom: window.innerHeight > 548 ? 12 : 0 }}
+      >
         <Div>
           <Button
             stretched
