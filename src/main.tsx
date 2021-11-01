@@ -6,7 +6,7 @@ import { App } from './App';
 init();
 render(<App />, document.getElementById('root'));
 
-import('./eruda');
+if (import.meta.env.DEV) import('./eruda');
 console.warn(`
                   @@@                          
             @@@@@@@@@@@@@@@                    
@@ -27,5 +27,4 @@ console.warn(`
               %@@@@@@@@@@@@@@@@@@@@@@@         
 
 Поздравляем, ты нашел уточку!
-Документация к API на SwaggerUI: https://slanger-backend.cteam.codes/api
 `);
