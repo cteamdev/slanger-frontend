@@ -275,31 +275,34 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
         {!error && (vkUser.id === user?.id || isModerator) && (
           <>
             {(status === 'moderating' || isModerator) && (
-              <CellButton
-                centered
-                before={<Icon28EditOutline />}
-                onClick={editSlang}
-              >
-                Редактировать
-              </CellButton>
-            )}
-            <CellButton
-              centered
-              before={<Icon28DeleteOutline style={style} />}
-              style={style}
-              onClick={() =>
-                transition(
-                  `${
-                    view === '/' ? '' : view
-                  }${panel}?popout=slang-delete-alert`,
-                  {
-                    id
+              <>
+                <CellButton
+                  centered
+                  before={<Icon28EditOutline />}
+                  onClick={editSlang}
+                >
+                  Редактировать
+                </CellButton>
+
+                <CellButton
+                  centered
+                  before={<Icon28DeleteOutline style={style} />}
+                  style={style}
+                  onClick={() =>
+                    transition(
+                      `${
+                        view === '/' ? '' : view
+                      }${panel}?popout=slang-delete-alert`,
+                      {
+                        id
+                      }
+                    )
                   }
-                )
-              }
-            >
-              Удалить
-            </CellButton>
+                >
+                  Удалить
+                </CellButton>
+              </>
+            )}
 
             <Spacing size={12} />
             <Separator />
