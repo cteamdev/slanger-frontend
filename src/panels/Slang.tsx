@@ -273,8 +273,9 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
         {!error && <Spacing size={16} />}
 
         {!error &&
-          ['moderating', 'declined'].includes(status || '') &&
-          (vkUser.id === user?.id || isModerator) && (
+          ((['moderating', 'declined'].includes(status || '') &&
+            vkUser.id === user?.id) ||
+            isModerator) && (
             <>
               <CellButton
                 centered
