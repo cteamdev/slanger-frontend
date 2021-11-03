@@ -272,43 +272,41 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
 
         {!error && <Spacing size={16} />}
 
-        {!error && (vkUser.id === user?.id || isModerator) && (
-          <>
-            {(status === 'moderating' || isModerator) && (
-              <>
-                <CellButton
-                  centered
-                  before={<Icon28EditOutline />}
-                  onClick={editSlang}
-                >
-                  Редактировать
-                </CellButton>
+        {!error &&
+          ['moderating', 'declined'].includes(status || '') &&
+          (vkUser.id === user?.id || isModerator) && (
+            <>
+              <CellButton
+                centered
+                before={<Icon28EditOutline />}
+                onClick={editSlang}
+              >
+                Редактировать
+              </CellButton>
 
-                <CellButton
-                  centered
-                  before={<Icon28DeleteOutline style={style} />}
-                  style={style}
-                  onClick={() =>
-                    transition(
-                      `${
-                        view === '/' ? '' : view
-                      }${panel}?popout=slang-delete-alert`,
-                      {
-                        id
-                      }
-                    )
-                  }
-                >
-                  Удалить
-                </CellButton>
-              </>
-            )}
+              <CellButton
+                centered
+                before={<Icon28DeleteOutline style={style} />}
+                style={style}
+                onClick={() =>
+                  transition(
+                    `${
+                      view === '/' ? '' : view
+                    }${panel}?popout=slang-delete-alert`,
+                    {
+                      id
+                    }
+                  )
+                }
+              >
+                Удалить
+              </CellButton>
 
-            <Spacing size={12} />
-            <Separator />
-            <Spacing size={12} />
-          </>
-        )}
+              <Spacing size={12} />
+              <Separator />
+              <Spacing size={12} />
+            </>
+          )}
 
         {word && isModerator && (
           <>
