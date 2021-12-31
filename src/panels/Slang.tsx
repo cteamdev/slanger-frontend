@@ -393,6 +393,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
             before={<Icon20ArticleOutline />}
             textWrap="full"
             textLevel="primary"
+            style={{ whiteSpace: 'pre-wrap' }}
           >
             {description}
           </MiniInfoCell>
