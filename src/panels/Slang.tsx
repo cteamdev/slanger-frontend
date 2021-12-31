@@ -30,7 +30,8 @@ import {
   ViewWidth,
   CellButton,
   Separator,
-  Chip
+  Chip,
+  Text
 } from '@vkontakte/vkui';
 import {
   Icon20ArticleOutline,
@@ -393,9 +394,10 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
             before={<Icon20ArticleOutline />}
             textWrap="full"
             textLevel="primary"
-            style={{ whiteSpace: 'pre-line' }}
           >
-            {description}
+            <Text weight="regular" style={{ whiteSpace: 'pre-line' }}>
+              {description}
+            </Text>
           </MiniInfoCell>
         ) : (
           !error && (
