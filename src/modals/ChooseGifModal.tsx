@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { transition } from '@unexp/router';
+import { back } from '@itznevikat/router';
 import { ModalPage, ModalPageHeader } from '@vkontakte/vkui';
 
 import { ChooseGif } from '../components';
@@ -11,7 +11,7 @@ type Props = {
 export const ChooseGifModal: FC<Props> = ({ nav }: Props) => (
   <ModalPage
     nav={nav}
-    onClose={() => transition(-1)}
+    onClose={back}
     header={<ModalPageHeader>Выберите обложку</ModalPageHeader>}
   >
     <ChooseGif />

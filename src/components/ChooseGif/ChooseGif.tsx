@@ -15,7 +15,7 @@ import {
   Spinner
 } from '@vkontakte/vkui';
 import { useAtomState } from '@mntm/precoil';
-import { transition } from '@unexp/router';
+import { back } from '@itznevikat/router';
 
 import { gifAtom } from '../../store';
 import { delay, giphy } from '../../utils';
@@ -68,7 +68,7 @@ export const ChooseGif: FC = () => {
     `https://media1.giphy.com/media/${id}/giphy.gif`;
 
   const pickGif = async (id: string | number): Promise<void> => {
-    transition(-1);
+    back();
     await delay(250);
 
     setGif(getLink(id));

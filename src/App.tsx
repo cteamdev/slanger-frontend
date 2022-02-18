@@ -21,7 +21,7 @@ import {
   VKCOM,
   WebviewType
 } from '@vkontakte/vkui';
-import { transition } from '@unexp/router';
+import { push, replace } from '@itznevikat/router';
 
 import { vkUserAtom } from './store';
 import { fetcher } from './utils';
@@ -49,7 +49,7 @@ export const App: FC = () => {
       const hash: string = window.location.hash.slice(1);
 
       // Чтобы пользователь не смотрел на пустой экран, пока грузится
-      transition('/', { replace: true });
+      replace('/');
 
       // Пока получим юзера
       const vkUser: UserInfo = await send('VKWebAppGetUserInfo');
@@ -65,7 +65,7 @@ export const App: FC = () => {
       if (
         !keys.some((data) => data.key === 'onboarding' && data.value === 'true')
       )
-        transition('/onboarding', { replace: true });
+        replace('/onboarding');
 
       const [page, paramsString]: string[] = hash.split('?');
       const params: URLSearchParams | null = paramsString
@@ -74,11 +74,11 @@ export const App: FC = () => {
       const id: string | null = params && params.get('id');
 
       if (page === 'slang' && id)
-        transition('/slang', {
+        push('/slang', {
           slangId: +id
         });
       else if (page === 'profile' && id)
-        transition('/otherProfile', {
+        push('/otherProfile', {
           userId: +id,
           backButton: true
         });

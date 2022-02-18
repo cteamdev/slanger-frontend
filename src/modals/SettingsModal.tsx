@@ -2,7 +2,7 @@ import type { CSSProperties, FC } from 'react';
 
 import useSWR from 'swr';
 import { useRef } from 'react';
-import { transition } from '@unexp/router';
+import { back, replace } from '@itznevikat/router';
 import {
   CellButton,
   Checkbox,
@@ -54,8 +54,6 @@ export const SettingsModal: FC<Props> = ({ nav }: Props) => {
     height: 36
   };
 
-  const close = (): void => transition(-1);
-
   const switchNotify = async (type: keyof SetSettingsDto): Promise<void> => {
     if (loading.current) return;
     loading.current = true;
@@ -103,7 +101,7 @@ export const SettingsModal: FC<Props> = ({ nav }: Props) => {
       await new Promise((resolve) => setTimeout(resolve, 250));
     }
 
-    close();
+    back();
     await delay(400);
     setSnackbar({
       icon: SnackbarIconType.SUCCESS,
@@ -112,19 +110,17 @@ export const SettingsModal: FC<Props> = ({ nav }: Props) => {
   };
 
   const go = async (): Promise<void> => {
-    close();
+    back();
     await delay(800);
-    transition('/onboarding', { replace: true });
+    replace('/onboarding');
   };
 
   return (
     <ModalPage
       nav={nav}
-      onClose={close}
+      onClose={back}
       header={
-        <ModalPageHeader
-          left={!desktop && <PanelHeaderClose onClick={close} />}
-        >
+        <ModalPageHeader left={!desktop && <PanelHeaderClose onClick={back} />}>
           Настройки
         </ModalPageHeader>
       }

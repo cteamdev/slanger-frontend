@@ -2,7 +2,7 @@ import type { CSSProperties, FC, MouseEvent } from 'react';
 
 import useSWR from 'swr';
 import { useAtomValue } from '@mntm/precoil';
-import { transition } from '@unexp/router';
+import { push } from '@itznevikat/router';
 import {
   Group,
   Panel,
@@ -114,7 +114,7 @@ export const Bookmarks: FC<Props> = ({ nav }: Props) => {
                     </IconButton>
                   }
                   description={slang.description}
-                  onClick={() => transition('/bookmarks/slang', slang)}
+                  onClick={() => push('/bookmarks/slang', slang)}
                 >
                   {slang.word}
                 </SimpleCell>

@@ -2,7 +2,7 @@ import type { CSSProperties, FC } from 'react';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useEffect } from 'react';
-import { transition } from '@unexp/router';
+import { back, push } from '@itznevikat/router';
 import {
   Group,
   Panel,
@@ -50,7 +50,7 @@ export const OwnSlangs: FC<Props> = ({ nav }: Props) => {
     <Panel nav={nav}>
       <PanelHeader
         separator={false}
-        left={<PanelHeaderBack onClick={() => transition(-1)} />}
+        left={<PanelHeaderBack onClick={back} />}
         right={
           desktop && (
             <PanelHeaderButton onClick={() => mutate()}>
@@ -89,10 +89,7 @@ export const OwnSlangs: FC<Props> = ({ nav }: Props) => {
                       key={slang.id}
                       id={'slang-card-' + slang.id}
                       slangId={slang.id}
-                      onClick={() =>
-                        // TODO: Убрать Object.assign, когда это будет исправлено в роутере
-                        transition('/profile/slang', Object.assign({}, slang))
-                      }
+                      onClick={() => push('/profile/slang', slang)}
                     />
                   ))}
                 </InfiniteScroll>

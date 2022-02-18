@@ -1,8 +1,8 @@
 {
   "name": "slanger-frontend",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "Фронтенд для мини-приложения «Slanger»",
-  "author": "NovaStream2030 and ItzNevikat_",
+  "author": "Nikita Koshelenko <nikitakoschelenko@gmail.com> & Georgiy Panin <novastream2030@ya.ru>",
   "scripts": {
     "fmt": "eslint --fix ./src/",
     "typegen": "openapi --input https://slanger-backend.cteam.codes/api/json --output src/types/api --useUnionTypes --exportCore false --exportServices false",
@@ -13,7 +13,6 @@
   },
   "devDependencies": {
     "@types/common-tags": "^1.8.1",
-    "@types/node": "^16.10.9",
     "@types/react": "^17.0.29",
     "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
@@ -33,12 +32,11 @@
     "vite": "2.6.7"
   },
   "dependencies": {
-    "@babel/runtime": "^7.15.4",
     "@giphy/js-fetch-api": "^4.1.2",
+    "@itznevikat/router": "^0.1.0-beta7",
     "@mntm/precoil": "^4.0.4",
     "@sentry/react": "^6.12.0",
     "@sentry/tracing": "^6.12.0",
-    "@unexp/router": "1.0.0-beta18",
     "@vkontakte/icons": "^1.128.1",
     "@vkontakte/vk-bridge": "npm:@mntm/painless-bridge@1.0.2",
     "@vkontakte/vkjs": "^0.22.1",

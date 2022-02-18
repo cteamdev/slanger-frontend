@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { transition, useHistoryState } from '@unexp/router';
+import { back, push, useMeta } from '@itznevikat/router';
 import { Button, ModalCard } from '@vkontakte/vkui';
 
 import {
@@ -13,18 +13,18 @@ type Props = {
 };
 
 export const NotifyModalCard: FC<Props> = ({ nav }: Props) => {
-  const historyState: unknown = useHistoryState();
+  const meta = useMeta();
 
   const next = async (): Promise<void> => {
-    transition(-1);
+    back();
     await delay(800);
-    transition('/slang?modal=settings', historyState);
+    push('/slang?modal=settings', meta);
   };
 
   return (
     <ModalCard
       nav={nav}
-      onClose={() => transition(-1)}
+      onClose={back}
       icon={<Icon56NotificationOutline />}
       header="Получите уведомление, когда ваш сленг пройдёт модерацию"
       subheader="И не только! Включите уведомления в настройках."

@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { send } from '@vkontakte/vk-bridge';
 import { useSetAtomState } from '@mntm/precoil';
-import { transition } from '@unexp/router';
+import { replace } from '@itznevikat/router';
 import {
   Panel,
   Group,
@@ -35,7 +35,7 @@ export const Onboarding: FC<Props> = ({ nav }: Props) => {
   const end = (): void => {
     // Синхронно, чтобы не заставлять пользователя ждать
     send('VKWebAppStorageSet', { key: 'onboarding', value: 'true' });
-    transition('/', { replace: true });
+    replace('/');
   };
 
   useEffect(() => {

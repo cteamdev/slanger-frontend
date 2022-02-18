@@ -2,7 +2,7 @@ import type { CSSProperties, FC } from 'react';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useEffect } from 'react';
-import { transition } from '@unexp/router';
+import { push } from '@itznevikat/router';
 import {
   Group,
   Panel,
@@ -87,10 +87,7 @@ export const AdminExplore: FC<Props> = ({ nav }: Props) => {
                       key={slang.id}
                       id={'slang-card-' + slang.id}
                       slangId={slang.id}
-                      onClick={() =>
-                        // TODO: Убрать Object.assign, когда это будет исправлено в роутере
-                        transition('/admin/slang', Object.assign({}, slang))
-                      }
+                      onClick={() => push('/admin/slang', slang)}
                     />
                   ))}
                 </InfiniteScroll>

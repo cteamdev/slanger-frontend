@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import { useAtomValue } from '@mntm/precoil';
-import { transition, useParams, View } from '@unexp/router';
-import { ModalRoot } from '@vkontakte/vkui';
+import { ModalRoot, PopoutRoot, View } from '@itznevikat/router';
 import {
   Icon28BookmarkOutline,
   Icon28BugOutline,
@@ -35,8 +34,6 @@ import {
 import { disabledAtom, menuVisibilityAtom, rightsAtom } from './store';
 
 export const Layout: FC = () => {
-  const { modal = null, popout = null } = useParams();
-
   const menuVisibility: boolean = useAtomValue(menuVisibilityAtom);
   const disabled: boolean = useAtomValue(disabledAtom);
   const rights: string = useAtomValue(rightsAtom);
@@ -44,7 +41,7 @@ export const Layout: FC = () => {
   return (
     <NavigationLayout
       modal={
-        <ModalRoot activeModal={modal} onClose={() => transition(-1)}>
+        <ModalRoot>
           <ChooseGifModal nav="choose-gif" />
           <ShareSlangModal nav="share-slang" />
           <NotifyModalCard nav="notify-card" />
@@ -52,12 +49,10 @@ export const Layout: FC = () => {
         </ModalRoot>
       }
       popout={
-        popout
-          ? {
-              'slang-delete-alert': <SlangDeleteAlert />,
-              'slang-edit-cancel-alert': <SlangEditCancelAlert />
-            }[popout]
-          : null
+        <PopoutRoot>
+          <SlangDeleteAlert nav="slang-delete-alert" />
+          <SlangEditCancelAlert nav="slang-edit-cancel-alert" />
+        </PopoutRoot>
       }
       buttons={[
         {

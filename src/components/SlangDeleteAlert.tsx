@@ -2,15 +2,19 @@ import type { FC } from 'react';
 
 import { mutate } from 'swr';
 import { useSetAtomState } from '@mntm/precoil';
-import { transition, useHistoryState } from '@unexp/router';
+import { back, useMeta } from '@itznevikat/router';
 import { Alert } from '@vkontakte/vkui';
 
 import { snackbarAtom } from '../store';
 import { fetcher } from '../utils';
 import { DeleteSlangDto, SnackbarIconType } from '../types';
 
-export const SlangDeleteAlert: FC = () => {
-  const { id } = useHistoryState();
+type Props = {
+  nav: string;
+};
+
+export const SlangDeleteAlert: FC<Props> = ({ nav }: Props) => {
+  const { id } = useMeta();
 
   const setSnackbar = useSetAtomState(snackbarAtom);
 
@@ -25,12 +29,13 @@ export const SlangDeleteAlert: FC = () => {
     await mutate('/slangs/search');
     await mutate('/slangs/getOwn');
 
-    transition(-1);
+    back();
     setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успешно' });
   };
 
   return (
     <Alert
+      id={nav}
       header="Подтверждение"
       text="Вы действительно хотите удалить этот сленг? Отменить действие невозможно."
       actionsLayout="vertical"
@@ -47,7 +52,7 @@ export const SlangDeleteAlert: FC = () => {
           autoclose: true
         }
       ]}
-      onClose={() => transition(-1)}
+      onClose={back}
     />
   );
 };
