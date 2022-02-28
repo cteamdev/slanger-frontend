@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 import { stripIndents } from 'common-tags';
 import { useSetAtomState } from '@mntm/precoil';
 import { send } from '@vkontakte/vk-bridge';
-import { transition, useHistoryState } from '@unexp/router';
+import { back, useMeta } from '@itznevikat/router';
 import {
   CellButton,
   Header,
@@ -32,7 +32,7 @@ type Props = {
 
 export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
   const { viewWidth } = useAdaptivity();
-  const { id, word, description }: Slang = useHistoryState();
+  const { id, word, description }: Slang = useMeta();
 
   const setSnackbar = useSetAtomState(snackbarAtom);
 
@@ -48,8 +48,6 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
       ? void setTimeout(() => setLoading(false), 250)
       : setLoading(false);
 
-  const close = (): void => transition(-1);
-
   const wallShare = async (): Promise<void> => {
     if (
       ![
@@ -61,7 +59,7 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
         new URLSearchParams(window.location.search).get('vk_platform') || ''
       )
     )
-      transition(-1);
+      back();
 
     await send('VKWebAppShowWallPostBox', {
       message: stripIndents`
@@ -111,7 +109,7 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
     for (const [index, line] of lines.entries())
       context.fillText(line, canvas.width / 2, 858 + 70 * index, 900);
 
-    transition(-1);
+    back();
     await send('VKWebAppShowStoryBox', {
       background_type: 'image',
       blob: canvas.toDataURL(),
@@ -128,7 +126,7 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
     await send('VKWebAppCopyText', {
       text: 'https://vk.com/app7969491#slang?id=' + id
     });
-    transition(-1);
+    back();
 
     await delay(200);
     setSnackbar({ icon: SnackbarIconType.SUCCESS, text: 'Успешно' });
@@ -137,11 +135,9 @@ export const ShareSlangModal: FC<Props> = ({ nav }: Props) => {
   return (
     <ModalPage
       nav={nav}
-      onClose={close}
+      onClose={back}
       header={
-        <ModalPageHeader
-          left={!desktop && <PanelHeaderClose onClick={close} />}
-        >
+        <ModalPageHeader left={!desktop && <PanelHeaderClose onClick={back} />}>
           Поделиться
         </ModalPageHeader>
       }

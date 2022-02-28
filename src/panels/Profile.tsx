@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useSetAtomState, useAtomValue } from '@mntm/precoil';
-import { transition, useHistoryState } from '@unexp/router';
+import { back, push, useMeta } from '@itznevikat/router';
 import {
   Group,
   Panel,
@@ -61,7 +61,7 @@ type Props = {
 export const Profile: FC<Props> = ({ nav }: Props) => {
   const { viewWidth, sizeX } = useAdaptivity();
 
-  const { backButton, userId: paramsId } = useHistoryState();
+  const { backButton, userId: paramsId } = useMeta();
 
   const { id: currentId } = useAtomValue(vkUserAtom);
   const currentRights: string = useAtomValue(rightsAtom);
@@ -128,11 +128,11 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
           nav === '/' ? (
             <PanelHeaderButton>
               <Icon28SettingsOutline
-                onClick={() => transition('/profile?modal=settings')}
+                onClick={() => push('/profile?modal=settings')}
               />
             </PanelHeaderButton>
           ) : (
-            backButton && <PanelHeaderBack onClick={() => transition(-1)} />
+            backButton && <PanelHeaderBack onClick={back} />
           )
         }
         right={
@@ -280,7 +280,7 @@ export const Profile: FC<Props> = ({ nav }: Props) => {
               <CellButton
                 centered
                 before={<Icon28SubtitlesOutline />}
-                onClick={() => transition('/profile/ownSlangs')}
+                onClick={() => push('/profile/ownSlangs')}
               >
                 Мои сленги
               </CellButton>

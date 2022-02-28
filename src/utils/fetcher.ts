@@ -1,4 +1,4 @@
-import { useSetAtomState } from '@mntm/precoil';
+import { captureException } from '@sentry/react';
 
 import { snackbarAtom } from '../store';
 import { SnackbarIconType } from '../types';
@@ -12,7 +12,6 @@ export const fetcher = async (
   resource: RequestInfo,
   init: FetcherOptions = { throw: true }
 ): Promise<any> => {
-  const setSnackbar = useSetAtomState(snackbarAtom);
   const startTime: number = Date.now();
 
   try {
@@ -28,7 +27,7 @@ export const fetcher = async (
       }
     ).catch((e: unknown) => {
       if (init.throw)
-        setSnackbar({
+        snackbarAtom.set({
           icon: SnackbarIconType.ERROR,
           text: 'Не удалось загрузить данные'
         });
@@ -39,7 +38,7 @@ export const fetcher = async (
 
     if (!res.ok) {
       if (init.throw)
-        setSnackbar({
+        snackbarAtom.set({
           icon: SnackbarIconType.ERROR,
           text: body.message as string
         });
@@ -52,6 +51,7 @@ export const fetcher = async (
     return body;
   } catch (e: unknown) {
     await delay(400);
+    captureException(e, this);
 
     throw e;
   }

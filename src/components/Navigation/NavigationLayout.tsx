@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from 'react';
-import { Match, Root, Epic, EXPERIENCE_DRIVEN_STYLE } from '@unexp/router';
+import { Match, Root, Epic } from '@itznevikat/router';
 import { PanelHeader, SplitCol, SplitLayout, ViewWidth } from '@vkontakte/vkui';
 
 import { NavigationButton } from '../../types';
@@ -40,7 +40,7 @@ export const NavigationLayout: FC<Props> = ({
   ) as NavigationButton[];
 
   return (
-    <Match style={EXPERIENCE_DRIVEN_STYLE}>
+    <Match initialURL="/" disableSetLocation>
       <SplitLayout
         header={!desktop && <PanelHeader separator={false} />}
         style={{ justifyContent: 'center' }}
@@ -57,6 +57,7 @@ export const NavigationLayout: FC<Props> = ({
             <Root nav="/">{children}</Root>
           ) : (
             <Epic
+              nav="/"
               tabbar={
                 menuVisibility && (
                   <NavigationTabbar buttons={buttons} disabled={disabled} />

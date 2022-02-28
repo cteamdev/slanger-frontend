@@ -4,7 +4,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import useSWRImmutable from 'swr/immutable';
 import { useEffect, useRef } from 'react';
 import { useAtomState } from '@mntm/precoil';
-import { transition } from '@unexp/router';
+import { push } from '@itznevikat/router';
 import {
   Group,
   Panel,
@@ -80,7 +80,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
       <PanelHeader
         separator={false}
         left={
-          <PanelHeaderButton onClick={() => transition('/create')}>
+          <PanelHeaderButton onClick={() => push('/create')}>
             <Icon28AddOutline />
           </PanelHeaderButton>
         }
@@ -122,10 +122,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
                 uncapitalize(random.type)
               }
               buttonText="Открыть"
-              // TODO: Убрать Object.assign, когда это будет исправлено в роутере
-              onButtonClick={() =>
-                transition('/slang', Object.assign({}, random))
-              }
+              onButtonClick={() => push('/slang', random)}
             />
           ) : (
             /**
@@ -171,10 +168,7 @@ export const Explore: FC<Props> = ({ nav }: Props) => {
                       {...slang}
                       key={slang.id}
                       id={'slang-card-' + slang.id}
-                      onClick={() =>
-                        // TODO: Убрать Object.assign, когда это будет исправлено в роутере
-                        transition('/slang', Object.assign({}, slang))
-                      }
+                      onClick={() => push('/slang', slang)}
                     />
                   ))}
                 </InfiniteScroll>

@@ -1,11 +1,16 @@
 import type { FC } from 'react';
 
-import { transition } from '@unexp/router';
+import { back } from '@itznevikat/router';
 import { Alert } from '@vkontakte/vkui';
 
-export const SlangEditCancelAlert: FC = () => {
+type Props = {
+  nav: string;
+};
+
+export const SlangEditCancelAlert: FC<Props> = ({ nav }: Props) => {
   return (
     <Alert
+      id={nav}
       header="Отменить изменения"
       text="Вы действительно хотите отменить изменения и вернуться назад?"
       actionsLayout="vertical"
@@ -14,7 +19,7 @@ export const SlangEditCancelAlert: FC = () => {
           title: 'Назад',
           mode: 'destructive',
           autoclose: true,
-          action: () => setTimeout(() => transition(-1), 250)
+          action: () => setTimeout(back, 250)
         },
         {
           title: 'Отмена',
@@ -22,7 +27,7 @@ export const SlangEditCancelAlert: FC = () => {
           autoclose: true
         }
       ]}
-      onClose={() => transition(-1)}
+      onClose={back}
     />
   );
 };

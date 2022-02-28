@@ -2,10 +2,12 @@ import type { FC } from 'react';
 
 import { useAtomState, useSetAtomState } from '@mntm/precoil';
 import {
-  transition,
-  useDeserializedLocation,
-  useHistoryState
-} from '@unexp/router';
+  back,
+  push,
+  replace,
+  useDeserialized,
+  useMeta
+} from '@itznevikat/router';
 import { Group, Panel, PanelHeader, PanelHeaderBack } from '@vkontakte/vkui';
 
 import { EditSlangDto, Slang } from '../types';
@@ -19,8 +21,8 @@ type Props = {
 };
 
 export const EditSlang: FC<Props> = ({ nav }: Props) => {
-  const { view, panel } = useDeserializedLocation();
-  const slang: Slang = useHistoryState();
+  const { view, panel } = useDeserialized();
+  const slang: Slang = useMeta();
 
   const [gif, setGif] = useAtomState(gifAtom);
   const setValues = useSetAtomState(valuesAtom);
@@ -42,10 +44,9 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
     });
     slang.word = update.word;
 
-    transition(-1);
+    back();
     await delay(250);
-    transition(`${view === '/' ? '' : view}/slang`, {
-      replace: true,
+    replace(`${view === '/' ? '' : view}/slang`, {
       ad: false,
       ...update
     });
@@ -60,7 +61,7 @@ export const EditSlang: FC<Props> = ({ nav }: Props) => {
         left={
           <PanelHeaderBack
             onClick={() =>
-              transition(
+              push(
                 `${
                   view === '/' ? '' : view
                 }${panel}?popout=slang-edit-cancel-alert`

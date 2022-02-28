@@ -7,11 +7,7 @@ import { formatRelative, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useAtomValue, useSetAtomState } from '@mntm/precoil';
 import { UserInfo } from '@vkontakte/vk-bridge';
-import {
-  transition,
-  useDeserializedLocation,
-  useHistoryState
-} from '@unexp/router';
+import { back, push, useDeserialized, useMeta } from '@itznevikat/router';
 import {
   Div,
   Group,
@@ -76,10 +72,10 @@ type Props = {
 export const Slang: FC<Props> = ({ nav }: Props) => {
   const { viewWidth, sizeX } = useAdaptivity();
 
-  const { view, panel } = useDeserializedLocation();
+  const { view, panel } = useDeserialized();
 
-  const slang: TSlang | undefined = useHistoryState();
-  const { slangId: paramsId } = useHistoryState();
+  const slang: TSlang = useMeta();
+  const { slangId: paramsId } = useMeta();
 
   const vkUser: UserInfo = useAtomValue(vkUserAtom);
   const rights: string = useAtomValue(rightsAtom);
@@ -137,7 +133,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
         fromEdition: !user
       });
 
-    transition((view === '/' ? '' : view) + '/editSlang', { ...slang, id });
+    push((view === '/' ? '' : view) + '/editSlang', { ...slang, id });
   };
 
   const updateBookmark = async (): Promise<void> => {
@@ -195,7 +191,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
   return (
     <Panel nav={nav}>
       <PanelHeader
-        left={<PanelHeaderBack onClick={() => transition(-1)} />}
+        left={<PanelHeaderBack onClick={back} />}
         separator={false}
       />
 
@@ -291,7 +287,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                 before={<Icon28DeleteOutline style={style} />}
                 style={style}
                 onClick={() =>
-                  transition(
+                  push(
                     `${
                       view === '/' ? '' : view
                     }${panel}?popout=slang-delete-alert`,
@@ -347,7 +343,7 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
             after={
               <IconButton
                 onClick={() =>
-                  transition(`${view === '/' ? '' : view}/otherProfile`, {
+                  push(`${view === '/' ? '' : view}/otherProfile`, {
                     backButton: true,
                     userId: user.id,
                     // При переходе сначала сброс состояния, а потом анимация. Из-за этого видим загрузку при переходе
@@ -460,10 +456,10 @@ export const Slang: FC<Props> = ({ nav }: Props) => {
                 mode="primary"
                 before={<Icon24ShareOutline />}
                 onClick={() =>
-                  transition(
-                    `${view === '/' ? '' : view}/slang?modal=share-slang`,
-                    { ...(data ?? slang), id }
-                  )
+                  push(`${view === '/' ? '' : view}/slang?modal=share-slang`, {
+                    ...(data ?? slang),
+                    id
+                  })
                 }
               />
             ) : (

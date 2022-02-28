@@ -4,7 +4,7 @@ import type { Asserts, ValidationError } from 'yup';
 import * as yup from 'yup';
 import { useReducer } from 'react';
 import { useAtomState, useAtomValue } from '@mntm/precoil';
-import { transition, useDeserializedLocation } from '@unexp/router';
+import { push, useDeserialized } from '@itznevikat/router';
 import {
   Div,
   Group,
@@ -41,7 +41,7 @@ export const SlangForm: FC<Props> = ({
   handleSubmit: parentHandleSubmit
 }: Props) => {
   const { viewWidth } = useAdaptivity();
-  const { view, panel } = useDeserializedLocation();
+  const { view, panel } = useDeserialized();
 
   const rights: string = useAtomValue(rightsAtom);
   const gif: string | null = useAtomValue(gifAtom);
@@ -60,9 +60,9 @@ export const SlangForm: FC<Props> = ({
 
   const selectCover = (): void => {
     if (desktop) {
-      transition(`${view === '/' ? '' : view}${panel}?modal=choose-gif`);
+      push(`${view === '/' ? '' : view}${panel}?modal=choose-gif`);
     } else {
-      transition(`${view === '/' ? '' : view}/choose-gif`);
+      push(`${view === '/' ? '' : view}/choose-gif`);
     }
   };
 

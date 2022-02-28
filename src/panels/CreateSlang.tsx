@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { mutate } from 'swr';
 import { useAtomState, useSetAtomState } from '@mntm/precoil';
 import { send } from '@vkontakte/vk-bridge';
-import { transition } from '@unexp/router';
+import { back, push, replace } from '@itznevikat/router';
 import { Group, Panel, PanelHeader, PanelHeaderBack } from '@vkontakte/vkui';
 
 import { CreateSlangDto, Slang } from '../types';
@@ -21,7 +21,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
   const setValues = useSetAtomState(valuesAtom);
 
   const close = async (): Promise<void> => {
-    transition(-1);
+    back();
 
     await delay(800);
     setGif(null);
@@ -45,10 +45,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
 
     await mutate('/slangs/search');
 
-    transition('/slang', {
-      replace: true,
-      ...slang
-    });
+    replace('/slang', slang);
 
     await delay(800);
 
@@ -66,7 +63,7 @@ export const CreateSlang: FC<Props> = ({ nav }: Props) => {
       Number.isNaN(Date.parse(value)) ||
       Date.now() - Date.parse(value) > 24 * 60 * 60 * 1000
     ) {
-      transition('/slang?modal=notify-card', slang);
+      push('/slang?modal=notify-card', slang);
 
       await send('VKWebAppStorageSet', {
         key: 'notify-card-date',

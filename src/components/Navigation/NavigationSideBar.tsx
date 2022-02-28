@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Cell, Group, Panel, SplitCol } from '@vkontakte/vkui';
-import { transition, useDeserializedLocation } from '@unexp/router';
+import { push, replace, useDeserialized } from '@itznevikat/router';
 
 import { NavigationButton } from '../../types';
 import { smoothScroll } from '../../utils';
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const NavigationSideBar: FC<Props> = ({ buttons, disabled }: Props) => {
-  const { view, panel } = useDeserializedLocation();
+  const { view, panel } = useDeserialized();
 
   return (
     <SplitCol fixed width="280px" maxWidth="280px">
@@ -35,8 +35,8 @@ export const NavigationSideBar: FC<Props> = ({ buttons, disabled }: Props) => {
                   ? smoothScroll()
                   : !disabled &&
                     (view !== story
-                      ? transition(story)
-                      : panel !== '/' && transition(story, { replace: true }))
+                      ? push(story)
+                      : panel !== '/' && replace(story))
               }
             >
               {text}
