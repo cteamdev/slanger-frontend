@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useAtomValue } from '@mntm/precoil';
-import { ModalRoot, PopoutRoot, View } from '@itznevikat/router';
+import { matchPopout, ModalRoot, useParams, View } from '@itznevikat/router';
 import {
   Icon28BookmarkOutline,
   Icon28BugOutline,
@@ -34,6 +34,8 @@ import {
 import { disabledAtom, menuVisibilityAtom, rightsAtom } from './store';
 
 export const Layout: FC = () => {
+  const { popout = null } = useParams();
+
   const menuVisibility: boolean = useAtomValue(menuVisibilityAtom);
   const disabled: boolean = useAtomValue(disabledAtom);
   const rights: string = useAtomValue(rightsAtom);
@@ -48,12 +50,10 @@ export const Layout: FC = () => {
           <SettingsModal nav="settings" />
         </ModalRoot>
       }
-      popout={
-        <PopoutRoot>
-          <SlangDeleteAlert nav="slang-delete-alert" />
-          <SlangEditCancelAlert nav="slang-edit-cancel-alert" />
-        </PopoutRoot>
-      }
+      popout={matchPopout(popout, [
+        <SlangDeleteAlert nav="slang-delete-alert" />,
+        <SlangEditCancelAlert nav="slang-edit-cancel-alert" />
+      ])}
       buttons={[
         {
           icon: <Icon28BookmarkOutline />,
