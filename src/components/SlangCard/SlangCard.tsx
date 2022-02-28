@@ -8,7 +8,7 @@ import {
   Tappable,
   getClassName,
   usePlatform,
-  Platform
+  PlatformType
 } from '@vkontakte/vkui';
 import { HasRef, HasRootRef } from '@vkontakte/vkui/src/types';
 
@@ -51,7 +51,7 @@ export const SlangCard: FC<Props> = (props: Props) => {
     ...restProps
   } = props;
 
-  const platform: Platform = usePlatform();
+  const platform: PlatformType = usePlatform();
 
   const disabled: boolean =
     restProps.disabled || typeof restProps.onClick !== 'function';
