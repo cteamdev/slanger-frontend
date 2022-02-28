@@ -1,3 +1,5 @@
+import { captureException } from '@sentry/react';
+
 import { snackbarAtom } from '../store';
 import { SnackbarIconType } from '../types';
 import { delay } from './delay';
@@ -49,6 +51,7 @@ export const fetcher = async (
     return body;
   } catch (e: unknown) {
     await delay(400);
+    captureException(e, this);
 
     throw e;
   }
