@@ -6,7 +6,7 @@ import './colors.css';
 // Сразу подгружаем первую картинку в онбординге
 import '/avatar.png';
 
-import type { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useEffect } from 'react';
 import { SWRConfig } from 'swr';
 import { useSetAtomState } from '@mntm/precoil';
@@ -42,12 +42,11 @@ export const App: FC = () => {
       : VKCOM;
 
   const setVkUser = useSetAtomState(vkUserAtom);
+  const hash: string = useMemo(() => window.location.hash, []);
 
   useEffect(() => {
     const load = async (): Promise<void> => {
-      // Сначала запишем данные, а то роутер стирает их
-      const hash: string = window.location.hash.slice(1);
-
+      console.log(hash);
       // Чтобы пользователь не смотрел на пустой экран, пока грузится
       replace('/');
 
@@ -67,7 +66,7 @@ export const App: FC = () => {
       )
         replace('/onboarding');
 
-      const [page, paramsString]: string[] = hash.split('?');
+      const [page, paramsString]: string[] = hash.slice(1).split('?');
       const params: URLSearchParams | null = paramsString
         ? new URLSearchParams(paramsString)
         : null;
