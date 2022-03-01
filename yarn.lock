@@ -324,12 +324,12 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@itznevikat/router@0.1.0-beta15":
-  version "0.1.0-beta15"
-  resolved "https://registry.yarnpkg.com/@itznevikat/router/-/router-0.1.0-beta15.tgz#3f9b38b2ac669793dc0cf6fb787d1b2bc077cfba"
-  integrity sha512-yoJhCoujelpjYTUa/2L+MYjFO+T0Rb5RMFOFvASykrzsCTyIpbW5TGzewBCAji3WyCrLW+SAMjy1AMgJ/zEEBQ==
+"@itznevikat/router@^0.1.0-beta16":
+  version "0.1.0-beta16"
+  resolved "https://registry.yarnpkg.com/@itznevikat/router/-/router-0.1.0-beta16.tgz#0039995044ae8ffe1761a1847eaa5962c457a936"
+  integrity sha512-CalE0Y/F5pm5iSU/evXv3fM0sOl+1uzVW2tt1KCG7hu7oLtajaEeY/qD0W0erSoobMptcsJ6St5qBk9kBK7qYw==
   dependencies:
-    history "^5.2.0"
+    history "^5.3.0"
     react-children-utilities "^2.7.0"
 
 "@jridgewell/resolve-uri@^3.0.3":
@@ -2032,10 +2032,10 @@ he@^1.1.1:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-history@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/history/-/history-5.2.0.tgz#7cdd31cf9bac3c5d31f09c231c9928fad0007b7c"
-  integrity sha512-uPSF6lAJb3nSePJ43hN3eKj1dTWpN9gMod0ZssbFTIsen+WehTmEadgL+kg78xLJFdRfrrC//SavDzmRVdE+Ig==
+history@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/history/-/history-5.3.0.tgz#1548abaa245ba47992f063a0783db91ef201c73b"
+  integrity sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==
   dependencies:
     "@babel/runtime" "^7.7.6"
 
