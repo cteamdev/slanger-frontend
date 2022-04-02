@@ -12,10 +12,7 @@ export default defineConfig({
   ],
 
   server: {
-    https: {
-      key: './localhost.key',
-      cert: './localhost.cert'
-    },
+    https: true,
     port: 10888,
     host: true,
     proxy: {

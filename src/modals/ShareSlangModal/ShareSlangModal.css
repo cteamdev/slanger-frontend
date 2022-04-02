@@ -1,9 +1,0 @@
-.ShareSlangModal__StoryItem {
-  cursor: pointer;
-  padding: 2px;
-}
-
-.ShareSlangModal__StoryItem:hover, .ShareSlangModal__StoryItem:focus {
-  padding: 0;
-  width: calc(100% + 2px);
-}

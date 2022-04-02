@@ -20,24 +20,6 @@ input[type="number"]:focus {
     -moz-appearance: number-input;
 }
 
-.SplitLayout__inner {
-    margin-top: 16px;
-}
-
 .vkui {
-    height: calc(100% - 16px);
-}
-
-.infinite-scroll-component__outerdiv {
-    width: 100%;
-}
-
-.Spinner__loader {
-    position: absolute;
-    top: calc(50% - 15px);
-    transform: translateY(-50%);
-}
-
-.SimpleCell__children.Title {
-    width: 100%;
+    background: var(--background_content);
 }

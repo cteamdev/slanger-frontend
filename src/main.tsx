@@ -6,9 +6,6 @@ import { App } from './App';
 init();
 render(<App />, document.getElementById('root'));
 
-if (import.meta.env.DEV) import('./eruda');
-if (import.meta.env.PROD) import('./sentry');
-
 console.log(`
                   @@@                          
             @@@@@@@@@@@@@@@                    

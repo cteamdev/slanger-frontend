@@ -1,6 +1,8 @@
-import { send, subscribe, VKBridgeEvent } from '@vkontakte/vk-bridge';
+import { isEmbedded, subscribe, VKBridgeEvent } from '@vkontakte/vk-bridge';
 
 export const init = (): void => {
+  if (!isEmbedded()) return;
+
   const root: HTMLElement = document.getElementById('root')!;
   root.style.opacity = '0';
 
@@ -18,5 +20,4 @@ export const init = (): void => {
         return;
     }
   });
-  send('VKWebAppInit');
 };
