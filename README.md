@@ -21,4 +21,4 @@ $ yarn build && yarn serve
 ```
 
 ## Авторство
-Copyright (c) 2021, Georgiy Panin, Nikita Koshelenko.
+Copyright (c) 2021, [Georgiy Panin](https://github.com/NovaStream2030/), [Nikita Koshelenko](https://github.com/itznevikat).
